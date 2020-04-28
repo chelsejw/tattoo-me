@@ -1,0 +1,78 @@
+body {
+    
+}
+
+.header {
+    height: 30vh;
+    padding: 6%;
+    margin-bottom: 4%;
+}
+
+.container {
+    width: 100%;
+}
+
+.black {
+    background-color: black;
+    color: white;
+}
+
+button {
+    margin: 5% 0;
+}
+
+.left-col {
+    padding: 5%;
+    height: 100vh;
+    text-align: center;
+}
+
+.contents{
+    padding-top: 40%;
+    margin: 0 auto;
+}
+
+.right-col {
+    padding: 2%;
+}
+
+li {
+    list-style-type: '☼ '
+}
+
+
+@media screen and (max-width: 767px) {
+    .left-col {
+      height: 40vh;
+    }
+
+    .contents{
+        padding: 5% 0;
+    }
+
+    .right-col {
+        text-align: center;
+    }
+
+    li {
+        list-style-type: none;
+    }
+  }
+
+a {
+    color:grey;
+    transition-duration: 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+a:hover{
+    color: lightgray;
+    text-decoration: none;
+    letter-spacing: 0;
+}
+
+.recipe-name {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
