@@ -24,6 +24,13 @@ const today = date.getDate() + "/" + (parseInt(date.getMonth())+1) + "/" + date.
 
 
 
+
+const authURL = `https://api.instagram.com/oauth/authorize
+  ?client_id={513489939332885}
+  &redirect_uri={redirect-uri}
+  &scope=user_profile,user_media
+  &response_type=code`;
+
 //=========================GET REQUESTS=================================
 
 //====FORM FOR NEW RECIPE====

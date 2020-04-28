@@ -2,6 +2,11 @@ const React = require("react");
 
 class Home extends React.Component {
   render() {
+    const authURL = `https://api.instagram.com/oauth/authorize
+  ?client_id={513489939332885}
+  &redirect_uri={https://pacific-harbor-12921.herokuapp.com/auth/}
+  &scope=user_profile,user_media
+  &response_type=code`;
 
     return (
       <html lang="en" dir="ltr">
@@ -18,6 +23,7 @@ class Home extends React.Component {
         <body>
           <div className="container-fluid">
             <div className="row">
+            <a href={authURL}>Authorize</a>
 
                 <h1>Username</h1>            
 
