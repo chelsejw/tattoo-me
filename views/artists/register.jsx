@@ -3,13 +3,8 @@ import Nav from "../components/nav";
 import Head from "../components/header";
 import BootstrapJs from "../components/bootstrap-js";
 
-class Login extends React.Component {
+class ArtistRegister extends React.Component {
   render() {
-
-    const locationsArr = this.props.locations
-    const locationsOptions = locationsArr.map( location => {
-      return <option value={location.location_id} key={location.location_id}>{location.location_name}</option>
-    })
 
     return (
       <html>
@@ -17,12 +12,11 @@ class Login extends React.Component {
         <body className="bg-dark">
           <Nav />
           <div className="jumbotron bg-dark text-white">
-
-          <h3>Sign-up as a User</h3>
-            <form id="newUser" action="/users" method="post">
+            <h3>Sign-up as an Artist</h3>
+            <form id="newArtist" action="/artists" method="post">
               <div className="form-row">
                 <div className="form-group col-md-6">
-                  <label htmlFor="inputEmail4">Username</label>
+                  <label htmlFor="inputUsername">Username</label>
                   <input
                     type="text"
                     className="form-control"
@@ -31,7 +25,7 @@ class Login extends React.Component {
                   />
                 </div>
                 <div className="form-group col-md-6">
-                  <label htmlFor="inputPassword4">Password</label>
+                  <label htmlFor="inputPassword">Password</label>
                   <input
                     type="password"
                     className="form-control"
@@ -42,8 +36,8 @@ class Login extends React.Component {
               </div>
 
               <div className="form-row">
-                <div className="form-group col-md-6">
-                  <label htmlFor="inputEmail4">Display Name</label>
+                <div className="form-group col-md-4">
+                  <label htmlFor="inputDisplayName">Display Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -51,7 +45,7 @@ class Login extends React.Component {
                     placeholder="Display Name"
                   />
                 </div>
-                <div className="form-group col-md-6">
+                <div className="form-group col-md-4">
                   <label htmlFor="inputPassword4">Email</label>
                   <input
                     type="text"
@@ -60,17 +54,29 @@ class Login extends React.Component {
                     placeholder="Email"
                   />
                 </div>
+                <div className="form-group col-md-4">
+                  <label htmlFor="inputHashtag">Art Style</label>
+                  <select
+                    form="newUser"
+                    name="inputHashtag"
+                    className="form-control"
+                    id="hashtagOptions"
+                  ></select>
+                </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">Location</label>
-                  <select form="newUser" name="inputLocation" className="form-control">
-                    {locationsOptions}
-                  </select>
+                  <label htmlFor="locationsOptions">Location</label>
+                  <select
+                    form="newUser"
+                    name="inputLocation"
+                    className="form-control"
+                    id="locationsOptions"
+                  ></select>
                 </div>
                 <div className="form-group col-md-9">
-                  <label htmlFor="inputPassword4">Profile Picture URL</label>
+                  <label htmlFor="inputImage">Profile Picture URL</label>
                   <input
                     type="text"
                     className="form-control"
@@ -87,10 +93,11 @@ class Login extends React.Component {
           </div>
 
           <BootstrapJs />
+          <script src="../ajax/artists/register.js"></script>
         </body>
       </html>
     );
   }
 }
 
-module.exports = Login;
+module.exports = ArtistRegister;

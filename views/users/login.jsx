@@ -11,16 +11,16 @@ class UserLogin extends React.Component {
         <body className="bg-dark text-white">
           <Nav />
           <div className="jumbotron bg-dark">
-            <h1>Welcome back!</h1>
+            <h3>Login as a User</h3>
 
-            <form class="form-inline" action="/users/login" method="POST">
-              <div class="input-group mb-2 mr-sm-2">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">@</div>
+            <form className="form-inline" action="/users/login" method="POST">
+              <div className="input-group mb-2 mr-sm-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text">@</div>
                 </div>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="handle"
                   placeholder="Username"
                 />
@@ -28,12 +28,12 @@ class UserLogin extends React.Component {
 
               <input
                 type="password"
-                class="form-control mb-2 mr-sm-2"
+                className="form-control mb-2 mr-sm-2"
                 name="password"
                 placeholder="Password"
               />
 
-              <button type="submit" class="btn btn-primary mb-2">
+              <button type="submit" className="btn btn-primary mb-2">
                 Login
               </button>
             </form>

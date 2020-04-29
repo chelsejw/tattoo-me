@@ -10,18 +10,14 @@ module.exports = (db) => {
     };
 
     let getHomePageControllerCallback = (req, res) => {
-        console.log(`at home page`)
         let data = {}
         db.locations.getAllLocations( (err, result) => {
-            console.log(`getting locations...`)
 
             if (err) {
                 return console.log(`Err when getting all locations`, err);
             }
-
             data.locations = result;
             db.hashtags.getAllHashtags( (err2, result2) => {
-            console.log(`getting hashtags...`);
 
                 if (err2) {
                     return console.log(`Err when getting all hashtags`, err2);

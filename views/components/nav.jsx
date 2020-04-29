@@ -3,12 +3,12 @@ import React from "react";
 class Nav extends React.Component {
       render() {
             return (
-              <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="/">
+              <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a className="navbar-brand" href="/">
                   tattoo.me
                 </a>
                 <button
-                  class="navbar-toggler"
+                  className="navbar-toggler"
                   type="button"
                   data-toggle="collapse"
                   data-target="#navbarSupportedContent"
@@ -16,22 +16,22 @@ class Nav extends React.Component {
                   aria-expanded="false"
                   aria-label="Toggle navigation"
                 >
-                  <span class="navbar-toggler-icon"></span>
+                  <span className="navbar-toggler-icon"></span>
                 </button>
 
                 <div
-                  class="collapse navbar-collapse"
+                  className="collapse navbar-collapse"
                   id="navbarSupportedContent"
                 >
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                      <a class="nav-link" href="#">
-                        Home <span class="sr-only">(current)</span>
+                  <ul className="navbar-nav mr-auto">
+                    <li className="nav-item active">
+                      <a className="nav-link" href="#">
+                        Home <span className="sr-only">(current)</span>
                       </a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li className="nav-item dropdown">
                       <a
-                        class="nav-link dropdown-toggle"
+                        className="nav-link dropdown-toggle"
                         href="#"
                         id="navbarDropdown"
                         role="button"
@@ -42,20 +42,20 @@ class Nav extends React.Component {
                         Tattoos
                       </a>
                       <div
-                        class="dropdown-menu"
+                        className="dropdown-menu"
                         aria-labelledby="navbarDropdown"
                       >
-                        <a class="dropdown-item" href="#">
+                        <a className="dropdown-item" href="#">
                           All tattoos
                         </a>
-                        <a class="dropdown-item" href="#">
+                        <a className="dropdown-item" href="#">
                           Another action
                         </a>
                       </div>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li className="nav-item dropdown">
                       <a
-                        class="nav-link dropdown-toggle"
+                        className="nav-link dropdown-toggle"
                         href="#"
                         id="navbarDropdown"
                         role="button"
@@ -66,20 +66,20 @@ class Nav extends React.Component {
                         Artists
                       </a>
                       <div
-                        class="dropdown-menu"
+                        className="dropdown-menu"
                         aria-labelledby="navbarDropdown"
                       >
-                        <a class="dropdown-item" href="#">
+                        <a className="dropdown-item" href="#">
                           All artists
                         </a>
-                        <a class="dropdown-item" href="#">
+                        <a className="dropdown-item" href="#">
                           Another action
                         </a>
                       </div>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li className="nav-item dropdown">
                       <a
-                        class="nav-link dropdown-toggle"
+                        className="nav-link dropdown-toggle"
                         href="#"
                         id="navbarDropdown"
                         role="button"
@@ -90,20 +90,20 @@ class Nav extends React.Component {
                         For Artists
                       </a>
                       <div
-                        class="dropdown-menu"
+                        className="dropdown-menu"
                         aria-labelledby="navbarDropdown"
                       >
-                        <a class="dropdown-item" href="#">
+                        <a className="dropdown-item" href="/artists/login">
                           Login
                         </a>
-                        <a class="dropdown-item" href="#">
+                        <a className="dropdown-item" href="/artists/register">
                           Sign-up
                         </a>
                       </div>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li className="nav-item dropdown">
                       <a
-                        class="nav-link dropdown-toggle"
+                        className="nav-link dropdown-toggle"
                         href="#"
                         id="navbarDropdown"
                         role="button"
@@ -114,13 +114,13 @@ class Nav extends React.Component {
                         For Users
                       </a>
                       <div
-                        class="dropdown-menu"
+                        className="dropdown-menu"
                         aria-labelledby="navbarDropdown"
                       >
-                        <a class="dropdown-item" href="/users/login">
+                        <a className="dropdown-item" href="/users/login">
                           Login
                         </a>
-                        <a class="dropdown-item" href="/users/register">
+                        <a className="dropdown-item" href="/users/register">
                           Sign-up
                         </a>
                       </div>

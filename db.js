@@ -69,7 +69,8 @@ const allLocationsModel = require("./models/locations");
 const locationsModelObject = allLocationsModel(pool);
 const allHashtagsModel = require("./models/hashtags");
 const hashtagsModelObject = allHashtagsModel(pool);
-
+const allArtistsModel = require("./models/artists");
+const artistsModelObject = allArtistsModel(pool);
 /*
  * ===================================================
  * ===================================================
@@ -99,5 +100,6 @@ module.exports = {
   // users: userModelsObject,
   users: usersModelObject,
   locations: locationsModelObject,
-  hashtags: hashtagsModelObject
+  hashtags: hashtagsModelObject,
+  artists: artistsModelObject
 };
