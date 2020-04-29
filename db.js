@@ -67,6 +67,8 @@ const allUsersModel = require("./models/users");
 const usersModelObject = allUsersModel(pool);
 const allLocationsModel = require("./models/locations");
 const locationsModelObject = allLocationsModel(pool);
+const allHashtagsModel = require("./models/hashtags");
+const hashtagsModelObject = allHashtagsModel(pool);
 
 /*
  * ===================================================
@@ -97,4 +99,5 @@ module.exports = {
   // users: userModelsObject,
   users: usersModelObject,
   locations: locationsModelObject,
+  hashtags: hashtagsModelObject
 };

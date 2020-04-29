@@ -5,6 +5,23 @@ import BootstrapJs from "./components/bootstrap-js";
 class Home extends React.Component {
   render() {
 
+    console.log(this.props.locations)
+
+    const hashtagsArr = this.props.hashtags
+    const locationsArr = this.props.locations;
+
+    const hashtagsOptions = hashtagsArr.map( hashtag => {
+      return <option value={hashtag.hashtag_id}>{hashtag.hashtag_name}</option>
+    })
+        const locationsOptions = locationsArr.map((location) => {
+          return (
+            <option value={location.location_id} key={location.location_id}>
+              {location.location_name}
+            </option>
+          );
+        });
+
+
     return (
       <html lang="en" dir="ltr">
         <head>
@@ -33,13 +50,13 @@ class Home extends React.Component {
                   <div class="col-md-5 col-sm-12">
                     <h3>I'm looking for...</h3>
                     <select class="form-control">
-                      <option>Default select</option>
+                      {hashtagsOptions}
                     </select>
                   </div>
                   <div class="col-md-5 col-sm-12">
                     <h3>In...</h3>
                     <select class="form-control">
-                      <option>Default select</option>
+                      {locationsOptions}
                     </select>
                   </div>
 

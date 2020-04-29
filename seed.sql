@@ -4,3 +4,5 @@
 -- //emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/247/flag-south-korea_1f1f0-1f1f7.png'), ('United States', 'https:
 -- //emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/247/flag-united-states_1f1fa-1f1f8.png');
 
+INSERT INTO hashtags(hashtag_name) VALUES 
+('fineline'), ('watercolour'), ('tribal'), ('chicano'), ('realism'), ('blackwork')
