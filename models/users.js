@@ -35,7 +35,7 @@ module.exports = (dbPoolInstance) => {
   };
 
   const getUserLogin = (handle, pw, callback) => {
-    let query = `SELECT * FROM users WHERE handle = '${handle}' AND hashed_pw = '${pw}'`;
+    let query = `SELECT * FROM users WHERE username = '${handle}' AND user_pw = '${pw}'`;
 
     dbPoolInstance.query(query, (err, result) => {
       callback(err, result.rows[0]);

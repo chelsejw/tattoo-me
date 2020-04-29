@@ -21,6 +21,7 @@ module.exports = (app, allModels) => {
         userControllerCallbacks.addUser
     );
     app.get("/users/login", userControllerCallbacks.getUserLogin);
+    app.post("/users/login", userControllerCallbacks.authenticateUser);
 
     app.get("/users/register", userControllerCallbacks.getUserRegistrationForm);
     app.get("/", userControllerCallbacks.getHomePage);

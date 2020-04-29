@@ -13,7 +13,7 @@ class UserLogin extends React.Component {
           <div className="jumbotron bg-dark">
             <h1>Welcome back!</h1>
 
-            <form class="form-inline" action="/login" method="POST">
+            <form class="form-inline" action="/users/login" method="POST">
               <div class="input-group mb-2 mr-sm-2">
                 <div class="input-group-prepend">
                   <div class="input-group-text">@</div>
