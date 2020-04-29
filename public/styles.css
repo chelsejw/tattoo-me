@@ -1,0 +1,87 @@
+html,
+body {
+	min-height: 100%;
+}
+
+.home-body {
+	background: linear-gradient(rgba(0, 0, 0, 0.9),
+			rgba(0, 0, 0, 0.4)),
+		url('https://cdn.lifestyleasia.com/wp-content/uploads/sites/6/2020/01/09191655/allef-vinicius-vKIc4k6dm10-unsplash-1350x900.jpg');
+	background-size: cover;
+	background-color: rgba(0, 0, 0, 0.5);
+	background-repeat: no-repeat;
+	color: white;
+}
+
+
+
+.welcome-container {
+      text-align: center;
+      position: relative;
+      margin-top: 200px;
+      padding: 20px
+}
+
+
+.welcome-slogan {
+	text-align: left;
+}
+
+h1 {
+	font-size: 5rem;
+}
+
+.search-fields {
+	margin-top: 70px;
+}
+
+.search-fields label {
+	font-size: 2rem;
+	display: block;
+}
+
+#submit-query-btn {
+	margin-top: 2.5rem;
+	width: 100%;
+}
+
+.results {
+	background-color: burlywood;
+	margin-left: 250px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+#filters {
+	width: 250px;
+	position: fixed;
+	top: 3.5rem;
+	left: 0;
+	height: 100vh;
+	z-index: 999;
+	background: #7386D5;
+	color: #fff;
+	transition: all 0.3s;
+	box-sizing: border-box;
+
+}
+
+#results-body {
+	background-color: blue;
+	width: 100%;
+}
+
+@media (max-width: 768px) {
+
+	h1 {
+            font-size: 3rem;
+      }
+
+      .welcome-container {
+            margin-top: 20px;
+      }
+
+      .welcome-container select {
+            margin-bottom: 1rem;
+      }
+}
