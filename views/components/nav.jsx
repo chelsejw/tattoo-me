@@ -77,8 +77,6 @@ class Nav extends React.Component {
                         </a>
                       </div>
                     </li>
-                  </ul>
-                  <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
                       <a
                         class="nav-link dropdown-toggle"
@@ -119,10 +117,10 @@ class Nav extends React.Component {
                         class="dropdown-menu"
                         aria-labelledby="navbarDropdown"
                       >
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="/users/login">
                           Login
                         </a>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="/users/register">
                           Sign-up
                         </a>
                       </div>

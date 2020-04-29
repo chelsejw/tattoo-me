@@ -1,5 +1,6 @@
 const React = require("react");
 import Nav from "./components/nav"
+import BootstrapJs from "./components/bootstrap-js";
 
 class Home extends React.Component {
   render() {
@@ -51,6 +52,7 @@ class Home extends React.Component {
               </form>
             </div>
           </div>
+          <BootstrapJs/>
         </body>
       </html>
     );

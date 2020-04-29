@@ -176,6 +176,7 @@ module.exports = (db) => {
      */
     return {
       getUserRegistrationForm: getUserRegistrationControllerCallback,
+      getUserLogin: getLoginFormControllerCallback,
       getHomePage: getHomePageControllerCallback,
       addUser: addUserControllerCallback,
     };
