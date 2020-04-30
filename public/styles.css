@@ -113,6 +113,11 @@ h1 {
 	font-size: 5rem;
 }
 
+.result-artist-img {
+	width: 80px;
+	height: 80px;
+}
+
 .search-fields {
 	margin-top: 70px;
 }
