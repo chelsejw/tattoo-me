@@ -22,7 +22,7 @@ class Home extends React.Component {
 
     return (
       <html lang="en" dir="ltr">
-      <Head/>
+        <Head />
 
         <body className="home-body">
           <Nav />
@@ -32,23 +32,29 @@ class Home extends React.Component {
             </div>
 
             <div className="search-fields container">
-              <form>
+              <form action="/search" method="get">
                 <div className="row">
                   <div className="col-md-5 col-sm-12">
                     <h3>I'm looking for...</h3>
-                    <select className="form-control">
+                    <select name="hashtagId" className="form-control">
+                      <option value="all">All</option>
                       {hashtagsOptions}
                     </select>
                   </div>
                   <div className="col-md-5 col-sm-12">
                     <h3>In...</h3>
-                    <select className="form-control">
+                    <select name="locationId" className="form-control">
+                      <option value="all">Everywhere</option>
+
                       {locationsOptions}
                     </select>
                   </div>
 
                   <div className="col-md-2 col-sm-12">
-                    <button id="submit-query-btn" className="btn btn-outline-light">
+                    <button
+                      id="submit-query-btn"
+                      className="btn btn-outline-light"
+                    >
                       Go!
                     </button>
                   </div>
@@ -56,7 +62,7 @@ class Home extends React.Component {
               </form>
             </div>
           </div>
-          <BootstrapJs/>
+          <BootstrapJs />
         </body>
       </html>
     );

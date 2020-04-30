@@ -69,7 +69,7 @@ class ArtistRegister extends React.Component {
                 <div className="form-group col-md-3">
                   <label htmlFor="locationsOptions">Location</label>
                   <select
-                    form="newUser"
+                    form="newArtist"
                     name="inputLocation"
                     className="form-control"
                     id="locationsOptions"

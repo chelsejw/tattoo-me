@@ -37,11 +37,18 @@ module.exports = (app, allModels) => {
         "/artists/register",
         artistControllerCallbacks.getArtistRegistration
     );
+    app.get(`/search`, artistControllerCallbacks.artistSearch);
 
 
     const apiControllerCallbacks = require("./controllers/api")(allModels);
+
+
+    app.get(
+        `/api/artists/location/:locationId`,
+        apiControllerCallbacks.getArtistsByLocation
+    );
+    app.get(`/api/artists/hashtag/:hashtagId`, apiControllerCallbacks.getArtistsByHashtag)
     app.get(`/api/locations`, apiControllerCallbacks.getAllLocations);
     app.get(`/api/hashtags`, apiControllerCallbacks.getAllHashtags);
-
 
 };

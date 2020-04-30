@@ -24,6 +24,43 @@ module.exports = (db) => {
     });
   };
 
+  let getAllArtistsController = (req,res)=> {
+    db.artists.getAllArtists( (err,result)=> {
+
+      if (err){
+        return console.log(`Err querying all artists from API`, err);
+      }
+
+      res.send(result)
+
+    })
+  }
+
+  let getArtistsByLocationController = (req,res)=> {
+    let target = req.params.locationId
+    db.artists.getArtistsByLocation(target, (err, results) => {
+      if (err) {
+        return console.log(`Err when querying artists by location in API`, err);
+      } else if (results.length < 1) {
+        return res.send(`No results.`)
+      }
+      res.send(results);
+    });
+  }
+
+  let getAllArtistsByHashtagController = (req,res)=> {
+    let target = req.params.hashtagId
+    db.artists.getArtistsByHashtag(target, (err, results)=> {
+      if (err) {
+        return console.log(`Err when querying artists by location in API`, err);
+      } else if (results.length < 1) {
+        return res.send(`No results.`);
+      }
+      res.send(results);
+
+    })
+  }
+
   /**
    * ===========================================
    * Export controller functions as a module
@@ -31,6 +68,9 @@ module.exports = (db) => {
    */
   return {
         getAllLocations: getAllLocationsController,
-        getAllHashtags: getAllHashtagsController
-  };
+        getAllArtists: getAllArtistsController,
+        getAllHashtags: getAllHashtagsController,
+        getArtistsByLocation: getArtistsByLocationController,
+        getArtistsByHashtag: getAllArtistsByHashtagController
+      };
 };
