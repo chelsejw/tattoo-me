@@ -12,6 +12,8 @@
 #### Further: 
 - Allow users to save tattoos / artists.
 
+#### Further: 
+- Allow users to review artists.
 
 #### Further:
 - Implement a calendar system so that artists can indicate if they are in another country for guest work during a certain period.
