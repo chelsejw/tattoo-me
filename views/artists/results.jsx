@@ -14,11 +14,11 @@ class ArtistRegister extends React.Component {
 
 
       const resultElements = resultsArr.map(result => {
-            let availability = <button className="btn btn-sm btn-success">Open</button>
+            let availability = <button className="btn btn-sm btn-success">Bookings Open</button>
       
             if (!result.booking_avail) {
                   availability = (
-                    <button className="btn btn-sm btn-danger">Closed</button>
+                    <button className="btn btn-sm btn-danger">Bookings Closed</button>
                   );
             }
 
@@ -29,7 +29,7 @@ class ArtistRegister extends React.Component {
                   <br />
                   {result.location_name}
                   <br />
-                  Booking availability: {availability}
+                  {availability}
                   <br />
                   {result.hashtag_name}
                 </div>
@@ -37,99 +37,88 @@ class ArtistRegister extends React.Component {
                 <hr/>
               </div>
             );
-      })
-
-      
-            // <div className="artist-result-container container-fluid">
-            //     <br/>@frankiesexton
-            //     <br/>Location:
-            //     <br/>Reviews
-            //     <br/>Rating
-            //     <br/>IG | FB
-            //     <br/>Availability
-            // </div>
+      });
 
     return (
       <html>
         <Head />
         <body>
           <Nav />
-
-          <div className="row" id="body-row">
-            <div id="sidebar-container" className="sidebar-expanded d-none d-md-block col-2">
-            <ul className="list-group sticky-top sticky-offset">
-                <li className="bg-dark list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                    <small>SEARCH FILTERS</small>
+          <div class="row" id="body-row">
+            <div
+              id="sidebar-container"
+              class="sidebar-expanded d-none d-md-block col-2"
+            >
+              <ul class="list-group sticky-top sticky-offset">
+                <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                  <small>SEARCH FILTERS</small>
                 </li>
-              <li className="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                <form action="/search" method="get">
+                  <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
                     <small>STYLE</small>
-                </li>
-                <a href="#" className="bg-dark list-group-item list-group-item-action">
-                    <select className="form-control form-control-sm">
-                        <option>Large select</option>
+                  </li>
+                  <a
+                    href="#"
+                    class="bg-dark list-group-item list-group-item-action"
+                  >
+                    <select class="form-control form-control-sm">
+                      <option>Large select</option>
                     </select>
-                </a>
-                <li className="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                  </a>
+                  <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
                     <small>LOCATION</small>
-                </li>
-
-                <a href="#" className="bg-dark list-group-item list-group-item-action">
-                    <select className="form-control form-control-sm">
-                        <option>Large select</option>
+                  </li>
+                  <a
+                    href="#"
+                    class="bg-dark list-group-item list-group-item-action"
+                  >
+                    <select class="form-control form-control-sm">
+                      <option>Large select</option>
                     </select>
-                </a>
-                {/* <li className="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                    <small>DATES</small>
-                </li>
+                  </a>
 
-                <a href="#" className="bg-dark list-group-item list-group-item-action">
-                    <select className="form-control form-control-sm">
-                        <option>From...</option>
-                    </select>
-                </a>
-                <a href="#" className="bg-dark list-group-item list-group-item-action">
-                    <select className="form-control form-control-sm">
-                        <option>To...</option>
-                    </select>
-                </a>
-                <li className="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                    <small>SORT OPTIONS</small>
-                </li>
+                  <li class="bg-dark d-flex list-group-item justify-content-center">
+                    <button type="submit" className="btn btn-outline-light btn-sm">
+                      Go!
+                    </button>
+                  </li>
 
-                <a href="#" className="bg-dark list-group-item list-group-item-action">
-                    <select className="form-control form-control-sm">
-                        <option>From...</option>
-                    </select>
-                </a>
+                  <li class="list-group-item logo-separator d-flex justify-content-center">
+                    <img
+                      src="https://www.iconsdb.com/icons/preview/white/tattoo-machine-xxl.png"
+                      width="30"
+                      height="30"
+                    />
+                  </li>
+                </form>
+              </ul>
+            </div>
 
+            <div class="col py-3 main-content">
+              <h3>
+                Showing <span class="text-muted">{resultsArr.length}</span> results for <span class="text-muted">fineline</span> tattoo artists in <span class="text-muted">Singapore</span>
+              </h3>
 
-                <li className="list-group-item logo-separator d-flex justify-content-center">
-                    <img src="https://www.iconsdb.com/icons/preview/white/tattoo-machine-xxl.png" width="30"
-                        height="30"/>
-                </li> */}
-            </ul>
+              <hr />
+              {resultElements}
+            </div>
+          </div>
 
-        </div>
-
-
-
-        <div className="col py-3 main-content">
-            <h3>Showing <span className="text-muted">{resultsArr.length}</span> results for <span className="text-muted">hashtag</span> tattoo
-                artists in <span className="text-muted">location</span> between <span className="text-muted">any time</span>
-            </h3>
-
-            <hr/>
-
-            {resultElements}
-
-        </div>
-
-
-    </div>
-
-
-
-          <BootstrapJs />
+          <script
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossOrigin="anonymous"
+          ></script>
+          <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossOrigin="anonymous"
+          ></script>
+          <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossOrigin="anonymous"
+          ></script>
         </body>
       </html>
     );
