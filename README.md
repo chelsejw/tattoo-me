@@ -1,7 +1,5 @@
 # tattoo.me: Find your perfect tattoo artist instantly.
 
-===
-
 ## MVP:
 - Create login/logout for artists
 - Get artists by location/hashtag
