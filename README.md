@@ -2,7 +2,7 @@
 
 ===
 
-### MVP:
+## MVP:
 - Create login/logout for artists
 - Get artists by location/hashtag
 - Allow artists to upload images of their portfolio
@@ -11,7 +11,7 @@
 #### Further:
 - Allow artists to link their IGs for portfolio pictures. Search results should display most recent first 4-5 pics.
 
-### Further: 
+#### Further: 
 - Allow users to save tattoos / artists.
 
 
