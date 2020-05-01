@@ -1,12 +1,10 @@
 module.exports = (app, allModels) => {
-
-
     /*
      *  =========================================
      *  =========================================
      *  =========================================
      *  =========================================
-     *    ALL ROUTES FOR POKEMON CONTROLLER
+     *    ALL ROUTES FOR USERS CONTROLLER
      *  =========================================
      *  =========================================
      *  =========================================
@@ -14,17 +12,37 @@ module.exports = (app, allModels) => {
 
     // require the controller
 
-    //ALL USERS 
-    const userControllerCallbacks = require('./controllers/users')(allModels);
+    //ALL USERS
+    const userControllerCallbacks = require("./controllers/users")(
+        allModels
+    );
     app.post(
         "/users",
         userControllerCallbacks.addUser
     );
-    app.get("/users/login", userControllerCallbacks.getUserLogin);
-    app.post("/users/login", userControllerCallbacks.authenticateUser);
-    app.get("/users/register", userControllerCallbacks.getUserRegistrationForm);
-    app.get("/", userControllerCallbacks.getHomePage);
+    app.get(
+        "/users/login",
+        userControllerCallbacks.getUserLogin
+    );
+    app.post(
+        "/users/login",
+        userControllerCallbacks.authenticateUser
+    );
+    app.get(
+        "/users/register",
+        userControllerCallbacks.getUserRegistrationForm
+    );
 
+    /*
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     *    ALL ROUTES FOR ARTIST CONTROLLER
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     */
     const artistControllerCallbacks = require("./controllers/artists")(
         allModels
     );
@@ -37,18 +55,54 @@ module.exports = (app, allModels) => {
         "/artists/register",
         artistControllerCallbacks.getArtistRegistration
     );
-    app.get(`/search`, artistControllerCallbacks.artistSearch);
+    app.get(
+        `/artists`,
+        artistControllerCallbacks.artistSearch
+    );
 
-
-    const apiControllerCallbacks = require("./controllers/api")(allModels);
-
-
+    /*
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     *    ALL ROUTES FOR API CONTROLLER
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     */
+    const apiControllerCallbacks = require("./controllers/api")(
+        allModels
+    );
     app.get(
         `/api/artists/location/:locationId`,
         apiControllerCallbacks.getArtistsByLocation
     );
-    app.get(`/api/artists/hashtag/:hashtagId`, apiControllerCallbacks.getArtistsByHashtag)
-    app.get(`/api/locations`, apiControllerCallbacks.getAllLocations);
-    app.get(`/api/hashtags`, apiControllerCallbacks.getAllHashtags);
+    app.get(
+        `/api/artists/hashtag/:hashtagId`,
+        apiControllerCallbacks.getArtistsByHashtag
+    );
+    app.get(
+        `/api/locations`,
+        apiControllerCallbacks.getAllLocations
+    );
+    app.get(
+        `/api/hashtags`,
+        apiControllerCallbacks.getAllHashtags
+    );
 
+    /*
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     *    ALL ROUTES FOR HOME CONTROLLER
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     */
+
+    app.get(
+        "/",
+        userControllerCallbacks.getHomePage
+    );
 };
