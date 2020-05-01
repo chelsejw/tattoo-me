@@ -74,7 +74,10 @@ module.exports = (dbPoolInstance) => {
 
         dbPoolInstance.query(query, (err, result) => {
 
-          console.log(result.rows);
+            if (!result) {
+                return callback(err, `No results`)
+            }
+
             //If more than one item is returned
             if (result.rows.length > 1) {
                 return callback(err, result.rows)
@@ -82,8 +85,6 @@ module.exports = (dbPoolInstance) => {
             } else if (result.rows.length === 1) {
                 return callback(err, [result.rows[0]])
             }
-
-            return callback(err, `No results`)
 
         });
     }

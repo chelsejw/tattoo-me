@@ -32,7 +32,7 @@ class Home extends React.Component {
             </div>
 
             <div className="search-fields container">
-              <form action="/search" method="get">
+              <form action="/artists" method="get">
                 <div className="row">
                   <div className="col-md-5 col-sm-12">
                     <h3>I'm looking for...</h3>

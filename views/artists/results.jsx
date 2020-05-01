@@ -5,12 +5,23 @@ import BootstrapJs from "../components/bootstrap-js";
 
 class ArtistRegister extends React.Component {
   render() {
-
+      const locations = this.props.locations
+      const hashtags = this.props.hashtags
       const resultsArr = this.props.results 
+      console.log(resultsArr)
       const queries = this.props.queries
 
-      console.log(`resultsArr is`, resultsArr)
-      console.log(`queries are`, queries)
+      const locationsOptions = locations.map( location => {
+          return <option key={location.location_id} value={location.location_id}>{location.location_name}</option>
+      })
+      const hashtagOptions = hashtags.map( hashtag => {
+        return (
+          <option key={hashtag.hashtag_id} value={hashtag.hashtag_id}>
+            {hashtag.hashtag_name}
+          </option>
+        );
+      });
+
 
 
       const resultElements = resultsArr.map(result => {
@@ -21,7 +32,6 @@ class ArtistRegister extends React.Component {
                     <button className="btn btn-sm btn-danger">Bookings Closed</button>
                   );
             }
-
             return (
               <div>
                 <div className="artist-result-container container-fluid">
@@ -55,7 +65,7 @@ class ArtistRegister extends React.Component {
                 <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
                   <small>SEARCH FILTERS</small>
                 </li>
-                <form action="/search" method="get">
+                <form action="/artists" method="get">
                   <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
                     <small>STYLE</small>
                   </li>
@@ -63,8 +73,12 @@ class ArtistRegister extends React.Component {
                     href="#"
                     class="bg-dark list-group-item list-group-item-action"
                   >
-                    <select class="form-control form-control-sm">
-                      <option>Large select</option>
+                    <select
+                      name="hashtagId"
+                      class="form-control form-control-sm"
+                    >
+                      <option value="all">All</option>
+                      {hashtagOptions}
                     </select>
                   </a>
                   <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
@@ -74,13 +88,20 @@ class ArtistRegister extends React.Component {
                     href="#"
                     class="bg-dark list-group-item list-group-item-action"
                   >
-                    <select class="form-control form-control-sm">
-                      <option>Large select</option>
+                    <select
+                      name="locationId"
+                      class="form-control form-control-sm"
+                    >
+                      <option value="all">All</option>
+                      {locationsOptions}
                     </select>
                   </a>
 
                   <li class="bg-dark d-flex list-group-item justify-content-center">
-                    <button type="submit" className="btn btn-outline-light btn-sm">
+                    <button
+                      type="submit"
+                      className="btn btn-outline-light btn-sm"
+                    >
                       Go!
                     </button>
                   </li>
@@ -98,7 +119,8 @@ class ArtistRegister extends React.Component {
 
             <div class="col py-3 main-content">
               <h3>
-                Showing <span class="text-muted">{resultsArr.length}</span> results for <span class="text-muted">fineline</span> tattoo artists in <span class="text-muted">Singapore</span>
+                Showing <span class="text-muted">{resultsArr.length}</span>{" "}
+                results
               </h3>
 
               <hr />
@@ -106,7 +128,7 @@ class ArtistRegister extends React.Component {
             </div>
           </div>
 
-          <BootstrapJs/>
+          <BootstrapJs />
         </body>
       </html>
     );

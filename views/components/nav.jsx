@@ -29,6 +29,7 @@ class Nav extends React.Component {
                         Home <span className="sr-only">(current)</span>
                       </a>
                     </li>
+
                     <li className="nav-item dropdown">
                       <a
                         className="nav-link dropdown-toggle"
@@ -39,41 +40,20 @@ class Nav extends React.Component {
                         aria-haspopup="true"
                         aria-expanded="false"
                       >
-                        Tattoos
+                        Explore
                       </a>
                       <div
                         className="dropdown-menu"
                         aria-labelledby="navbarDropdown"
                       >
-                        <a className="dropdown-item" href="#">
-                          All tattoos
+                        <a
+                          className="dropdown-item"
+                          href="/artists?hashtagId=all&locationId=all"
+                        >
+                          Artists
                         </a>
                         <a className="dropdown-item" href="#">
-                          Another action
-                        </a>
-                      </div>
-                    </li>
-                    <li className="nav-item dropdown">
-                      <a
-                        className="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDropdown"
-                        role="button"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        Artists
-                      </a>
-                      <div
-                        className="dropdown-menu"
-                        aria-labelledby="navbarDropdown"
-                      >
-                        <a className="dropdown-item" href="#">
-                          All artists
-                        </a>
-                        <a className="dropdown-item" href="#">
-                          Another action
+                          Tattoos
                         </a>
                       </div>
                     </li>

@@ -5,10 +5,6 @@ module.exports = (db) => {
    * ===========================================
    */
 
-  let getLoginFormControllerCallback = (req, res) => {
-    res.render("artists/login");
-  };
-
   let getArtistRegistrationControllerCallback = (req, res) => {
     //GET LOCATIONS DATABASE TO RENDER OPTIONS
     res.render(`artists/register`);
