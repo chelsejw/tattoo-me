@@ -2,7 +2,8 @@
 
 ## MVP:
 - Create login/logout for artists
-- Get artists by location/hashtag
+- Create login/logout for users
+- ~Get artists by location/hashtag~
 - Allow artists to upload images of their portfolio
 - RESTful routes for artists and tattoos.
 
