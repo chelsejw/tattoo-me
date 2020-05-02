@@ -10,7 +10,7 @@ class ArtistRegister extends React.Component {
       <html>
         <Head />
         <body className="bg-dark">
-          <Nav loginData={loginData}/>
+          <Nav loginData={loginData} />
           <div className="jumbotron bg-dark text-white">
             <h3>Sign-up as an Artist</h3>
             <form id="newArtist" action="/artists" method="post">
@@ -57,7 +57,7 @@ class ArtistRegister extends React.Component {
                 <div className="form-group col-md-4">
                   <label htmlFor="inputHashtag">Art Style</label>
                   <select
-                    form="newUser"
+                    form="newArtist"
                     name="inputHashtag"
                     className="form-control"
                     id="hashtagOptions"

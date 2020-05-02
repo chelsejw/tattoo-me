@@ -139,6 +139,15 @@ h1 {
 	padding: 20px;
 }
 
+.hashtag-btn {
+	display: inline-block;
+	border: 1px solid white;
+	border-radius: 3px;
+	color: white;
+	padding: 5px 10px;
+	font-size: 0.8rem;
+}
+
 @media (max-width: 768px) {
 
 	h1 {

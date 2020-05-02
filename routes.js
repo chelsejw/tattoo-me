@@ -135,6 +135,8 @@ module.exports = (app, allModels) => {
         apiControllerCallbacks.getAllHashtags
     );
 
+    app.get(`/api/hashtags/:hashtagId`, apiControllerCallbacks.getHashtagNameById)
+
     /*
      *  =========================================
      *  =========================================

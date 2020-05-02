@@ -19,13 +19,19 @@ module.exports = (db) => {
     // MULTER
     var multer = require("multer");
 
-
     const getAddTattooFormController = (req, res) => {
 
         const artistId = req.cookies.currentAccountId
-        res.render(`tattoos/add-tattoo`, {
-            artistId: artistId,
-            loginData: req.cookies
+
+        db.hashtags.getAllHashtags((err, hashtagResults) => {
+            if (err) {
+                return res.status(404).send(err);
+            }
+            res.render(`tattoos/add-tattoo`, {
+                artistId: artistId,
+                loginData: req.cookies,
+                hashtags: hashtagResults
+            });
         });
     };
 
@@ -34,16 +40,52 @@ module.exports = (db) => {
         console.log(`req.body`, req.body)
         console.log(`req.file`, req.file);
 
-
-        const whenUploadDone = (err, result) => {
-            if (err) {
-                return res.statusCode(404, err);
+        const afterAddingToTattoos = (err1, result1) => {
+            if (err1) {
+                return res.status(404).send(err1);
             }
-            console.log(result)
-            return res.redirect(`/tattoos/${result.tattoo_id}`)
-        }
-        // SEND FILE TO CLOUDINARY
 
+            const newTattooId = result1.tattoo_id
+            const hashtags = req.body.hashtags;
+            console.log(`New tattoo ID`, newTattooId)
+
+            if (hashtags.length === 1) {
+                console.log(
+                    `adding ${hashtags} to ${newTattooId}`
+                );
+
+                return db.hashtags.addHashtagToTattoo(
+                  hashtags,
+                  newTattooId,
+                  (addHashtagErr, addHashtagResult) => {
+                    if (addHashtagErr) {
+                      return res.status(404).send(addHashtagErr);
+                    }
+                    return res.redirect(`/tattoos/${newTattooId}`);
+                  }
+                );
+            };
+            console.log(`more than one hashtag`)
+            console.log(`hashtagsArr`, hashtags);
+            console.log(`hashtags arr should run ${hashtags.length} times`);
+
+            hashtags.forEach((hashtag) => {
+                console.log(`added ${hashtag} to ${newTattooId}`);
+                db.hashtags.addHashtagToTattoo(
+                    hashtag,
+                    newTattooId,
+                    (err3, result3) => {
+                        if (err3) {
+                            res.status(404).send(err3);
+                        }
+                        console.log(result3);
+                    }
+                );
+            });
+            return res.redirect(`/tattoos/${result1.tattoo_id}`);
+        }
+
+        // SEND FILE TO CLOUDINARY
 
         const path = req.file.path;
         const accountId = req.cookies.currentAccountId
@@ -66,7 +108,7 @@ module.exports = (db) => {
                 const currentArtistId = req.cookies.currentAccountId
 
                 //Add tattoo to database.
-                db.tattoos.addTattoo(currentArtistId, image.url, whenUploadDone)
+                db.tattoos.addTattoo(currentArtistId, image.url, afterAddingToTattoos)
                 // return image details
             });
     };
@@ -78,7 +120,6 @@ module.exports = (db) => {
             if (err) {
                 return res.statusCode(404, `Tattoo not found`)
             }
-
             res.render(`tattoos/tattoo`, {
                 tattooData: result,
                 loginData: req.cookies
@@ -89,7 +130,6 @@ module.exports = (db) => {
 
     const displayAllTattoosController = (req, res) => {
 
-
         db.tattoos.getAllTattoos((err, tattooResults) => {
             if (err) {
                 return res.statusCode(404).send(err)
@@ -98,7 +138,7 @@ module.exports = (db) => {
                 results: tattooResults,
                 loginData: req.cookies
             });
-        })
+        });
 
     }
 
@@ -113,4 +153,5 @@ module.exports = (db) => {
         displayOneTattoo: displayOneTattooController,
         displayAllTattoos: displayAllTattoosController
     };
+
 };

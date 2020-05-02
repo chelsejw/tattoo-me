@@ -63,12 +63,29 @@ module.exports = (dbPoolInstance) => {
 
     }
 
+    let addHashtagToTattoo = (tattooId, hashtagId, callback) => {
+
+        let query = `INSERT INTO tattoos_hashtags(tattoo_id, hashtag_id) VALUES (${tattooId}, ${hashtagId}) RETURNING *`
+
+        dbPoolInstance.query(query, (err, result) => {
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows);
+
+
+        })
+    }
+
     return {
         getAllTattoos: getAllTattoos,
         getOneTattoo: getOneTattoo,
         addTattoo: addTattoo,
         getTattooById: getTattooById,
         getTattoosByHashtag: getTattoosByHashtag,
-        getHashtagsByTattooId: getHashtagsByTattooId
+        getHashtagsByTattooId: getHashtagsByTattooId,
+        addHashtagToTattoo: addHashtagToTattoo
     };
 };

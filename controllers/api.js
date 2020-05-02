@@ -77,6 +77,20 @@ module.exports = (db) => {
 
   }
 
+  let getHashtagNameById = (req,res)=> {
+
+    let hashtagId = req.params.hashtagId
+    db.hashtags.getHashtagById(hashtagId, (err, result)=> {
+      if (err) {
+        return res.status(404).send(err);
+      }
+
+      return res.send(result)
+
+    })
+
+  }
+
   /**
    * ===========================================
    * Export controller functions as a module
@@ -88,6 +102,7 @@ module.exports = (db) => {
         getAllHashtags: getAllHashtagsController,
         getArtistsByLocation: getArtistsByLocationController,
         getArtistsByHashtag: getAllArtistsByHashtagController,
-        getAllHashtagsOfTattooId: getAllHashtagsOfTattooIdController
+        getAllHashtagsOfTattooId: getAllHashtagsOfTattooIdController,
+        getHashtagNameById: getHashtagNameById
       };
 };
