@@ -79,6 +79,9 @@ class Nav extends React.Component {
                         <a className="dropdown-item" href="/artists/register">
                           Sign-up
                         </a>
+                        <a className="dropdown-item" href="/tattoos/new">
+                          Add Tattoo
+                        </a>
                       </div>
                     </li>
                     <li className="nav-item dropdown">

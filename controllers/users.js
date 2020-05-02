@@ -30,8 +30,6 @@ module.exports = (db) => {
 
     let getLoginFormControllerCallback = (req, res) => {
         res.render("users/login");
-
-
     };
 
     const logoutController = (req, res) => {
@@ -83,7 +81,7 @@ module.exports = (db) => {
 
         const afterAddingUser = (err, result) => {
             err ? console.log(err) : console.log(`Successfully added new user.`);
-            setUserCookies(result.user_id, result.username, result.user_displayname, result.location_id, res);
+            setCookies(result.user_id, result.username, result.user_displayname, result.location_id, res);
             res.redirect(`/`);
         }
 

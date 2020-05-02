@@ -14,17 +14,18 @@ module.exports = (db) => {
         res.cookie(`currentLocationId`, null);
     };
 
-    const setArtistCookies = (artistObj, res) => {
+    const setArtistCookies = (currId, currUsername, currDisName, currLocId, res) => {
         resetCookies(res);
         res.cookie(`isLoggedIn`, true);
-        res.cookie(`currentUserType`, 'artist');
-        res.cookie(`currentAccountId`, artistObj.artist_id);
-        res.cookie(`currentUsername`, artistObj.artist_username);
-        res.cookie(`currentDisplayName`, artistObj.artist_displayname);
-        res.cookie(`currentLocationId`, artistObj.location_id);
+        res.cookie(`currentUserType`, "artist");
+        res.cookie(`currentAccountId`, currId);
+        res.cookie(`currentUsername`, currUsername);
+        res.cookie(`currentDisplayName`, currDisName);
+        res.cookie(`currentLocationId`, currLocId);
     };
 
-    let getLoginFormControllerCallback = (req, res) => {
+
+    let getArtistLoginFormControllerCallback = (req, res) => {
         res.render("artists/login");
     };
 
@@ -134,14 +135,38 @@ module.exports = (db) => {
         db.artists.addArtist(usernameInput, displayNameInput, passwordInput, locationInput, emailInput, imageInput, afterAddingArtist);
     };
 
+    let authenticateArtistControllerCallback = (req, res) => {
+        const whenModelIsDone = (err, result) => {
+            if (err) {
+                return res.statusCode(404, `Error is ${err}`);
+            }
+
+            setArtistCookies(
+                result.artist_id,
+                result.artist_username,
+                result.artist_displayname,
+                result.location_id,
+                res
+            );
+
+            res.redirect(`/`);
+        };
+
+        let handleInput = req.body.handle;
+        let hashedPw = sha256(req.body.password);
+        db.artists.getArtistLogin(handleInput, hashedPw, whenModelIsDone);
+    };
+
     /**
      * ===========================================
      * Export controller functions as a module
      * ===========================================
      */
     return {
-      getArtistRegistration: getArtistRegistrationControllerCallback,
-      addArtist: addArtistControllerCallback,
-      artistSearch: artistSearchControllerCallback,
+        getArtistRegistration: getArtistRegistrationControllerCallback,
+        addArtist: addArtistControllerCallback,
+        artistSearch: artistSearchControllerCallback,
+        getArtistLoginForm: getArtistLoginFormControllerCallback,
+        authenticateArtist: authenticateArtistControllerCallback
     };
 };

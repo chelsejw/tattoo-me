@@ -13,7 +13,7 @@ class ArtistLogin extends React.Component {
           <div className="jumbotron bg-dark">
             <h3>Login as an Artist</h3>
 
-            <form className="form-inline" action="/users/login" method="POST">
+            <form className="form-inline" action="/artists/login" method="POST">
               <div className="input-group mb-2 mr-sm-2">
                 <div className="input-group-prepend">
                   <div className="input-group-text">@</div>

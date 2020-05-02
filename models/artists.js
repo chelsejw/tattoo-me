@@ -8,7 +8,7 @@ module.exports = (dbPoolInstance) => {
 
     const getAll = (callback) => {
         let query =
-          "SELECT artist_id, artist_username, artists.artist_img, artist_displayname, artists.location_id, location_name, email, booking_avail FROM artists INNER JOIN locations ON locations.location_id = artists.location_id ORDER BY artist_id ASC";
+            "SELECT artist_id, artist_username, artists.artist_img, artist_displayname, artists.location_id, location_name, email, booking_avail FROM artists INNER JOIN locations ON locations.location_id = artists.location_id ORDER BY artist_id ASC";
 
         dbPoolInstance.query(query, (err, result) => {
             callback(err, result.rows);
@@ -89,12 +89,22 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    const getArtistLogin = (handle, pw, callback) => {
+        let query = `SELECT * FROM artists WHERE artist_username = '${handle}' AND artist_pw = '${pw}'`;
+
+        dbPoolInstance.query(query, (err, result) => {
+            callback(err, result.rows[0]);
+        });
+    };
+
+
 
     return {
         getAll: getAll,
         addArtist: addArtist,
         getArtistsByLocation: getArtistsByLocation,
         getArtistsByHashtag: getArtistsByHashtag,
-        getArtistsByHashtagAndLocation: getArtistsByHashtagAndLocation
+        getArtistsByHashtagAndLocation: getArtistsByHashtagAndLocation,
+        getArtistLogin: getArtistLogin
     };
 };

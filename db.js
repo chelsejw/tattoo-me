@@ -71,6 +71,8 @@ const allHashtagsModel = require("./models/hashtags");
 const hashtagsModelObject = allHashtagsModel(pool);
 const allArtistsModel = require("./models/artists");
 const artistsModelObject = allArtistsModel(pool);
+const allTattoosModel = require(`./models/tattoos`);
+const tattoosModelObject = allTattoosModel(pool)
 /*
  * ===================================================
  * ===================================================
@@ -101,5 +103,6 @@ module.exports = {
   users: usersModelObject,
   locations: locationsModelObject,
   hashtags: hashtagsModelObject,
-  artists: artistsModelObject
+  artists: artistsModelObject,
+  tattoos: tattoosModelObject
 };

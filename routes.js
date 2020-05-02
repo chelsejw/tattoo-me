@@ -1,3 +1,8 @@
+var multer = require("multer");
+var upload = multer({
+    dest: "./uploads/"
+});
+
 module.exports = (app, allModels) => {
     /*
      *  =========================================
@@ -9,8 +14,8 @@ module.exports = (app, allModels) => {
      *  =========================================
      *  =========================================
      */
+    // MULTER
 
-    // require the controller
 
     //ALL USERS
     const userControllerCallbacks = require("./controllers/users")(
@@ -46,10 +51,15 @@ module.exports = (app, allModels) => {
     const artistControllerCallbacks = require("./controllers/artists")(
         allModels
     );
+
+    app.get(`/artists/login`, artistControllerCallbacks.getArtistLoginForm);
+
     app.post(
         "/artists",
         artistControllerCallbacks.addArtist
     );
+
+    app.post('/artists/login', artistControllerCallbacks.authenticateArtist)
 
     app.get(
         "/artists/register",
@@ -65,16 +75,25 @@ module.exports = (app, allModels) => {
      *  =========================================
      *  =========================================
      *  =========================================
-     *    ALL ROUTES FOR ARTIST CONTROLLER
+     *    ALL ROUTES FOR TATTOOS CONTROLLER
      *  =========================================
      *  =========================================
      *  =========================================
      */
+
     const tattooControllerCallbacks = require("./controllers/tattoos")(
-        allModels)
+        allModels
+    );
 
-    app.get(`/tattoos/new`, tattooControllerCallbacks.getAddTattooForm);
+    app.get(
+        `/tattoos/new`,
+        tattooControllerCallbacks.getAddTattooForm
+    );
 
+    app.get(`/tattoos/:id`, tattooControllerCallbacks.displayOneTattoo)
+
+    app.post(
+        "/tattoos", upload.single("myFile"), tattooControllerCallbacks.addTattoo);
 
     /*
      *  =========================================
@@ -116,7 +135,10 @@ module.exports = (app, allModels) => {
      *  =========================================
      *  =========================================
      */
-    app.get(`/logout`, userControllerCallbacks.logout)
+    app.get(
+        `/logout`,
+        userControllerCallbacks.logout
+    );
 
     app.get(
         "/",
