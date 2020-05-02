@@ -5,19 +5,51 @@ module.exports = (db) => {
      * ===========================================
      */
 
-    let getLoginFormControllerCallback = (req, res) => {
-        res.render("users/login");
+    const isLoggedIn = req => {
+        console.log(req.cookies.isLoggedIn)
+    }
+
+    const resetCookies = (res) => {
+        res.cookie(`isLoggedIn`, false);
+        res.cookie(`currentUserType`, null);
+        res.cookie(`currentAccountId`, null);
+        res.cookie(`currentUsername`, null);
+        res.cookie(`currentDisplayName`, null);
+        res.cookie(`currentLocationId`, null);
     };
 
+    const setUserCookies = (currId, currUsername, currDisName, currLocId, res) => {
+        resetCookies(res);
+        res.cookie(`isLoggedIn`, true);
+        res.cookie(`currentUserType`, "user");
+        res.cookie(`currentAccountId`, currId);
+        res.cookie(`currentUsername`, currUsername);
+        res.cookie(`currentDisplayName`, currDisName);
+        res.cookie(`currentLocationId`, currLocId);
+    };
+
+    let getLoginFormControllerCallback = (req, res) => {
+        res.render("users/login");
+
+
+    };
+
+    const logoutController = (req, res) => {
+        resetCookies(res);
+        res.redirect(`/`)
+    }
+
     let getHomePageControllerCallback = (req, res) => {
+        isLoggedIn(req);
+
         let data = {}
-        db.locations.getAllLocations( (err, result) => {
+        db.locations.getAllLocations((err, result) => {
 
             if (err) {
                 return console.log(`Err when getting all locations`, err);
             }
             data.locations = result;
-            db.hashtags.getAllHashtags( (err2, result2) => {
+            db.hashtags.getAllHashtags((err2, result2) => {
 
                 if (err2) {
                     return console.log(`Err when getting all hashtags`, err2);
@@ -30,8 +62,6 @@ module.exports = (db) => {
     }
 
     let getUserRegistrationControllerCallback = (req, res) => {
-
-
         //GET LOCATIONS DATABASE TO RENDER OPTIONS
         db.locations.getAllLocations((err, result) => {
             err && console.log(`Err getting all locations`, err)
@@ -52,7 +82,8 @@ module.exports = (db) => {
         let dpUrlInput = req.body.inputImage;
 
         const afterAddingUser = (err, result) => {
-            err ? console.log(err) : console.log(`Successfully added new user.`)
+            err ? console.log(err) : console.log(`Successfully added new user.`);
+            setUserCookies(result.user_id, result.username, result.user_displayname, result.location_id, res);
             res.redirect(`/`);
         }
 
@@ -69,16 +100,24 @@ module.exports = (db) => {
 
 
     let authenticateUserControllerCallback = (req, res) => {
+
         const whenModelIsDone = (err, result) => {
             if (err) {
-                res.send(`Query error,`, err);
-            } else {
-                res.cookie(`currentUserId`, result.user_id);
-                res.cookie(`currentUserHandle`, result.username);
-                res.cookie(`isLoggedIn`, true);
-                res.redirect(`/`);
+                return res.statusCode(404, `Error is ${err}`);
             }
+
+            setUserCookies(
+                result.user_id,
+                result.username,
+                result.user_displayname,
+                result.location_id,
+                res
+            );
+
+            res.redirect(`/`)
         };
+
+
         let handleInput = req.body.handle;
         let hashedPw = sha256(req.body.password);
         db.users.getUserLogin(handleInput, hashedPw, whenModelIsDone);
@@ -98,6 +137,7 @@ module.exports = (db) => {
         getUserLogin: getLoginFormControllerCallback,
         getHomePage: getHomePageControllerCallback,
         addUser: addUserControllerCallback,
-        authenticateUser: authenticateUserControllerCallback
+        authenticateUser: authenticateUserControllerCallback,
+        logout: logoutController
     };
 };

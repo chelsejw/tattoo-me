@@ -5,6 +5,25 @@ module.exports = (db) => {
      * ===========================================
      */
 
+    const resetCookies = (res) => {
+        res.cookie(`isLoggedIn`, false);
+        res.cookie(`currentUserType`, null);
+        res.cookie(`currentAccountId`, null);
+        res.cookie(`currentUsername`, null);
+        res.cookie(`currentDisplayName`, null);
+        res.cookie(`currentLocationId`, null);
+    };
+
+    const setArtistCookies = (artistObj, res) => {
+        resetCookies(res);
+        res.cookie(`isLoggedIn`, true);
+        res.cookie(`currentUserType`, 'artist');
+        res.cookie(`currentAccountId`, artistObj.artist_id);
+        res.cookie(`currentUsername`, artistObj.artist_username);
+        res.cookie(`currentDisplayName`, artistObj.artist_displayname);
+        res.cookie(`currentLocationId`, artistObj.location_id);
+    };
+
     let getLoginFormControllerCallback = (req, res) => {
         res.render("artists/login");
     };
@@ -110,25 +129,10 @@ module.exports = (db) => {
             res.redirect(`/`);
         };
 
+        db.artists
+
         db.artists.addArtist(usernameInput, displayNameInput, passwordInput, locationInput, emailInput, imageInput, afterAddingArtist);
     };
-
-    //   let authenticateArtistControllerCallback = (req, res) => {
-    //     const whenModelIsDone = (err, result) => {
-    //       if (err) {
-    //         res.send(`Query error,`, err);
-    //       } else {
-    //         res.cookie(`currentUserId`, result.artist_id);
-    //         res.cookie(`currentUserHandle`, result.artist_username);
-    //         res.cookie(`isArtist`, true)
-    //         res.cookie(`isLoggedIn`, true);
-    //         res.redirect(`/`);
-    //       }
-    //     };
-    //     let handleInput = req.body.handle;
-    //     let hashedPw = sha256(req.body.password);
-    //     db.users.getUserLogin(handleInput, hashedPw, whenModelIsDone);
-    //   };
 
     /**
      * ===========================================
@@ -136,8 +140,8 @@ module.exports = (db) => {
      * ===========================================
      */
     return {
-        getArtistRegistration: getArtistRegistrationControllerCallback,
-        addArtist: addArtistControllerCallback,
-        artistSearch: artistSearchControllerCallback
+      getArtistRegistration: getArtistRegistrationControllerCallback,
+      addArtist: addArtistControllerCallback,
+      artistSearch: artistSearchControllerCallback,
     };
 };
