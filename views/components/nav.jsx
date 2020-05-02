@@ -2,6 +2,110 @@ import React from "react";
 
 class Nav extends React.Component {
       render() {
+
+        const loginData = this.props.loginData
+
+        const navItems = ()=> {
+          let authRoutes;
+          
+          let artistNavs = (
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Your Portfolio
+              </a>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a className="dropdown-item" href="/tattoos/new">
+                  Add Tattoo
+                </a>
+                <a className="dropdown-item" href="/tattoos">
+                  Manage
+                </a>
+              </div>
+            </li>
+          );
+
+          if (loginData.isLoggedIn=='true') {
+            authRoutes = (
+              <li className="nav-item">
+                <a className="nav-link" href="/logout">
+                  Logout
+                </a>
+              </li>
+            );
+
+              if (loginData.currentUserType=='artist'){
+                return <li>{artistNavs}{authRoutes}</li>
+              } else if (loginData.currentUserType==='user'){
+                return authRoutes;
+              }
+
+
+          } else if (loginData.isLoggedIn=='false') {
+            authRoutes = (
+              <li>
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Login
+                  </a>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <a className="dropdown-item" href="/artists/login">
+                      As Artist
+                    </a>
+                    <a className="dropdown-item" href="/users/login">
+                      As User
+                    </a>
+                  </div>
+                </li>
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Register
+                  </a>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <a className="dropdown-item" href="/artists/register">
+                      As Artist
+                    </a>
+                    <a className="dropdown-item" href="/users/register">
+                      As User
+                    </a>
+                  </div>
+                </li>
+              </li>
+            );
+          }
+
+          return authRoutes;
+        }
+
             return (
               <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <a className="navbar-brand" href="/">
@@ -52,67 +156,13 @@ class Nav extends React.Component {
                         >
                           Artists
                         </a>
-                        <a className="dropdown-item" href="#">
+                        <a className="dropdown-item" href="/tattoos">
                           Tattoos
                         </a>
                       </div>
                     </li>
-                    <li className="nav-item dropdown">
-                      <a
-                        className="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDropdown"
-                        role="button"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        For Artists
-                      </a>
-                      <div
-                        className="dropdown-menu"
-                        aria-labelledby="navbarDropdown"
-                      >
-                        <a className="dropdown-item" href="/artists/login">
-                          Login
-                        </a>
-                        <a className="dropdown-item" href="/artists/register">
-                          Sign-up
-                        </a>
-                        <a className="dropdown-item" href="/tattoos/new">
-                          Add Tattoo
-                        </a>
-                      </div>
-                    </li>
-                    <li className="nav-item dropdown">
-                      <a
-                        className="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDropdown"
-                        role="button"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        For Users
-                      </a>
-                      <div
-                        className="dropdown-menu"
-                        aria-labelledby="navbarDropdown"
-                      >
-                        <a className="dropdown-item" href="/users/login">
-                          Login
-                        </a>
-                        <a className="dropdown-item" href="/users/register">
-                          Sign-up
-                        </a>
-                      </div>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="/logout">
-                        Logout
-                      </a>
-                    </li>
+
+                    {navItems()}
                   </ul>
                 </div>
               </nav>

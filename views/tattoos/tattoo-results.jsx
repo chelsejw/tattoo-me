@@ -6,6 +6,7 @@ import BootstrapJs from "../components/bootstrap-js";
 class TattooPage extends React.Component {
   render() {
     const tattoos = this.props.results;
+                const loginData = this.props.loginData;
 
     const tattooCards = tattoos.map(tattoo=> {
       return (
@@ -32,7 +33,7 @@ class TattooPage extends React.Component {
       <html>
         <Head />
         <body className="bg-dark text-white">
-          <Nav />
+          <Nav loginData={loginData} />
           <div className="container">
             <div className="row">{tattooCards}</div>
           </div>

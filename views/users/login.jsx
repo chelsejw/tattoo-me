@@ -5,11 +5,13 @@ import BootstrapJs from "../components/bootstrap-js";
 
 class UserLogin extends React.Component {
   render() {
+
+                const loginData = this.props.loginData;
     return (
       <html>
         <Head />
         <body className="bg-dark text-white">
-          <Nav />
+          <Nav loginData={loginData} />
           <div className="jumbotron bg-dark">
             <h3>Login as a User</h3>
 

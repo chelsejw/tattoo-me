@@ -3,23 +3,26 @@ import Nav from "../components/nav";
 import Head from "../components/header";
 import BootstrapJs from "../components/bootstrap-js";
 
+
 class TattooPage extends React.Component {
   render() {
             const loginData = this.props.loginData;
-      const tattoo = this.props.tattooData
-    return (
+const artist = this.props.artistData
+
+return (
       <html>
         <Head />
         <body className="bg-dark text-white">
-          <Nav loginData={loginData} />
-          <div className="jumbotron bg-dark">
-            <img src={tattoo.tattoo_img}></img>
-            <h1>
-              Tattoo by: {tattoo.artist_displayname} @{tattoo.artist_username}
-            </h1>
-          </div>
+          <Nav />
+          <div className="container-fluid">
+          <img src={artist.artist_img}></img>
+          <h1>{artist.artist_displayname}</h1>
+          <h2>@{artist.artist_username}</h2>
 
+          <p id="artistId" style={{display: "none"}}>{artist.artist_id}</p>
+          </div>
           <BootstrapJs />
+          <script src="ajax/tattoos/tattooresults.js"></script>
         </body>
       </html>
     );
@@ -27,3 +30,6 @@ class TattooPage extends React.Component {
 }
 
 module.exports = TattooPage;
+
+
+

@@ -7,7 +7,7 @@ class Home extends React.Component {
   render() {
     const hashtagsArr = this.props.hashtags
     const locationsArr = this.props.locations;
-
+            const loginData = this.props.loginData;
     const hashtagsOptions = hashtagsArr.map( hashtag => {
       return <option key={hashtag.hashtag_id} value={hashtag.hashtag_id}>{hashtag.hashtag_name}</option>
     })
@@ -25,7 +25,7 @@ class Home extends React.Component {
         <Head />
 
         <body className="home-body">
-          <Nav />
+          <Nav loginData={loginData}/>
           <div className="welcome-container container">
             <div className="welcome-slogan">
               <h1>Find your desired artist in seconds.</h1>

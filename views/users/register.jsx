@@ -5,7 +5,7 @@ import BootstrapJs from "../components/bootstrap-js";
 
 class Login extends React.Component {
   render() {
-
+            const loginData = this.props.loginData;
     const locationsArr = this.props.locations
     const locationsOptions = locationsArr.map( location => {
       return <option value={location.location_id} key={location.location_id}>{location.location_name}</option>
@@ -15,10 +15,9 @@ class Login extends React.Component {
       <html>
         <Head />
         <body className="bg-dark">
-          <Nav />
+          <Nav loginData={loginData} />
           <div className="jumbotron bg-dark text-white">
-
-          <h3>Sign-up as a User</h3>
+            <h3>Sign-up as a User</h3>
             <form id="newUser" action="/users" method="post">
               <div className="form-row">
                 <div className="form-group col-md-6">
@@ -65,7 +64,11 @@ class Login extends React.Component {
               <div className="form-row">
                 <div className="form-group col-md-3">
                   <label htmlFor="inputEmail4">Location</label>
-                  <select form="newUser" name="inputLocation" className="form-control">
+                  <select
+                    form="newUser"
+                    name="inputLocation"
+                    className="form-control"
+                  >
                     {locationsOptions}
                   </select>
                 </div>

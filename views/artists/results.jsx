@@ -5,11 +5,11 @@ import BootstrapJs from "../components/bootstrap-js";
 
 class ArtistRegister extends React.Component {
   render() {
+                const loginData = this.props.loginData;
       const locations = this.props.locations
       const hashtags = this.props.hashtags
       const resultsArr = this.props.results 
       console.log(resultsArr)
-      const queries = this.props.queries
 
       const locationsOptions = locations.map( location => {
           return <option key={location.location_id} value={location.location_id}>{location.location_name}</option>
@@ -55,7 +55,7 @@ class ArtistRegister extends React.Component {
       <html>
         <Head />
         <body>
-          <Nav />
+          <Nav loginData={loginData}/>
           <div class="row" id="body-row">
             <div
               id="sidebar-container"
