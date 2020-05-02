@@ -29,7 +29,9 @@ module.exports = (db) => {
     };
 
     let getLoginFormControllerCallback = (req, res) => {
-        res.render("users/login");
+        let data = {};
+        data.loginData = req.cookies;
+        res.render("users/login", data);
     };
 
     const logoutController = (req, res) => {
@@ -39,8 +41,8 @@ module.exports = (db) => {
 
     let getHomePageControllerCallback = (req, res) => {
         isLoggedIn(req);
-
         let data = {}
+        data.loginData = req.cookies;
         db.locations.getAllLocations((err, result) => {
 
             if (err) {
@@ -54,18 +56,21 @@ module.exports = (db) => {
                 }
                 data.hashtags = result2;
 
+                console.log(`Data at the end`, data);
+
                 res.render("index", data)
             });
         });
     }
 
     let getUserRegistrationControllerCallback = (req, res) => {
+        let data = {};
+        data.loginData = req.cookies;
         //GET LOCATIONS DATABASE TO RENDER OPTIONS
         db.locations.getAllLocations((err, result) => {
             err && console.log(`Err getting all locations`, err)
-            res.render(`users/register`, {
-                locations: result
-            })
+            data.locations = result
+            res.render(`users/register`, data)
         })
     };
 

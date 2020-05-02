@@ -21,9 +21,11 @@ module.exports = (db) => {
 
 
     const getAddTattooFormController = (req, res) => {
+
         const artistId = req.cookies.currentAccountId
         res.render(`tattoos/add-tattoo`, {
-            artistId: artistId
+            artistId: artistId,
+            loginData: req.cookies
         });
     };
 
@@ -78,20 +80,25 @@ module.exports = (db) => {
             }
 
             res.render(`tattoos/tattoo`, {
-                tattooData: result
+                tattooData: result,
+                loginData: req.cookies
             })
         })
 
     }
-    
-    const displayAllTattoosController = (req,res)=> {
 
-      db.tattoos.getAllTattoos((err,results)=> {
-        if (err){
-          return res.statusCode(404).send(err)
-        }
-        res.render(`tattoos/tattoo-results`, {results: results})
-      })
+    const displayAllTattoosController = (req, res) => {
+
+
+        db.tattoos.getAllTattoos((err, tattooResults) => {
+            if (err) {
+                return res.statusCode(404).send(err)
+            }
+            res.render(`tattoos/tattoo-results`, {
+                results: tattooResults,
+                loginData: req.cookies
+            });
+        })
 
     }
 

@@ -26,12 +26,16 @@ module.exports = (db) => {
 
 
     let getArtistLoginFormControllerCallback = (req, res) => {
-        res.render("artists/login");
+        let data = {};
+        data.loginData = req.cookies;
+        res.render("artists/login", data);
     };
 
     let getArtistRegistrationControllerCallback = (req, res) => {
         //GET LOCATIONS DATABASE TO RENDER OPTIONS
-        res.render(`artists/register`);
+        let data = {};
+        data.loginData = req.cookies;
+        res.render(`artists/register`, data);
     };
 
     const artistSearchControllerCallback = (req, res) => {
@@ -44,6 +48,7 @@ module.exports = (db) => {
         const hashtagId = req.query.hashtagId
 
         let data = {}
+        data.loginData = req.cookies
 
         db.locations.getAllLocations(
             (locationsErr, locationsResult) => {
@@ -105,6 +110,8 @@ module.exports = (db) => {
                                     return res.send(`Error`, searchErr);
                                 }
                                 data.results = searchResults;
+                                console.log(data);
+
                                 res.render(`artists/results`, data);
                             }
                         );
@@ -157,6 +164,24 @@ module.exports = (db) => {
         db.artists.getArtistLogin(handleInput, hashedPw, whenModelIsDone);
     };
 
+    let showArtistPageControllerCallback = (req, res) => {
+
+        let artistId = req.params.artistId
+
+        db.artists.getArtistById(artistId, (err, result) => {
+            if (err) {
+                return res.status(404).send(err);
+            }
+
+            res.render(`artists/artist`, {
+                artistData: result,
+                loginData: res.cookies
+            })
+
+        })
+
+    }
+
     /**
      * ===========================================
      * Export controller functions as a module
@@ -167,6 +192,7 @@ module.exports = (db) => {
         addArtist: addArtistControllerCallback,
         artistSearch: artistSearchControllerCallback,
         getArtistLoginForm: getArtistLoginFormControllerCallback,
-        authenticateArtist: authenticateArtistControllerCallback
+        authenticateArtist: authenticateArtistControllerCallback,
+        showArtistPage: showArtistPageControllerCallback
     };
 };
