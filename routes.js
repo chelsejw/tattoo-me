@@ -90,6 +90,8 @@ module.exports = (app, allModels) => {
         tattooControllerCallbacks.getAddTattooForm
     );
 
+    app.get(`/tattoos`, tattooControllerCallbacks.displayAllTattoos)
+
     app.get(`/tattoos/:id`, tattooControllerCallbacks.displayOneTattoo)
 
     app.post(
@@ -108,6 +110,12 @@ module.exports = (app, allModels) => {
     const apiControllerCallbacks = require("./controllers/api")(
         allModels
     );
+
+    app.get(
+      `/tattoos/:tattooId/hashtags`,
+      apiControllerCallbacks.getAllHashtagsOfTattooId
+    );
+
     app.get(
         `/api/artists/location/:locationId`,
         apiControllerCallbacks.getArtistsByLocation
@@ -124,6 +132,8 @@ module.exports = (app, allModels) => {
         `/api/hashtags`,
         apiControllerCallbacks.getAllHashtags
     );
+
+
 
     /*
      *  =========================================

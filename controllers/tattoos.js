@@ -83,6 +83,17 @@ module.exports = (db) => {
         })
 
     }
+    
+    const displayAllTattoosController = (req,res)=> {
+
+      db.tattoos.getAllTattoos((err,results)=> {
+        if (err){
+          return res.statusCode(404).send(err)
+        }
+        res.render(`tattoos/tattoo-results`, {results: results})
+      })
+
+    }
 
     /**
      * ===========================================
@@ -92,6 +103,7 @@ module.exports = (db) => {
     return {
         getAddTattooForm: getAddTattooFormController,
         addTattoo: addTattooController,
-        displayOneTattoo: displayOneTattooController
+        displayOneTattoo: displayOneTattooController,
+        displayAllTattoos: displayAllTattoosController
     };
 };

@@ -61,6 +61,22 @@ module.exports = (db) => {
     })
   }
 
+  let getAllHashtagsOfTattooIdController = (req,res) => {
+
+    let tattooId = req.params.tattooId
+
+    db.tattoos.getHashtagsByTattooId(tattooId, (err,results)=> {
+
+      if (err){
+        return res.status(404).send(err);
+      }
+
+      return res.send(results)
+
+    })
+
+  }
+
   /**
    * ===========================================
    * Export controller functions as a module
@@ -71,6 +87,7 @@ module.exports = (db) => {
         getAllArtists: getAllArtistsController,
         getAllHashtags: getAllHashtagsController,
         getArtistsByLocation: getArtistsByLocationController,
-        getArtistsByHashtag: getAllArtistsByHashtagController
+        getArtistsByHashtag: getAllArtistsByHashtagController,
+        getAllHashtagsOfTattooId: getAllHashtagsOfTattooIdController
       };
 };
