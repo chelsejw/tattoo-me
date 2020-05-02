@@ -98,6 +98,17 @@ module.exports = (dbPoolInstance) => {
     };
 
 
+    const getArtistById = (artistId, callback)=> {
+
+        let query = `SELECT artists.artist_id, artists.artist_username, artists.artist_displayname, artists.artist_img, artists.created_at, artists.booking_avail, artists.location_id FROM artists WHERE artist_id = ${artistId}`;
+
+        dbPoolInstance.query(query, (err, result)=> {
+            callback(err, result.rows[0])
+        })
+
+    }
+
+
 
     return {
         getAll: getAll,
@@ -105,6 +116,7 @@ module.exports = (dbPoolInstance) => {
         getArtistsByLocation: getArtistsByLocation,
         getArtistsByHashtag: getArtistsByHashtag,
         getArtistsByHashtagAndLocation: getArtistsByHashtagAndLocation,
-        getArtistLogin: getArtistLogin
+        getArtistLogin: getArtistLogin,
+        getArtistById: getArtistById
     };
 };

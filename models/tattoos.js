@@ -7,7 +7,7 @@ module.exports = (dbPoolInstance) => {
     // `dbPoolInstance` is accessible within this function scope
 
     let getAllTattoos = (callback) => {
-        let query = "SELECT * FROM tattoos";
+        let query = `SELECT tattoos.*, artist_username, artist_displayname FROM tattoos INNER JOIN artists ON tattoos.artist_id = artists.artist_id`;
         dbPoolInstance.query(query, (err, result) => {
             callback(err, result.rows);
         });
@@ -21,25 +21,54 @@ module.exports = (dbPoolInstance) => {
     };
 
     let addTattoo = (artistId, imgUrl, callback) => {
-      let query = `INSERT INTO tattoos(artist_id, tattoo_img) VALUES (${artistId}, '${imgUrl}') RETURNING *`
-      console.log(query)
-      dbPoolInstance.query(query, (err, result)=> {
-        callback(err, result.rows[0]);
-      })
+        let query = `INSERT INTO tattoos(artist_id, tattoo_img) VALUES (${artistId}, '${imgUrl}') RETURNING *`
+        console.log(query)
+        dbPoolInstance.query(query, (err, result) => {
+            callback(err, result.rows[0]);
+        })
     }
 
-    let getTattooById = (tattooId, callback)=> {
-      let query = `SELECT tattoos.*, artist_username, artist_displayname FROM tattoos INNER JOIN artists ON tattoos.artist_id = artists.artist_id WHERE tattoo_id = ${tattooId}`;
+    let getTattooById = (tattooId, callback) => {
+        let query = `SELECT tattoos.*, artist_username, artist_displayname FROM tattoos INNER JOIN artists ON tattoos.artist_id = artists.artist_id WHERE tattoo_id = ${tattooId}`;
 
-      dbPoolInstance.query(query, (err, result)=> {
-        callback(err, result.rows[0])
-      })
+        dbPoolInstance.query(query, (err, result) => {
+            callback(err, result.rows[0])
+        })
+    }
+
+
+    let getTattoosByHashtag = (hashtagId, callback) => {
+
+        let query = `SELECT tattoos.*, artist_username, artist_displayname FROM tattoos INNER JOIN artists ON tattoos.artist_id = artists.artist_id INNER JOIN tattoos_hashtags ON tattoos.tattoo_id = tattoos_hashtags.tattoo_id INNER JOIN hashtags ON hashtags.hashtag_id = tattoos_hashtags.hashtag_id WHERE hashtags.hashtag_id =${hashtagId}`;
+
+        dbPoolInstance.query(query, (err, result) => {
+            callback(err, result.rows)
+        })
+    }
+
+    let getHashtagsByTattooId = (tattooId, callback) => {
+
+        let query = `SELECT hashtags.* FROM hashtags INNER JOIN tattoos_hashtags ON hashtags.hashtag_id = tattoos_hashtags.hashtag_id WHERE tattoos_hashtags.tattoo_id = ${tattooId}`;
+
+        dbPoolInstance.query(query, (err, result) => {
+
+            if (err) {
+                return callback(err, null)
+            } else if (result.rows.length < 1) {
+                return callback(null, null)
+            }
+            return callback(null, result.rows)
+
+        })
+
     }
 
     return {
         getAllTattoos: getAllTattoos,
         getOneTattoo: getOneTattoo,
         addTattoo: addTattoo,
-        getTattooById: getTattooById
+        getTattooById: getTattooById,
+        getTattoosByHashtag: getTattoosByHashtag,
+        getHashtagsByTattooId: getHashtagsByTattooId
     };
 };

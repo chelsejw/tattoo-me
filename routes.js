@@ -65,6 +65,8 @@ module.exports = (app, allModels) => {
         "/artists/register",
         artistControllerCallbacks.getArtistRegistration
     );
+
+    app.get(`/artists/:artistId`, artistControllerCallbacks.showArtistPage)
     app.get(
         `/artists`,
         artistControllerCallbacks.artistSearch
@@ -132,8 +134,6 @@ module.exports = (app, allModels) => {
         `/api/hashtags`,
         apiControllerCallbacks.getAllHashtags
     );
-
-
 
     /*
      *  =========================================
