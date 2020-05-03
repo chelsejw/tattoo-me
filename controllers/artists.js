@@ -82,7 +82,7 @@ module.exports = (db) => {
                                 locationId,
                                 (searchErr, searchResults) => {
                                     if (searchErr) {
-                                        return res.send(`Error`, searchErr);
+                                        return res.status(404).send(searchErr);
                                     }
                                     data.results = searchResults;
                                     res.render(`artists/results`, data);
@@ -94,7 +94,7 @@ module.exports = (db) => {
                                 hashtagId,
                                 (searchErr, searchResults) => {
                                     if (searchErr) {
-                                        return res.send(`Error`, searchErr);
+                                        return res.status(404).send(searchErr);
                                     }
 
                                     data.results = searchResults
@@ -107,7 +107,7 @@ module.exports = (db) => {
                             locationId,
                             (searchErr, searchResults) => {
                                 if (searchErr) {
-                                    return res.send(`Error`, searchErr);
+                                    return res.status(404).send(searchErr);
                                 }
                                 data.results = searchResults;
                                 console.log(data);

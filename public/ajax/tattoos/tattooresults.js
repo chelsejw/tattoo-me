@@ -16,7 +16,7 @@ const createHashtags = () => {
 
     cards.forEach(card => {
         let request = new XMLHttpRequest();
-
+                const tattooId = card.id.slice(9);
         const whenRequestLoads = () => {
 
             //If no hashtags are found, do not do dom manipulation.
@@ -29,7 +29,7 @@ const createHashtags = () => {
             hashtagsArr.forEach(hashtag => {
 
                 const newButton = hashtagButton(`#${hashtag.hashtag_name}`, `/hashtags/${hashtag.hashtag_id}`);
-                const cardBody = document.getElementById(`body_${card.id}`)
+                const cardBody = document.getElementById(`body_${tattooId}`)
                 cardBody.appendChild(newButton);
 
             })
@@ -37,9 +37,7 @@ const createHashtags = () => {
         }
 
         request.addEventListener("load", whenRequestLoads);
-
-
-        const url = `/tattoos/${card.id}/hashtags`
+        const url = `/tattoos/${tattooId}/hashtags`
         request.open("GET", url);
         request.send();
     })

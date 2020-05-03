@@ -2,6 +2,7 @@ import React from "react";
 
 class Head extends React.Component {
   render() {
+    
     return (
       <head>
         <meta charSet="UTF-8"/>

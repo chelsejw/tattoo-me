@@ -3,37 +3,49 @@ import Nav from "../components/nav";
 import Head from "../components/header";
 import BootstrapJs from "../components/bootstrap-js";
 
+      const moment = require("moment");
+      moment().format();
+
+
 class TattooPage extends React.Component {
   render() {
     const tattoos = this.props.results;
                 const loginData = this.props.loginData;
+                let tattooCards;
 
-    const tattooCards = tattoos.map(tattoo=> {
+                if (tattoos!==null){
+     tattooCards = tattoos.map((tattoo) => {
+      const dateAdded = moment(tattoo.created_at).fromNow();
+
       return (
-        <div
-          key={tattoo.tattoo_id}
-          id={tattoo.tattoo_id}
-          className="card text-center col-lg-4 col-md-6"
-        >
-          <div className="card-img-bg">
-            <img
-              src={tattoo.tattoo_img}
-              class="card-img-top mx-auto"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <h6 class="card-title">
-              By{" "}
-              <a href={`artists/${tattoo.artist_id}`}>
-                {tattoo.artist_displayname} @{tattoo.artist_username}
-              </a>
-            </h6>
-            <p id={`body_${tattoo.tattoo_id}`} class="card-text"></p>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div id={`tattooId_${tattoo.tattoo_id}`} class="card">
+            <div class="card-img-bg">
+              <img src={tattoo.tattoo_img} class="card-img-top" alt="..." />
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">
+                By{" "}
+                <a href={`artists/${tattoo.artist_id}`}>
+                  {" "}
+                  {tattoo.artist_displayname} @{tattoo.artist_username}{" "}
+                </a>
+              </h5>
+              <p class="card-text">
+                <p id={`body_${tattoo.tattoo_id}`} class="card-text"></p>
+              </p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Added {dateAdded}</small>
+            </div>
           </div>
         </div>
       );
-    })
+    });
+
+                }
+
+
 
     return (
       <html>
@@ -66,7 +78,6 @@ class TattooPage extends React.Component {
                     </select>
                   </a>
 
-
                   <li class="bg-dark d-flex list-group-item justify-content-center">
                     <button
                       type="submit"
@@ -93,7 +104,9 @@ class TattooPage extends React.Component {
               </h3>
 
               <hr />
-              <div className="row">{tattooCards}</div>
+              <div className="container-fluid">
+                <div className="row card-deck">{tattooCards}</div>
+              </div>
             </div>
           </div>
 

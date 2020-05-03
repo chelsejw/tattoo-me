@@ -10,23 +10,34 @@ class TattooPage extends React.Component {
 const artist = this.props.artistData
 const tattoos = this.props.tattooData
 
-    const tattooCards = tattoos.map((tattoo) => {
+let tattooCards;
+
+
+      const moment = require("moment");
+      moment().format();
+
+if (tattoos!==null){
+    tattooCards = tattoos.map( tattoo => {
       return (
         <div
           key={tattoo.tattoo_id}
           id={tattoo.tattoo_id}
           className="card col-lg-2 col-md-4 col-sm-6"
-          style={{margin: "10px"}}
+          style={{ margin: "10px" }}
         >
           <img src={tattoo.tattoo_img} class="card-img-top" alt="..." />
-          <div class="card-body">
+          <div class="card-body text-dark">
             <h6 class="card-title">
+              Added {moment(tattoo.created_at).format("DD MMM YY")}
             </h6>
             <p id={`body_${tattoo.tattoo_id}`} class="card-text"></p>
           </div>
         </div>
       );
     });
+  } else {
+    tattooCards = <h6>No tattoos found.</h6>
+  }
 
 return (
   <html>
@@ -43,10 +54,10 @@ return (
           {artist.artist_id}
         </p>
       </div>
-      <h2>Portfolio</h2>
-      <div className="row" id="artist-gallery">
-        {tattooCards}
-      </div>
+        <h2>Portfolio</h2>
+        <div className="row" id="artist-gallery">
+          {tattooCards}
+        </div>
 
       <BootstrapJs />
       <script src="/ajax/tattoos/tattooresults.js"></script>

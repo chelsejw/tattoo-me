@@ -3,8 +3,13 @@ import Nav from "../components/nav";
 import Head from "../components/header";
 import BootstrapJs from "../components/bootstrap-js";
 
+          const moment = require("moment");
+          moment().format();
+
 class ArtistRegister extends React.Component {
   render() {
+
+
                 const loginData = this.props.loginData;
       const locations = this.props.locations
       const hashtags = this.props.hashtags
@@ -22,9 +27,11 @@ class ArtistRegister extends React.Component {
         );
       });
 
-
-
-      const resultElements = resultsArr.map(result => {
+      let resultElements;
+      let resultLength
+      if (resultsArr!==null){
+        resultLength = resultsArr.length
+        resultElements = resultsArr.map(result => {
             let availability = <button className="btn btn-sm btn-success">Bookings Open</button>
       
             if (!result.booking_avail) {
@@ -32,36 +39,50 @@ class ArtistRegister extends React.Component {
                     <button className="btn btn-sm btn-danger">Bookings Closed</button>
                   );
             }
-            return (
-              <div key={result.artist_id} id={`artist_${result.artist_id}`} class="card col-lg-4 col-md-6">
-                <div class="card-img-bg">
-                  <img
-                    src={result.artist_img}
-                    class="card-img-top forced-img"
-                    alt="..."
-                  />
-                </div>
 
-                <div class="card-body">
-                  <p class="card-text text-secondary">
-                    <a
-                      className="text-dark"
-                      href={`/artists/${result.artist_id}`}
-                    >
-                      <strong>{result.artist_displayname}</strong> @
-                      {result.artist_username}
-                    </a>
-                    <br />
-                    Location: {result.location_name}
-                    <br />
-                    {availability}
-                    <br />
-                    {result.hashtag_name}
-                  </p>
+            const dateJoined = moment(result.created_at).local().format("DD MMM, h:mm")
+            const ago = moment(result.created_at).fromNow();
+            return (
+              <div class="col-lg-3 col-md-4 col-sm-6">
+                <div
+                  key={result.artist_id}
+                  id={`artist_${result.artist_id}`}
+                  class="card"
+                >
+                  <div class="card-img-bg">
+                    <img
+                      src={result.artist_img}
+                      class="card-img-top"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a
+                        className="text-dark"
+                        href={`/artists/${result.artist_id}`}
+                      >
+                        <strong>{result.artist_displayname}</strong> @
+                        {result.artist_username}
+                      </a>
+                    </h5>
+                    <p class="card-text">
+                      <br />
+                      {availability}
+                      <br />
+                      {result.hashtag_name}
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Joined {ago}</small>
+                  </div>
                 </div>
               </div>
             );
       });
+      } else {
+        resultLength = 0
+      }
 
     return (
       <html>
@@ -117,19 +138,20 @@ class ArtistRegister extends React.Component {
                       Go!
                     </button>
                   </li>
-
                 </form>
               </ul>
             </div>
 
             <div class="col py-3 main-content">
               <h3>
-                Showing <span class="text-muted">{resultsArr.length}</span>{" "}
+                Showing <span class="text-muted">{resultLength}</span>{" "}
                 results
               </h3>
 
               <hr />
-              <div class="row">{resultElements}</div>
+              <div class="container-fluid">
+                <div class="row card-deck card-columns">{resultElements}</div>
+              </div>
             </div>
           </div>
           <script src="ajax/artists/artistresults.js"></script>
