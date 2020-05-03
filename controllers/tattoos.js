@@ -137,6 +137,7 @@ module.exports = (db) => {
             req.query.hashtagId;
         let data = {};
         data.loginData = req.cookies
+        let sortOption = req.query.sortBy
 
         //GET DATA TO RENDER HASHTAG OPTIONS.
         db.hashtags.getAllHashtags(
@@ -153,7 +154,7 @@ module.exports = (db) => {
 
                 if (hashtagQuery==="all"){
 
-                db.tattoos.getAllTattoos((err, tattooResults) => {
+                db.tattoos.getAllTattoos(sortOption, (err, tattooResults) => {
                   if (err) {
                             return res.status(404).send(err);
                   }
@@ -162,7 +163,7 @@ module.exports = (db) => {
                 });
 
                 } else if (!isNaN(hashtagQuery)){
-                    db.tattoos.getTattoosByHashtag(hashtagQuery, (err, tattooResults)=>{
+                    db.tattoos.getTattoosByHashtag(hashtagQuery, sortOption, (err, tattooResults)=>{
                         if (err){
                             return res.status(404).send(err);
                         }

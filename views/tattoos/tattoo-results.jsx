@@ -91,6 +91,19 @@ class TattooPage extends React.Component {
                       {hashtagOptions}
                     </select>
                   </a>
+                  <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                    <small>SORT BY</small>
+                  </li>
+                  <a
+                    href="#"
+                    class="bg-dark list-group-item list-group-item-action"
+                  >
+                    <select name="sortBy" class="form-control form-control-sm">
+                      <option value="all">Any</option>
+                      <option value="created_desc">Newest to Oldest</option>
+                      <option value="created_asc">Oldest to Newest</option>
+                    </select>
+                  </a>
 
                   <li class="bg-dark d-flex list-group-item justify-content-center">
                     <button

@@ -6,8 +6,26 @@
 module.exports = (dbPoolInstance) => {
     // `dbPoolInstance` is accessible within this function scope
 
-    let getAllTattoos = (callback) => {
-        let query = `SELECT tattoos.*, artist_username, artist_displayname FROM tattoos INNER JOIN artists ON tattoos.artist_id = artists.artist_id`;
+    let getAllTattoos = (sortBy, callback) => {
+
+        console.log(`get all tattoos sortby`, sortBy)
+
+        let sortQuery = `tattoo_id DESC`;
+        switch (sortBy) {
+          case "created_desc":
+            sortQuery = `tattoos.created_at DESC`;
+            break;
+          case "created_asc":
+            sortQuery = `tattoos.created_at ASC`;
+            break;
+          default:
+            sortQuery = `tattoo_id DESC`;
+            break;
+        }
+        let query = `SELECT tattoos.*, artist_username, artist_displayname FROM tattoos INNER JOIN artists ON tattoos.artist_id = artists.artist_id ORDER BY ${sortQuery}`;
+
+        console.log(query)
+
         dbPoolInstance.query(query, (err, result) => {
                         if (err) {
                           return callback(err, null);
@@ -57,9 +75,25 @@ module.exports = (dbPoolInstance) => {
     }
 
 
-    let getTattoosByHashtag = (hashtagId, callback) => {
+    let getTattoosByHashtag = (hashtagId, sortBy, callback) => {
 
-        let query = `SELECT hashtag_name, tattoos.*, artist_username, artist_displayname FROM tattoos INNER JOIN artists ON tattoos.artist_id = artists.artist_id INNER JOIN tattoos_hashtags ON tattoos.tattoo_id = tattoos_hashtags.tattoo_id INNER JOIN hashtags ON hashtags.hashtag_id = tattoos_hashtags.hashtag_id WHERE hashtags.hashtag_id =${hashtagId}`;
+        let sortQuery = `tattoo_id DESC`
+        console.log(sortBy)
+        switch (sortBy) {
+            case 'created_desc':
+                sortQuery = `tattoos.created_at DESC`
+                break;
+            case 'created_asc':
+                sortQuery = `tattoos.created_at ASC`
+                break;
+            default:
+                sortQuery = `tattoo_id DESC`
+                break;
+        }
+
+        let query = `SELECT hashtag_name, tattoos.*, artist_username, artist_displayname FROM tattoos INNER JOIN artists ON tattoos.artist_id = artists.artist_id INNER JOIN tattoos_hashtags ON tattoos.tattoo_id = tattoos_hashtags.tattoo_id INNER JOIN hashtags ON hashtags.hashtag_id = tattoos_hashtags.hashtag_id WHERE hashtags.hashtag_id =${hashtagId} ORDER BY ${sortQuery}`;
+
+        console.log(query)
 
         dbPoolInstance.query(query, (err, result) => {
                         if (err) {
