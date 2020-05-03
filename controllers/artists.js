@@ -70,10 +70,10 @@ module.exports = (db) => {
                             return res.status(404).send(hashtagErr);
                         }
                         data.hashtags = hashtagResult;
-
-                        if (locationId == "all" && hashtagId == "all" || !hashtagId || !locationId) {
-                            return db.artists.getAll(
-                                (searchErr, searchResults) => {
+                        let sortBy = req.query.sortBy
+                        if (locationId == "all" && hashtagId == "all" || !hashtagId || !locationId || !sortBy) {
+                            
+                            return db.artists.getAll(sortBy, (searchErr, searchResults) => {
                                     if (searchErr) {
                                         return res.send(`Error`, searchErr);
                                     }
@@ -85,7 +85,7 @@ module.exports = (db) => {
 
                             //If no hashtag specified, just get artists by location
                         } else if (hashtagId == "all") {
-                            return db.artists.getArtistsByLocation(
+                            return db.artists.getArtistsByLocation(sortBy,
                                 locationId,
                                 (searchErr, searchResults) => {
                                     if (searchErr) {
@@ -97,7 +97,7 @@ module.exports = (db) => {
                             );
                             //If no location specified, get artists by hashtag
                         } else if (locationId == "all") {
-                            return db.artists.getArtistsByHashtag(
+                            return db.artists.getArtistsByHashtag(sortBy,
                                 hashtagId,
                                 (searchErr, searchResults) => {
                                     if (searchErr) {
@@ -109,7 +109,7 @@ module.exports = (db) => {
                                 }
                             );
                         }
-                        return db.artists.getArtistsByHashtagAndLocation(
+                        return db.artists.getArtistsByHashtagAndLocation(sortBy,
                             hashtagId,
                             locationId,
                             (searchErr, searchResults) => {

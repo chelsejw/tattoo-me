@@ -6,9 +6,29 @@
 module.exports = (dbPoolInstance) => {
     // `dbPoolInstance` is accessible within this function scope
 
-    const getAll = (callback) => {
+    const getAll = (sortBy, callback) => {
+        console.log(sortBy)
+
+        let sortQuery = `artist_id DESC`;
+        switch (sortBy) {
+            case "created_desc":
+                sortQuery = `artists.created_at DESC`;
+                break;
+            case "created_asc":
+                sortQuery = `artists.created_at ASC`;
+                break;
+            case "name_asc":
+                sortQuery = `artists.artist_username ASC`;
+                break;
+            case "name_desc":
+                sortQuery = `artists.artist_username DESC`;
+                break;
+            default:
+                sortQuery = `artist_id DESC`;
+                break;
+        }
         let query =
-          "SELECT * FROM artists INNER JOIN locations ON locations.location_id = artists.location_id ORDER BY artists.artist_id ASC";
+            `SELECT * FROM artists INNER JOIN locations ON locations.location_id = artists.location_id ORDER BY ${sortQuery}`;
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
@@ -51,9 +71,28 @@ module.exports = (dbPoolInstance) => {
     };
 
 
-    const getArtistsByLocation = (locationId, callback) => {
+    const getArtistsByLocation = (sortBy, locationId, callback) => {
 
-        let query = `SELECT artists.artist_id, artist_username, artists.artist_img, artist_displayname, artists.location_id, location_name, email, booking_avail, created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id WHERE artists.location_id = ${locationId} ORDER BY artist_id ASC`;
+        let sortQuery = `artist_id DESC`;
+        switch (sortBy) {
+            case "created_desc":
+                sortQuery = `artists.created_at DESC`;
+                break;
+            case "created_asc":
+                sortQuery = `artists.created_at ASC`;
+                break;
+            case "name_asc":
+                sortQuery = `artists.artist_username ASC`;
+                break;
+            case "name_desc":
+                sortQuery = `artists.artist_username DESC`;
+                break;
+            default:
+                sortQuery = `artist_id DESC`;
+                break;
+        }
+
+        let query = `SELECT artists.artist_id, artist_username, artists.artist_img, artist_displayname, artists.location_id, location_name, email, booking_avail, created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id WHERE artists.location_id = ${locationId} ORDER BY ${sortQuery}`;
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
@@ -65,8 +104,27 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
-    const getArtistsByHashtag = (hashtagId, callback) => {
-        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id WHERE artists_hashtags.hashtag_id = ${hashtagId} ORDER BY artist_id ASC`;
+    const getArtistsByHashtag = (sortBy, hashtagId, callback) => {
+
+        let sortQuery = `artist_id DESC`;
+        switch (sortBy) {
+            case "created_desc":
+                sortQuery = `artists.created_at DESC`;
+                break;
+            case "created_asc":
+                sortQuery = `artists.created_at ASC`;
+                break;
+            case "name_asc":
+                sortQuery = `artists.artist_username ASC`;
+                break;
+            case "name_desc":
+                sortQuery = `artists.artist_username DESC`;
+                break;
+            default:
+                sortQuery = `artist_id DESC`;
+                break;
+        }
+        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id WHERE artists_hashtags.hashtag_id = ${hashtagId} ORDER BY ${sortQuery}`;
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null)
@@ -77,8 +135,21 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
-    const getArtistsByHashtagAndLocation = (hashtagId, locationId, callback) => {
-        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id WHERE artists_hashtags.hashtag_id = ${hashtagId} AND artists.location_id = ${locationId} ORDER BY artist_id ASC`;
+    const getArtistsByHashtagAndLocation = (sortBy, hashtagId, locationId, callback) => {
+
+        let sortQuery = `artist_id DESC`;
+        switch (sortBy) {
+            case "created_desc":
+                sortQuery = `artists.created_at DESC`;
+                break;
+            case "created_asc":
+                sortQuery = `artists.created_at ASC`;
+                break;
+            default:
+                sortQuery = `artist_id DESC`;
+                break;
+        }
+        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id WHERE artists_hashtags.hashtag_id = ${hashtagId} AND artists.location_id = ${locationId} ORDER BY ${sortQuery}`;
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null);
