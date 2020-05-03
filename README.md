@@ -1,10 +1,10 @@
 # tattoo.me: Find your perfect tattoo artist instantly.
 
 ## MVP:
-- Create login/logout for artists
-- Create login/logout for users
+- ~Create login/logout for artists~
+- ~Create login/logout for users~
 - ~Get artists by location/hashtag~
-- Allow artists to upload images of their portfolio
+- ~Allow artists to upload images of their portfolio~
 - RESTful routes for artists and tattoos.
 
 #### Further:
