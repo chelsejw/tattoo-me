@@ -148,15 +148,21 @@ module.exports = (db) => {
                 return res.statusCode(404, `Error is ${err}`);
             }
 
+            if (result!==null) {
+
             setArtistCookies(
-                result.artist_id,
-                result.artist_username,
-                result.artist_displayname,
-                result.location_id,
-                res
+              result.artist_id,
+              result.artist_username,
+              result.artist_displayname,
+              result.location_id,
+              res
             );
 
-            res.redirect(`/`);
+            return res.redirect(`/`);
+            }
+
+            alert(`Username or password incorrect.`)
+
         };
 
         let handleInput = req.body.handle;
@@ -184,6 +190,8 @@ module.exports = (db) => {
                 }
 
                 data.tattooData = tattooResults
+
+                console.log(data)
                 res.render(`artists/artist`, data);
             });
         });

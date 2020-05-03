@@ -47,7 +47,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let getHashtagsByTattooId = (tattooId, callback) => {
-
+ 
         let query = `SELECT hashtags.* FROM hashtags INNER JOIN tattoos_hashtags ON hashtags.hashtag_id = tattoos_hashtags.hashtag_id WHERE tattoos_hashtags.tattoo_id = ${tattooId}`;
 
         dbPoolInstance.query(query, (err, result) => {

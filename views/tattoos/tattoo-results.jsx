@@ -18,7 +18,7 @@ class TattooPage extends React.Component {
       const dateAdded = moment(tattoo.created_at).fromNow();
 
       return (
-        <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-12">
           <div id={`tattooId_${tattoo.tattoo_id}`} class="card">
             <div class="card-img-bg">
               <img src={tattoo.tattoo_img} class="card-img-top" alt="..." />
@@ -85,14 +85,6 @@ class TattooPage extends React.Component {
                     >
                       Go!
                     </button>
-                  </li>
-
-                  <li class="list-group-item logo-separator d-flex justify-content-center">
-                    <img
-                      src="https://www.iconsdb.com/icons/preview/white/tattoo-machine-xxl.png"
-                      width="30"
-                      height="30"
-                    />
                   </li>
                 </form>
               </ul>

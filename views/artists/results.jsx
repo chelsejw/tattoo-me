@@ -39,11 +39,9 @@ class ArtistRegister extends React.Component {
                     <button className="btn btn-sm btn-danger">Bookings Closed</button>
                   );
             }
-
-            const dateJoined = moment(result.created_at).local().format("DD MMM, h:mm")
             const ago = moment(result.created_at).fromNow();
             return (
-              <div class="col-lg-3 col-md-4 col-sm-6">
+              <div class="col-lg-3 col-md-6 col-sm-12">
                 <div
                   key={result.artist_id}
                   id={`artist_${result.artist_id}`}

@@ -56,7 +56,7 @@ class Nav extends React.Component {
               }
 
 
-          } else if (loginData.isLoggedIn=='false') {
+          } else {
             authRoutes = (
               <li>
                 <li className="nav-item dropdown">

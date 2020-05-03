@@ -7,9 +7,8 @@ import BootstrapJs from "../components/bootstrap-js";
 class TattooPage extends React.Component {
   render() {
             const loginData = this.props.loginData;
-const artist = this.props.artistData
+const artist = this.props.artistData[0]
 const tattoos = this.props.tattooData
-
 let tattooCards;
 
 
@@ -21,7 +20,7 @@ if (tattoos!==null){
       return (
         <div
           key={tattoo.tattoo_id}
-          id={tattoo.tattoo_id}
+          id={`tattooId_${tattoo.tattoo_id}`}
           className="card col-lg-2 col-md-4 col-sm-6"
           style={{ margin: "10px" }}
         >

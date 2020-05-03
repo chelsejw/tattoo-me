@@ -8,7 +8,7 @@ module.exports = (dbPoolInstance) => {
 
     const getAll = (callback) => {
         let query =
-            "SELECT artist_id, artist_username, artists.artist_img, artist_displayname, artists.location_id, location_name, email, booking_avail, created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id ORDER BY artist_id ASC";
+          "SELECT * FROM artists INNER JOIN locations ON locations.location_id = artists.location_id  INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id ORDER BY artists.artist_id ASC";
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
@@ -103,14 +103,14 @@ module.exports = (dbPoolInstance) => {
 
     const getArtistLogin = (handle, pw, callback) => {
         let query = `SELECT * FROM artists WHERE artist_username = '${handle}' AND artist_pw = '${pw}'`;
-
+        console.log(query)
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null);
             } else if (result.rows.length < 1) {
                 return callback(null, null);
             }
-            return callback(null, result.rows);
+            return callback(null, result.rows[0]);
         });
     };
 
