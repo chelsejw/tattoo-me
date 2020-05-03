@@ -109,15 +109,26 @@ module.exports = (db) => {
                 return res.statusCode(404, `Error is ${err}`);
             }
 
-            setUserCookies(
-                result.user_id,
-                result.username,
-                result.user_displayname,
-                result.location_id,
-                res
-            );
+            console.log(`Result is`, result)
 
-            res.redirect(`/`)
+            if (result !== null) {
+                setUserCookies(
+                    result.user_id,
+                    result.username,
+                    result.user_displayname,
+                    result.location_id,
+                    res
+                );
+                return res.redirect(`/`);
+            }
+
+            const data = {
+                errorMsg: `Wrong username or password.`,
+                loginData: req.cookies
+            }
+
+            return res.render(`error`,data)
+            
         };
 
 

@@ -33,6 +33,7 @@ class AddTattoo extends React.Component {
                 className="form-control-file"
                 name="myFile"
                 placeholder="Image"
+                required
               />
               <label htmlFor="inputHashtag">Add Hashtags</label>
               <select
@@ -46,7 +47,7 @@ class AddTattoo extends React.Component {
               <div id="hashtags-selected">
               </div>
               <p>
-                <button type="submit" className="btn btn-primary mb-2">
+                <button type="submit" id="submitBtn" className="btn btn-primary mb-2">
                   Add To Portfolio
                 </button>
               </p>

@@ -18,19 +18,20 @@ class TattooPage extends React.Component {
       const dateAdded = moment(tattoo.created_at).fromNow();
 
       return (
-        <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
           <div id={`tattooId_${tattoo.tattoo_id}`} class="card">
             <div class="card-img-bg">
-              <img src={tattoo.tattoo_img} class="card-img-top" alt="..." />
+              <a href={`/tattoos/${tattoo.tattoo_id}`}>
+                <img src={tattoo.tattoo_img} class="card-img-top" alt="..." />
+              </a>
             </div>
             <div class="card-body">
-              <h5 class="card-title">
-                By{" "}
-                <a href={`artists/${tattoo.artist_id}`}>
-                  {" "}
-                  {tattoo.artist_displayname} @{tattoo.artist_username}{" "}
+              <h6 class="card-title">
+                By:{" "}
+                <a className="text-muted" href={`artists/${tattoo.artist_id}`}>
+                  {tattoo.artist_displayname} @{tattoo.artist_username}
                 </a>
-              </h5>
+              </h6>
               <p class="card-text">
                 <p id={`body_${tattoo.tattoo_id}`} class="card-text"></p>
               </p>

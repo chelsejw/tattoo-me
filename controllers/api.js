@@ -91,6 +91,20 @@ module.exports = (db) => {
 
   }
 
+  let getAllHashtagsOfArtistController = (req, res) => {
+    let artistId = req.params.artistId;
+
+    db.hashtags.getAllHashtagsOfArtist(artistId, (err, result) => {
+      if (err) {
+        return res.status(404).send(err);
+      }
+      if (result==null){
+        return res.send(`No results found.`)
+      }
+      return res.send(result);
+    });
+  };
+
   /**
    * ===========================================
    * Export controller functions as a module
@@ -103,6 +117,7 @@ module.exports = (db) => {
         getArtistsByLocation: getArtistsByLocationController,
         getArtistsByHashtag: getAllArtistsByHashtagController,
         getAllHashtagsOfTattooId: getAllHashtagsOfTattooIdController,
-        getHashtagNameById: getHashtagNameById
+        getHashtagNameById: getHashtagNameById,
+        getAllHashtagsOfArtist: getAllHashtagsOfArtistController
       };
 };

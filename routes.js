@@ -115,6 +115,12 @@ module.exports = (app, allModels) => {
     );
 
     app.get(
+        `/api/hashtags/artists/:artistId`,
+        apiControllerCallbacks.getAllHashtagsOfArtist
+    );
+
+
+    app.get(
         `/api/artists/location/:locationId`,
         apiControllerCallbacks.getArtistsByLocation
     );

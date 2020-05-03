@@ -6,15 +6,24 @@ import BootstrapJs from "./components/bootstrap-js";
 class ArtistRegister extends React.Component {
   render() {
     const loginData = this.props.loginData;
-    console.log(loginData)
     const account = this.props.accountDetails
-
+    const locations = this.props.locations
     const userType = loginData.currentUserType
+        const locationsOptions = locations.map((location) => {
+          return (
+            <option value={location.location_id} key={location.location_id}>
+              {location.location_name}
+            </option>
+          );
+        });
+
+
+    console.log(account.artist_displayname)
 
     let form;
     if (userType=="artist"){
       form = (
-        <form id="editArtist" action="/artist?_method=put" method="post">
+        <form id="editArtist" action="/artists?_method=put" method="post">
           <div className="form-row">
             <div className="form-group col-md-6">
               <label htmlFor="inputUsername">Username</label>
@@ -55,16 +64,18 @@ class ArtistRegister extends React.Component {
             <div className="form-group col-md-3">
               <label htmlFor="locationsOptions">Location</label>
               <select
-                form="newArtist"
+                form="editArtist"
                 name="inputLocation"
                 className="form-control"
                 id="locationsOptions"
-              ></select>
+              >
+                {locationsOptions}
+              </select>
             </div>
           </div>
 
           <button type="submit" className="btn btn-primary">
-            Register
+            Update
           </button>
         </form>
       );
@@ -82,7 +93,6 @@ class ArtistRegister extends React.Component {
           </div>
 
           <BootstrapJs />
-          <script src="../ajax/artists/register.js"></script>
         </body>
       </html>
     );

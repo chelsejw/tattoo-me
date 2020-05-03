@@ -30,11 +30,39 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let addHashtagToArtist = (hashtagId, artistId, callback) => {
 
+        let query = `INSERT INTO artists_hashtags(artist_id, hashtag_id) VALUES (${artistId}, ${hashtagId}) RETURNING *`;
 
-    return {
-        getAllHashtags: getAllHashtags,
-        getHashtagById: getHashtagById,
-        addHashtagToTattoo: addHashtagToTattoo
+        console.log(query);
+        dbPoolInstance.query(query, (err, result) => {
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows);
+        });
     };
+
+    let getAllHashtagsOfArtist = (artistId, callback) => {
+        let query = `SELECT * FROM artists_hashtags INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id WHERE artists_hashtags.artist_id = ${artistId}`;
+
+        dbPoolInstance.query(query, (err, result) => {
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows);
+        });
+
+};
+
+return {
+    getAllHashtags: getAllHashtags,
+    getHashtagById: getHashtagById,
+    addHashtagToTattoo: addHashtagToTattoo,
+    getAllHashtagsOfArtist: getAllHashtagsOfArtist,
+};
 };

@@ -8,7 +8,7 @@ module.exports = (dbPoolInstance) => {
 
     const getAll = (callback) => {
         let query =
-          "SELECT * FROM artists INNER JOIN locations ON locations.location_id = artists.location_id  INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id ORDER BY artists.artist_id ASC";
+          "SELECT * FROM artists INNER JOIN locations ON locations.location_id = artists.location_id ORDER BY artists.artist_id ASC";
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
@@ -16,6 +16,9 @@ module.exports = (dbPoolInstance) => {
             } else if (result.rows.length < 1) {
                 return callback(null, null)
             }
+            console.log(`in model`)
+            console.log(query)
+            console.log(result.rows)
             return callback(null, result.rows)
         });
     };
@@ -37,19 +40,12 @@ module.exports = (dbPoolInstance) => {
     };
 
     const updateArtist = (artistId, username, displayname, location_id, email, callback) => {
-        let values = [
-            username,
-            displayname,
-            pw,
-            location_id,
-            email,
-            true,
-        ];
 
-        let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', WHERE artist_id = ${artistId} RETURNING *`;
+        let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}' WHERE artist_id = ${artistId} RETURNING *`;
 
+        console.log(query)
 
-        dbPoolInstance.query(query, values, (err, result) => {
+        dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null)
             } else if (result.rows.length < 1) {
@@ -62,7 +58,7 @@ module.exports = (dbPoolInstance) => {
 
     const getArtistsByLocation = (locationId, callback) => {
 
-        let query = `SELECT artists.artist_id, artist_username, artists.artist_img, artist_displayname, artists.location_id, hashtag_name, location_name, email, booking_avail, created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id WHERE artists.location_id = ${locationId} ORDER BY artist_id ASC`;
+        let query = `SELECT artists.artist_id, artist_username, artists.artist_img, artist_displayname, artists.location_id, location_name, email, booking_avail, created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id WHERE artists.location_id = ${locationId} ORDER BY artist_id ASC`;
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
@@ -75,7 +71,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     const getArtistsByHashtag = (hashtagId, callback) => {
-        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, hashtag_name, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id WHERE artists_hashtags.hashtag_id = ${hashtagId} ORDER BY artist_id ASC`;
+        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id WHERE artists_hashtags.hashtag_id = ${hashtagId} ORDER BY artist_id ASC`;
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null)
@@ -87,7 +83,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     const getArtistsByHashtagAndLocation = (hashtagId, locationId, callback) => {
-        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, hashtag_name, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id WHERE artists_hashtags.hashtag_id = ${hashtagId} AND artists.location_id = ${locationId} ORDER BY artist_id ASC`;
+        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id WHERE artists_hashtags.hashtag_id = ${hashtagId} AND artists.location_id = ${locationId} ORDER BY artist_id ASC`;
 
         console.log(query);
         dbPoolInstance.query(query, (err, result) => {
@@ -125,7 +121,7 @@ module.exports = (dbPoolInstance) => {
             } else if (result.rows.length < 1) {
                 return callback(null, null);
             }
-            return callback(null, result.rows);
+            return callback(null, result.rows[0]);
         })
 
     }

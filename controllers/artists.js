@@ -134,10 +134,15 @@ module.exports = (db) => {
 
         const afterAddingArtist = (err, result) => {
             err ? console.log(err) : console.log(`Successfully added new artist.`);
+            setArtistCookies(
+                result.artist_id,
+                result.artist_username,
+                result.artist_displayname,
+                result.location_id,
+                res
+            );
             res.redirect(`/`);
         };
-
-        db.artists
 
         db.artists.addArtist(usernameInput, displayNameInput, passwordInput, locationInput, emailInput, imageInput, afterAddingArtist);
     };
@@ -148,20 +153,22 @@ module.exports = (db) => {
                 return res.statusCode(404, `Error is ${err}`);
             }
 
-            if (result!==null) {
-
-            setArtistCookies(
-              result.artist_id,
-              result.artist_username,
-              result.artist_displayname,
-              result.location_id,
-              res
-            );
-
-            return res.redirect(`/`);
+            if (result !== null) {
+                setArtistCookies(
+                    result.artist_id,
+                    result.artist_username,
+                    result.artist_displayname,
+                    result.location_id,
+                    res
+                );
+                return res.redirect(`/`);
             }
+            const data = {
+                errorMsg: `Wrong username or password.`,
+                loginData: req.cookies,
+            };
 
-            alert(`Username or password incorrect.`)
+            return res.render(`error`, data);
 
         };
 
@@ -197,15 +204,17 @@ module.exports = (db) => {
         });
     };
 
-    const updateArtistInfo = (req,res)=> {
+    const updateArtistInfo = (req, res) => {
         const artistId = req.cookies.currentAccountId;
         const username = req.body.inputUsername
         const displayname = req.body.inputDisplayName
         const locationId = req.body.inputLocation
         const email = req.body.inputEmail
 
-        db.artists.updateArtist(artistId, username, displayname, locationId, email, (err, result)=>{
-            if (err){
+        console.log(req.body)
+
+        db.artists.updateArtist(artistId, username, displayname, locationId, email, (err, result) => {
+            if (err) {
                 return res.status(404).send(err);
             };
             res.redirect(`/settings`);

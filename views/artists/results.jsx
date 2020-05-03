@@ -10,7 +10,7 @@ class ArtistRegister extends React.Component {
   render() {
 
 
-                const loginData = this.props.loginData;
+      const loginData = this.props.loginData;
       const locations = this.props.locations
       const hashtags = this.props.hashtags
       const resultsArr = this.props.results 
@@ -54,7 +54,7 @@ class ArtistRegister extends React.Component {
                       alt="..."
                     />
                   </div>
-                  <div class="card-body">
+                  <div id={`body_${result.artist_id}`} class="card-body">
                     <h5 class="card-title">
                       <a
                         className="text-dark"
@@ -64,12 +64,8 @@ class ArtistRegister extends React.Component {
                         {result.artist_username}
                       </a>
                     </h5>
-                    <p class="card-text">
-                      <br />
-                      {availability}
-                      <br />
-                      {result.hashtag_name}
-                    </p>
+                    {availability}
+                    <p class="card-text"></p>
                   </div>
                   <div class="card-footer">
                     <small class="text-muted">Joined {ago}</small>

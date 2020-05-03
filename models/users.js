@@ -9,18 +9,13 @@ module.exports = (dbPoolInstance) => {
   let getAll = (callback) => {
     let query = "SELECT * FROM users ORDER BY user_id ASC";
 
-    dbPoolInstance.query(query, (error, queryResult) => {
-      if (error) {
-        // invoke callback function with results after query has executed
-        callback(error, null);
-      } else {
-        // invoke callback function with results after query has executed
-        if (queryResult.rows.length > 0) {
-          callback(null, queryResult.rows);
-        } else {
-          callback(null, null);
-        }
+    dbPoolInstance.query(query, (err, result) => {
+      if (err) {
+        return callback(err, null);
+      } else if (result.rows.length < 1) {
+        return callback(null, null);
       }
+      return callback(null, result.rows);
     });
   };
 
@@ -30,7 +25,12 @@ module.exports = (dbPoolInstance) => {
     let query = `INSERT INTO users(username, user_pw, email,user_displayname, location_id, user_img) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
 
     dbPoolInstance.query(query, values, (err, result) => {
-      callback(err, result);
+            if (err) {
+              return callback(err, null);
+            } else if (result.rows.length < 1) {
+              return callback(null, null);
+            }
+            return callback(null, result.rows[0]);
     });
   };
 
@@ -38,25 +38,25 @@ module.exports = (dbPoolInstance) => {
     let query = `SELECT * FROM users WHERE username = '${handle}' AND user_pw = '${pw}'`;
 
     dbPoolInstance.query(query, (err, result) => {
-      callback(err, result.rows[0]);
+            if (err) {
+              return callback(err, null);
+            } else if (result.rows.length < 1) {
+              return callback(null, null);
+            }
+            return callback(null, result.rows[0]);
     });
   };
-
-  const getCurrentUserDetails = (id, callback) => {
-    let query = `SELECT * FROM users WHERE user_id = ${id}`;
-
-    dbPoolInstance.query(query, (err, result) => {
-      callback(err, result.rows[0]);
-    });
-  };
-
-
  
   const getOneUser = (id, callback) => {
     let query = `SELECT * FROM users WHERE user_id = ${id}`;
 
     dbPoolInstance.query(query, (err, result) => {
-      callback(err, result.rows[0]);
+            if (err) {
+              return callback(err, null);
+            } else if (result.rows.length < 1) {
+              return callback(null, null);
+            }
+            return callback(null, result.rows[0]);
     });
   };
 
@@ -71,7 +71,12 @@ module.exports = (dbPoolInstance) => {
     let query = `UPDATE users SET handle = '${handle}', display_name = '${displayName}',dp_url = '${dpUrl}', hashed_pw = '${hashedPw}' WHERE id=${currentUserId} RETURNING *`;
 
     dbPoolInstance.query(query, (err, result) => {
-      callback(err, result.rows[0]);
+            if (err) {
+              return callback(err, null);
+            } else if (result.rows.length < 1) {
+              return callback(null, null);
+            }
+            return callback(null, result.rows[0]);
     });
   };
 
@@ -79,7 +84,6 @@ module.exports = (dbPoolInstance) => {
     getAll: getAll,
     addUser: addUser,
     getUserLogin: getUserLogin,
-    getCurrentUserDetails: getCurrentUserDetails,
     getOneUser: getOneUser,
     updateUser: updateUser,
   };

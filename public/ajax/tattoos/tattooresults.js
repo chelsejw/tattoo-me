@@ -5,7 +5,7 @@ const hashtagButton = (text, url) => {
     const link = document.createElement('a');
     link.href = url;
     const button = document.createElement("button");
-    button.classList.value = "btn btn-sm btn-secondary ";
+    button.classList.value = "btn btn-sm btn-dark ";
     button.style.margin = "0 5px 5px 0" 
     button.innerText = text;
     link.appendChild(button)

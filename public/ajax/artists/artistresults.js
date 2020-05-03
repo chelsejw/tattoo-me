@@ -4,7 +4,7 @@ const hashtagButton = (text, url) => {
   const link = document.createElement("a");
   link.href = url;
   const button = document.createElement("button");
-  button.classList.value = "btn btn-sm btn-secondary ";
+  button.classList.value = "btn btn-sm btn-outline-dark ";
   button.style.margin = "0 5px 5px 0";
   button.innerText = text;
   link.appendChild(button);
@@ -13,6 +13,8 @@ const hashtagButton = (text, url) => {
 
 const createHashtags = () => {
   cards.forEach((card) => {
+        const artistId = card.id.slice(7);
+
     let request = new XMLHttpRequest();
 
     const whenRequestLoads = () => {
@@ -28,17 +30,14 @@ const createHashtags = () => {
           `#${hashtag.hashtag_name}`,
           `/hashtags/${hashtag.hashtag_id}`
         );
-        const cardBody = document.getElementById(`body_${card.id}`);
+        const cardBody = document.getElementById(`body_${artistId}`);
         cardBody.appendChild(newButton);
       });
     };
 
     request.addEventListener("load", whenRequestLoads);
 
-    const artistId = card.id.slice(7)
-    console.log(artistId)
-
-    const url = `/tattoos/${card.id}/hashtags`;
+    const url = `/api/hashtags/artists/${artistId}`;
     request.open("GET", url);
     request.send();
   });

@@ -68,3 +68,16 @@ const handleButtonClick = (e) => {
 const addButton = document.getElementById('add-hashtag')
 
 addButton.addEventListener("click", handleButtonClick);
+
+const submitBtn = document.getElementById('submitBtn');
+
+const submitHandler = (e)=> {
+    console.log(hashtagsField.childNodes.length)
+    if (hashtagsField.childNodes.length<1){
+        alert(`Please select at least one hashtag.`)
+        return e.preventDefault();
+    }
+}
+
+submitBtn.addEventListener('click', submitHandler)
+

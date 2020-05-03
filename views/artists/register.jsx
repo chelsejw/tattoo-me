@@ -54,15 +54,7 @@ class ArtistRegister extends React.Component {
                     placeholder="Email"
                   />
                 </div>
-                <div className="form-group col-md-4">
-                  <label htmlFor="inputHashtag">Art Style</label>
-                  <select
-                    form="newArtist"
-                    name="inputHashtag"
-                    className="form-control"
-                    id="hashtagOptions"
-                  ></select>
-                </div>
+
               </div>
 
               <div className="form-row">
@@ -93,7 +85,6 @@ class ArtistRegister extends React.Component {
           </div>
 
           <BootstrapJs />
-          <script src="../ajax/artists/register.js"></script>
         </body>
       </html>
     );
