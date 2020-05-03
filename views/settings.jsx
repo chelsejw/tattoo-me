@@ -18,7 +18,30 @@ class ArtistRegister extends React.Component {
         });
 
 
-    console.log(account.artist_displayname)
+    let availabilitySwitch = (
+      <input
+        type="checkbox"
+        name="booking_avail"
+        value="true"
+        className="form-control"
+      />
+    );
+
+    let userAvailability = account.booking_avail
+
+    if (userAvailability===true){
+      availabilitySwitch = (
+        <input
+          type="checkbox"
+          name="booking_avail"
+          value="true"
+          className="form-control"
+          checked
+          />
+      );
+
+    }
+
 
     let form;
     if (userType=="artist"){
@@ -72,7 +95,18 @@ class ArtistRegister extends React.Component {
                 {locationsOptions}
               </select>
             </div>
+            </div>
+
+            <div className="form-row">
+            <div className="form-group col-md-5">
+              <label htmlFor="locationsOptions">Booking Availability</label>
+              <label class="switch d-block">
+              {availabilitySwitch}
+              <span class="slider round"></span>
+              </label>
+            </div>
           </div>
+      
 
           <button type="submit" className="btn btn-primary">
             Update

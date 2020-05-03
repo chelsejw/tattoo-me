@@ -132,19 +132,50 @@ module.exports = (db) => {
 
     }
 
-    const displayAllTattoosController = (req, res) => {
+    const tattooSearchResults = (req, res) => {
+        const hashtagQuery =
+            req.query.hashtagId;
+        let data = {};
+        data.loginData = req.cookies
 
-        db.tattoos.getAllTattoos((err, tattooResults) => {
-            if (err) {
-                return res.statusCode(404).send(err)
+        //GET DATA TO RENDER HASHTAG OPTIONS.
+        db.hashtags.getAllHashtags(
+            (err, hashtagResults) => {
+                if (err) {
+                    return res
+                        .status(404)
+                        .send(err);
+                }
+
+                data.hashtags = hashtagResults;
+                data.query = {hashtagId: hashtagQuery};
+
+
+                if (hashtagQuery==="all"){
+
+                db.tattoos.getAllTattoos((err, tattooResults) => {
+                  if (err) {
+                            return res.status(404).send(err);
+                  }
+                  data.results = tattooResults;
+                  res.render(`tattoos/tattoo-results`, data);
+                });
+
+                } else if (!isNaN(hashtagQuery)){
+                    db.tattoos.getTattoosByHashtag(hashtagQuery, (err, tattooResults)=>{
+                        if (err){
+                            return res.status(404).send(err);
+                        }
+                    data.results = tattooResults;
+                    
+                    res.render(`tattoos/tattoo-results`, data);
+
+                    })
+                }
+
             }
-            res.render(`tattoos/tattoo-results`, {
-                results: tattooResults,
-                loginData: req.cookies
-            });
-        });
-
-    }
+        );
+    };
 
     /**
      * ===========================================
@@ -155,7 +186,7 @@ module.exports = (db) => {
         getAddTattooForm: getAddTattooFormController,
         addTattoo: addTattooController,
         displayOneTattoo: displayOneTattooController,
-        displayAllTattoos: displayAllTattoosController
+        tattooSearchResults: tattooSearchResults,
     };
 
 };

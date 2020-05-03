@@ -9,14 +9,27 @@ import BootstrapJs from "../components/bootstrap-js";
 
 class TattooPage extends React.Component {
   render() {
-    const tattoos = this.props.results;
-                const loginData = this.props.loginData;
-                let tattooCards;
 
+    const tattoos = this.props.results;
+
+    let hashtagName = this.props.results[0].hashtag_name
+    if (!hashtagName){
+      hashtagName = `all`
+    }
+                const loginData = this.props.loginData;
+                const hashtags = this.props.hashtags
+            const hashtagOptions = hashtags.map( hashtag => {
+        return (
+          <option key={hashtag.hashtag_id} value={hashtag.hashtag_id}>
+            {hashtag.hashtag_name}
+          </option>
+        )
+      });
+               
+                let tattooCards;
                 if (tattoos!==null){
      tattooCards = tattoos.map((tattoo) => {
       const dateAdded = moment(tattoo.created_at).fromNow();
-
       return (
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
           <div id={`tattooId_${tattoo.tattoo_id}`} class="card">
@@ -62,7 +75,7 @@ class TattooPage extends React.Component {
                 <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
                   <small>SEARCH FILTERS</small>
                 </li>
-                <form action="/artists" method="get">
+                <form action="/tattoos" method="get">
                   <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
                     <small>STYLE</small>
                   </li>
@@ -75,7 +88,7 @@ class TattooPage extends React.Component {
                       class="form-control form-control-sm"
                     >
                       <option value="all">All</option>
-                      {}
+                      {hashtagOptions}
                     </select>
                   </a>
 
@@ -94,6 +107,7 @@ class TattooPage extends React.Component {
             <div class="col py-3 main-content">
               <h3>
                 Showing <span class="text-muted">{tattoos.length}</span> results
+                for <span class="text-muted">{hashtagName} </span> tattoos
               </h3>
 
               <hr />

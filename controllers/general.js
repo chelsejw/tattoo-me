@@ -79,6 +79,10 @@ module.exports = (db) => {
         })
     }
 
+    let displayErrorPage = (req, res)=> {
+      res.render(`error`, {errorMsg: `Sorry, the page you were trying to load was not found.`, loginData: req.cookies})
+    }
+
 
 
 
@@ -90,6 +94,7 @@ module.exports = (db) => {
     return {
         getHomePage: getHomePageControllerCallback,
         logout: logoutController,
-        showSettingsPage: showSettingsPageController
+        showSettingsPage: showSettingsPageController,
+        displayErrorPage: displayErrorPage
     };
 };

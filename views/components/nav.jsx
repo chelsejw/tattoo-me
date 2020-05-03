@@ -35,11 +35,31 @@ class Nav extends React.Component {
 
           if (loginData.isLoggedIn=='true') {
             authRoutes = (
-                                         <li> <li className="nav-item">
-                <a className="nav-link" href="/settings">
-                  Settings
-                </a>
-              </li>
+              <li>
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Settings
+                  </a>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <a className="dropdown-item" href="/settings">
+                      Edit Profile
+                    </a>
+                    <a className="dropdown-item" href="/settings/password">
+                      Change Password
+                    </a>
+                  </div>
+                </li>
               <li className="nav-item">
                 <a className="nav-link" href="/logout">
                   Logout

@@ -4,14 +4,24 @@ module.exports = (dbPoolInstance) => {
     let getAllHashtags = (callback) => {
         let query = "SELECT * FROM hashtags";
         dbPoolInstance.query(query, (err, result) => {
-            callback(err, result.rows);
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows);
         });
     };
 
     let getHashtagById = (id, callback) => {
         let query = `SELECT * FROM hashtags WHERE hashtag_id = ${id}`;
         dbPoolInstance.query(query, (err, result) => {
-            callback(err, result.rows[0]);
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows[0]);
         })
 
     }
@@ -57,12 +67,13 @@ module.exports = (dbPoolInstance) => {
             return callback(null, result.rows);
         });
 
-};
+    };
 
-return {
-    getAllHashtags: getAllHashtags,
-    getHashtagById: getHashtagById,
-    addHashtagToTattoo: addHashtagToTattoo,
-    getAllHashtagsOfArtist: getAllHashtagsOfArtist,
-};
+    return {
+        getAllHashtags: getAllHashtags,
+        getHashtagById: getHashtagById,
+        addHashtagToTattoo: addHashtagToTattoo,
+        getAllHashtagsOfArtist: getAllHashtagsOfArtist,
+        addHashtagToArtist: addHashtagToArtist
+    };
 };

@@ -210,10 +210,18 @@ module.exports = (db) => {
         const displayname = req.body.inputDisplayName
         const locationId = req.body.inputLocation
         const email = req.body.inputEmail
+        const availInput = req.body.booking_avail
+
+        let availability = true;
+
+        if (!availInput) {
+            availability = false;
+        }
+
 
         console.log(req.body)
 
-        db.artists.updateArtist(artistId, username, displayname, locationId, email, (err, result) => {
+        db.artists.updateArtist(artistId, username, displayname, locationId, email, availability, (err, result) => {
             if (err) {
                 return res.status(404).send(err);
             };

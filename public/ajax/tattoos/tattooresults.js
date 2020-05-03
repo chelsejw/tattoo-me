@@ -28,7 +28,7 @@ const createHashtags = () => {
 
             hashtagsArr.forEach(hashtag => {
 
-                const newButton = hashtagButton(`#${hashtag.hashtag_name}`, `/hashtags/${hashtag.hashtag_id}`);
+                const newButton = hashtagButton(`#${hashtag.hashtag_name}`, `/tattoos?hashtagId=${hashtag.hashtag_id}`);
                 const cardBody = document.getElementById(`body_${tattooId}`)
                 cardBody.appendChild(newButton);
 

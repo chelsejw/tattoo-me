@@ -39,11 +39,9 @@ module.exports = (dbPoolInstance) => {
 
     };
 
-    const updateArtist = (artistId, username, displayname, location_id, email, callback) => {
+    const updateArtist = (artistId, username, displayname, location_id, email, availability, callback) => {
 
-        let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}' WHERE artist_id = ${artistId} RETURNING *`;
-
-        console.log(query)
+        let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', booking_avail = ${availability} WHERE artist_id = ${artistId} RETURNING *`;
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {

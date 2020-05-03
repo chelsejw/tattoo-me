@@ -88,7 +88,7 @@ module.exports = (app, allModels) => {
         tattooControllerCallbacks.getAddTattooForm
     );
 
-    app.get(`/tattoos`, tattooControllerCallbacks.displayAllTattoos)
+    app.get(`/tattoos`, tattooControllerCallbacks.tattooSearchResults)
 
     app.get(`/tattoos/:id`, tattooControllerCallbacks.displayOneTattoo)
 
@@ -161,4 +161,6 @@ module.exports = (app, allModels) => {
     );
 
     app.get(`/settings`, generalControllerCallbacks.showSettingsPage)
+
+    app.get(`*`, generalControllerCallbacks.displayErrorPage)
 };
