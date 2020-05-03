@@ -32,19 +32,27 @@ class Nav extends React.Component {
             </li>
           );
 
+
           if (loginData.isLoggedIn=='true') {
             authRoutes = (
+                                         <li> <li className="nav-item">
+                <a className="nav-link" href="/settings">
+                  Settings
+                </a>
+              </li>
               <li className="nav-item">
                 <a className="nav-link" href="/logout">
                   Logout
                 </a>
               </li>
+              </li>
+
             );
 
               if (loginData.currentUserType=='artist'){
                 return <li>{artistNavs}{authRoutes}</li>
               } else if (loginData.currentUserType==='user'){
-                return authRoutes;
+                return authRoutes
               }
 
 
@@ -128,9 +136,9 @@ class Nav extends React.Component {
                   id="navbarSupportedContent"
                 >
                   <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
-                      <a className="nav-link" href="#">
-                        Home <span className="sr-only">(current)</span>
+                    <li className="nav-item">
+                      <a className="nav-link" href="/">
+                        Home
                       </a>
                     </li>
 

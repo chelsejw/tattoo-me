@@ -33,20 +33,32 @@ class ArtistRegister extends React.Component {
                   );
             }
             return (
-              <div>
-                <div className="artist-result-container container-fluid">
-                <img src={result.artist_img} class="result-artist-img rounded-circle"/>
-
-                  <br /> <strong>{result.artist_displayname}</strong> @{result.artist_username}
-                  <br />
-                  {result.location_name}
-                  <br />
-                  {availability}
-                  <br />
-                  {result.hashtag_name}
+              <div key={result.artist_id} id={`artist_${result.artist_id}`} class="card col-lg-4 col-md-6">
+                <div class="card-img-bg">
+                  <img
+                    src={result.artist_img}
+                    class="card-img-top forced-img"
+                    alt="..."
+                  />
                 </div>
 
-                <hr />
+                <div class="card-body">
+                  <p class="card-text text-secondary">
+                    <a
+                      className="text-dark"
+                      href={`/artists/${result.artist_id}`}
+                    >
+                      <strong>{result.artist_displayname}</strong> @
+                      {result.artist_username}
+                    </a>
+                    <br />
+                    Location: {result.location_name}
+                    <br />
+                    {availability}
+                    <br />
+                    {result.hashtag_name}
+                  </p>
+                </div>
               </div>
             );
       });
@@ -55,7 +67,7 @@ class ArtistRegister extends React.Component {
       <html>
         <Head />
         <body>
-          <Nav loginData={loginData}/>
+          <Nav loginData={loginData} />
           <div class="row" id="body-row">
             <div
               id="sidebar-container"
@@ -106,13 +118,6 @@ class ArtistRegister extends React.Component {
                     </button>
                   </li>
 
-                  <li class="list-group-item logo-separator d-flex justify-content-center">
-                    <img
-                      src="https://www.iconsdb.com/icons/preview/white/tattoo-machine-xxl.png"
-                      width="30"
-                      height="30"
-                    />
-                  </li>
                 </form>
               </ul>
             </div>
@@ -124,10 +129,10 @@ class ArtistRegister extends React.Component {
               </h3>
 
               <hr />
-              {resultElements}
+              <div class="row">{resultElements}</div>
             </div>
           </div>
-
+          <script src="ajax/artists/artistresults.js"></script>
           <BootstrapJs />
         </body>
       </html>

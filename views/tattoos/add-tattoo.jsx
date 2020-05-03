@@ -24,7 +24,6 @@ class AddTattoo extends React.Component {
 
             <form
               encType="multipart/form-data"
-              className="form-inline"
               action="/tattoos"
               method="POST"
               id="newTattoo"
