@@ -13,6 +13,7 @@ body {
 	color: white;
 }
 
+
 body {
 	padding-top: 56px;
 }
@@ -133,6 +134,24 @@ h1 {
 }
 
 
+.card-img-top {
+	  object-fit: none;
+	  /* Do not scale the image */
+	  object-position: center;
+	  /* Center the image within the element */
+	  height: 300px;
+	  max-width: 100%;
+}
+.card-img-bg{
+background-color: #ffffff;
+background-image: url("https://www.transparenttextures.com/patterns/diagonal-striped-brick.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+
+	/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
 .artist-result-container {
 	border: 1px solid black;
 	font-size: 0.8rem;
@@ -166,17 +185,40 @@ h1 {
 @include media-breakpoint-up(sm) {
 	html {
 		font-size: 1.2rem;
+		
 	}
+
 }
 
 @include media-breakpoint-up(md) {
 	html {
 		font-size: 1.4rem;
 	}
+
 }
 
 @include media-breakpoint-up(lg) {
 	html {
 		font-size: 1.6rem;
 	}
+
+}
+
+#hashtags-selected {
+	margin-top: 1rem;
+}
+
+#hashtags-selected div {
+	display: inline-block;
+	margin: 0.2rem 0.5rem 0.2rem 0;
+}
+
+.btn-circle {
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	padding: 6px 0;
+	font-size: 12px;
+	line-height: 1.428571429;
+	border-radius: 15px;
 }
