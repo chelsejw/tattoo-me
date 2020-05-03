@@ -35,7 +35,14 @@ module.exports = (db) => {
         //GET LOCATIONS DATABASE TO RENDER OPTIONS
         let data = {};
         data.loginData = req.cookies;
-        res.render(`artists/register`, data);
+        db.locations.getAllLocations((err, locationResults) => {
+            if (err) {
+                return res.status(404).send(err)
+            }
+
+            data.locations = locationResults
+            res.render(`artists/register`, data);
+        })
     };
 
     const artistSearchControllerCallback = (req, res) => {

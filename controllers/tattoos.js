@@ -21,6 +21,8 @@ module.exports = (db) => {
 
     const getAddTattooFormController = (req, res) => {
 
+        console.log(process.env)
+
         const data = {};
         data.loginData = req.cookies;
 

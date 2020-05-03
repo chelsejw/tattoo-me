@@ -12,6 +12,7 @@ const tattoos = this.props.tattooData
 let tattooCards;
 
 
+
       const moment = require("moment");
       moment().format();
 

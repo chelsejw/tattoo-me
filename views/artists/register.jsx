@@ -6,6 +6,14 @@ import BootstrapJs from "../components/bootstrap-js";
 class ArtistRegister extends React.Component {
   render() {
             const loginData = this.props.loginData;
+            const locations = this.props.locations
+    const locationsOptions = locations.map((location) => {
+      return (
+        <option value={location.location_id} key={location.location_id}>
+          {location.location_name}
+        </option>
+      );
+    });
     return (
       <html>
         <Head />
@@ -65,7 +73,9 @@ class ArtistRegister extends React.Component {
                     name="inputLocation"
                     className="form-control"
                     id="locationsOptions"
-                  ></select>
+                  >
+                    {locationsOptions}
+                  </select>
                 </div>
                 <div className="form-group col-md-9">
                   <label htmlFor="inputImage">Profile Picture URL</label>

@@ -31,7 +31,7 @@ module.exports = (dbPoolInstance) => {
             } else if (result.rows.length < 1) {
                 return callback(null, null)
             }
-            return callback(null, result.rows)
+            return callback(null, result.rows[0])
         });
 
     };
