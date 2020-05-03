@@ -1,13 +1,20 @@
 const hashtagOptions = document.getElementById("hashtagOptions");
+    const hashtagsField = document.getElementById("hashtags-selected");
+
 
 let hashtagNo = 0;
 
 
 const handleButtonClick = (e) => {
     e.preventDefault();
+    
+    if (hashtagsField.childNodes.length===3) {
+        return alert(`You cannot add more than 3 hashtags!`)
+    }
+
+
     hashtagNo++;
     const hashtagOptions = document.getElementById("hashtagOptions");
-    const hashtagsField = document.getElementById("hashtags-selected");
 
     const chosenHashtagId = hashtagOptions.value;
 
@@ -26,7 +33,7 @@ const handleButtonClick = (e) => {
         const newButton = document.createElement("div");
 
         newButton.classList.value = "btn btn-sm btn-outline-light";
-        newButton.innerText = hashtagObj.hashtag_name;
+        newButton.innerText = ` x ` + hashtagObj.hashtag_name;
 
 
         const invisibleInput = document.createElement('input')

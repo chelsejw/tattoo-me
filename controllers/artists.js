@@ -166,21 +166,43 @@ module.exports = (db) => {
 
     let showArtistPageControllerCallback = (req, res) => {
 
+        const data = {}
+        data.loginData = req.cookies
+
         let artistId = req.params.artistId
 
-        db.artists.getArtistById(artistId, (err, result) => {
-            if (err) {
-                return res.status(404).send(err);
+        db.artists.getArtistById(artistId, (artistErr, artistResult) => {
+            if (artistErr) {
+                return res.status(404).send(artistErr);
             }
 
-            res.render(`artists/artist`, {
-                artistData: result,
-                loginData: res.cookies
-            })
+            data.artistData = artistResult;
 
-        })
+            db.tattoos.getTattoosByArtist(artistId, (tattooErr, tattooResults) => {
+                if (tattooErr) {
+                    return res.status(404).send(tattooErr);
+                }
 
-    }
+                data.tattooData = tattooResults
+                res.render(`artists/artist`, data);
+            });
+        });
+    };
+
+    const updateArtistInfo = (req,res)=> {
+        const artistId = req.cookies.currentAccountId;
+        const username = req.body.inputUsername
+        const displayname = req.body.inputDisplayName
+        const locationId = req.body.inputLocation
+        const email = req.body.inputEmail
+
+        db.artists.updateArtist(artistId, username, displayname, locationId, email, (err, result)=>{
+            if (err){
+                return res.status(404).send(err);
+            };
+            res.redirect(`/settings`);
+        });
+    };
 
     /**
      * ===========================================
@@ -193,6 +215,7 @@ module.exports = (db) => {
         artistSearch: artistSearchControllerCallback,
         getArtistLoginForm: getArtistLoginFormControllerCallback,
         authenticateArtist: authenticateArtistControllerCallback,
-        showArtistPage: showArtistPageControllerCallback
+        showArtistPage: showArtistPageControllerCallback,
+        updateArtistInfo: updateArtistInfo
     };
 };

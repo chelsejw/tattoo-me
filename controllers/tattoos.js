@@ -21,17 +21,21 @@ module.exports = (db) => {
 
     const getAddTattooFormController = (req, res) => {
 
-        const artistId = req.cookies.currentAccountId
+        const data = {};
+        data.loginData = req.cookies;
 
+        if (req.cookies.currentUserType !== 'artist') {
+            data.errorMsg = `Only artists can view this page. Please login as an artist to view.`;
+            return res.render(`error`, data);
+        }
+        const artistId = req.cookies.currentAccountId
+        data.artistId = artistId;
         db.hashtags.getAllHashtags((err, hashtagResults) => {
             if (err) {
                 return res.status(404).send(err);
             }
-            res.render(`tattoos/add-tattoo`, {
-                artistId: artistId,
-                loginData: req.cookies,
-                hashtags: hashtagResults
-            });
+            data.hashtags = hashtagResults;
+            res.render(`tattoos/add-tattoo`, data);
         });
     };
 
@@ -55,14 +59,14 @@ module.exports = (db) => {
                 );
 
                 return db.hashtags.addHashtagToTattoo(
-                  hashtags,
-                  newTattooId,
-                  (addHashtagErr, addHashtagResult) => {
-                    if (addHashtagErr) {
-                      return res.status(404).send(addHashtagErr);
+                    hashtags,
+                    newTattooId,
+                    (addHashtagErr, addHashtagResult) => {
+                        if (addHashtagErr) {
+                            return res.status(404).send(addHashtagErr);
+                        }
+                        return res.redirect(`/tattoos/${newTattooId}`);
                     }
-                    return res.redirect(`/tattoos/${newTattooId}`);
-                  }
                 );
             };
             console.log(`more than one hashtag`)

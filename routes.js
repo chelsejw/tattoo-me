@@ -54,10 +54,7 @@ module.exports = (app, allModels) => {
 
     app.get(`/artists/login`, artistControllerCallbacks.getArtistLoginForm);
 
-    app.post(
-        "/artists",
-        artistControllerCallbacks.addArtist
-    );
+
 
     app.post('/artists/login', artistControllerCallbacks.authenticateArtist)
 
@@ -66,11 +63,10 @@ module.exports = (app, allModels) => {
         artistControllerCallbacks.getArtistRegistration
     );
 
-    app.get(`/artists/:artistId`, artistControllerCallbacks.showArtistPage)
-    app.get(
-        `/artists`,
-        artistControllerCallbacks.artistSearch
-    );
+    app.get(`/artists/:artistId`, artistControllerCallbacks.showArtistPage);
+    app.get(`/artists`, artistControllerCallbacks.artistSearch);
+    app.put(`/artists`, artistControllerCallbacks.updateArtistInfo);
+    app.post(`/artists`, artistControllerCallbacks.addArtist);
 
     /*
      *  =========================================
@@ -114,8 +110,8 @@ module.exports = (app, allModels) => {
     );
 
     app.get(
-      `/tattoos/:tattooId/hashtags`,
-      apiControllerCallbacks.getAllHashtagsOfTattooId
+        `/tattoos/:tattooId/hashtags`,
+        apiControllerCallbacks.getAllHashtagsOfTattooId
     );
 
     app.get(
@@ -147,6 +143,7 @@ module.exports = (app, allModels) => {
      *  =========================================
      *  =========================================
      */
+    const generalControllerCallbacks = require("./controllers/general")(allModels);
     app.get(
         `/logout`,
         userControllerCallbacks.logout
@@ -156,4 +153,6 @@ module.exports = (app, allModels) => {
         "/",
         userControllerCallbacks.getHomePage
     );
+
+    app.get(`/settings`, generalControllerCallbacks.showSettingsPage)
 };

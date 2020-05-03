@@ -18,11 +18,9 @@ module.exports = (dbPoolInstance) => {
     const addArtist = (username, displayname, pw, location_id, email, artist_img, callback) => {
         let values = [username, displayname, pw, location_id, email, true, artist_img];
 
-        console.log(`in model`, location_id)
-
         let query = `INSERT INTO artists(artist_username, artist_displayname, artist_pw, location_id, email, booking_avail, artist_img) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
 
-        dbPoolInstance.query(query, (err, result) => {
+        dbPoolInstance.query(query, values, (err, result) => {
             //If more than one item is returned
             if (result.rows.length > 1) {
                 return callback(err, result.rows);
@@ -34,6 +32,32 @@ module.exports = (dbPoolInstance) => {
             return callback(err, `No results`);
         });
 
+    };
+
+    const updateArtist = (artistId, username, displayname, location_id, email, callback) => {
+        let values = [
+            username,
+            displayname,
+            pw,
+            location_id,
+            email,
+            true,
+        ];
+
+        let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', WHERE artist_id = ${artistId} RETURNING *`;
+
+
+        dbPoolInstance.query(query, values, (err, result) => {
+            //If more than one item is returned
+            if (result.rows.length > 1) {
+                return callback(err, result.rows);
+                //If only one item is returned
+            } else if (result.rows.length === 1) {
+                return callback(err, result.rows[0]);
+            }
+
+            return callback(err, `No results`);
+        });
     };
 
 
@@ -98,11 +122,11 @@ module.exports = (dbPoolInstance) => {
     };
 
 
-    const getArtistById = (artistId, callback)=> {
+    const getArtistById = (artistId, callback) => {
 
-        let query = `SELECT artists.artist_id, artists.artist_username, artists.artist_displayname, artists.artist_img, artists.created_at, artists.booking_avail, artists.location_id FROM artists WHERE artist_id = ${artistId}`;
+        let query = `SELECT artists.artist_id, artists.email, artists.artist_username, artists.artist_displayname, artists.artist_img, artists.created_at, artists.booking_avail, artists.location_id FROM artists WHERE artist_id = ${artistId}`;
 
-        dbPoolInstance.query(query, (err, result)=> {
+        dbPoolInstance.query(query, (err, result) => {
             callback(err, result.rows[0])
         })
 
@@ -117,6 +141,7 @@ module.exports = (dbPoolInstance) => {
         getArtistsByHashtag: getArtistsByHashtag,
         getArtistsByHashtagAndLocation: getArtistsByHashtagAndLocation,
         getArtistLogin: getArtistLogin,
-        getArtistById: getArtistById
+        getArtistById: getArtistById,
+        updateArtist: updateArtist
     };
 };

@@ -30,7 +30,7 @@ module.exports = (dbPoolInstance) => {
 
     let getTattooById = (tattooId, callback) => {
         let query = `SELECT tattoos.*, artist_username, artist_displayname FROM tattoos INNER JOIN artists ON tattoos.artist_id = artists.artist_id WHERE tattoo_id = ${tattooId}`;
-
+        console.log(query)
         dbPoolInstance.query(query, (err, result) => {
             callback(err, result.rows[0])
         })
@@ -79,6 +79,23 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
+    let getTattoosByArtist = (artistId, callback) => {
+
+        let query = `SELECT * FROM tattoos WHERE artist_id = ${artistId}`;
+
+        dbPoolInstance.query(query, (err, result) => {
+
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows);
+
+        })
+
+    }
+
     return {
         getAllTattoos: getAllTattoos,
         getOneTattoo: getOneTattoo,
@@ -86,6 +103,7 @@ module.exports = (dbPoolInstance) => {
         getTattooById: getTattooById,
         getTattoosByHashtag: getTattoosByHashtag,
         getHashtagsByTattooId: getHashtagsByTattooId,
-        addHashtagToTattoo: addHashtagToTattoo
+        addHashtagToTattoo: addHashtagToTattoo,
+        getTattoosByArtist: getTattoosByArtist
     };
 };
