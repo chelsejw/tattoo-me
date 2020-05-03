@@ -64,7 +64,7 @@ module.exports = (db) => {
                         }
                         data.hashtags = hashtagResult;
 
-                        if (locationId == "all" && hashtagId == "all") {
+                        if (locationId == "all" && hashtagId == "all" || !hashtagId || !locationId) {
                             return db.artists.getAll(
                                 (searchErr, searchResults) => {
                                     if (searchErr) {

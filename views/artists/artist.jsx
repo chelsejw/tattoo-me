@@ -7,7 +7,7 @@ import BootstrapJs from "../components/bootstrap-js";
 class TattooPage extends React.Component {
   render() {
             const loginData = this.props.loginData;
-const artist = this.props.artistData[0]
+const artist = this.props.artistData
 const tattoos = this.props.tattooData
 let tattooCards;
 

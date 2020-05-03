@@ -138,6 +138,11 @@ module.exports = (db) => {
         let data = {};
         data.loginData = req.cookies
         let sortOption = req.query.sortBy
+        data.query = {
+            hashtagId: hashtagQuery,
+            sortBy: sortOption,
+        };
+
 
         //GET DATA TO RENDER HASHTAG OPTIONS.
         db.hashtags.getAllHashtags(
@@ -149,27 +154,26 @@ module.exports = (db) => {
                 }
 
                 data.hashtags = hashtagResults;
-                data.query = {hashtagId: hashtagQuery};
 
+                //If they are looking at all hashtags, or there are no queries
+                if (hashtagQuery === "all" || !hashtagQuery) {
 
-                if (hashtagQuery==="all"){
-
-                db.tattoos.getAllTattoos(sortOption, (err, tattooResults) => {
-                  if (err) {
-                            return res.status(404).send(err);
-                  }
-                  data.results = tattooResults;
-                  res.render(`tattoos/tattoo-results`, data);
-                });
-
-                } else if (!isNaN(hashtagQuery)){
-                    db.tattoos.getTattoosByHashtag(hashtagQuery, sortOption, (err, tattooResults)=>{
-                        if (err){
+                    db.tattoos.getAllTattoos(sortOption, (err, tattooResults) => {
+                        if (err) {
                             return res.status(404).send(err);
                         }
-                    data.results = tattooResults;
-                    
-                    res.render(`tattoos/tattoo-results`, data);
+                        data.results = tattooResults;
+                        res.render(`tattoos/tattoo-results`, data);
+                    });
+
+                } else if (!isNaN(hashtagQuery)) {
+                    db.tattoos.getTattoosByHashtag(hashtagQuery, sortOption, (err, tattooResults) => {
+                        if (err) {
+                            return res.status(404).send(err);
+                        }
+                        data.results = tattooResults;
+
+                        res.render(`tattoos/tattoo-results`, data);
 
                     })
                 }

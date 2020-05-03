@@ -12,6 +12,12 @@ class TattooPage extends React.Component {
 
     const tattoos = this.props.results;
 
+    const sortOption = this.props.query.sortBy
+    let sortBy = `newest to oldest`
+    if (sortOption==='created_asc'){
+      sortBy = `oldest to newest`
+    }
+
     let hashtagName = this.props.results[0].hashtag_name
     if (!hashtagName){
       hashtagName = `all`
@@ -120,7 +126,7 @@ class TattooPage extends React.Component {
             <div class="col py-3 main-content">
               <h3>
                 Showing <span class="text-muted">{tattoos.length}</span> results
-                for <span class="text-muted">{hashtagName} </span> tattoos
+                for <span class="text-muted">{hashtagName} </span> tattoos by <span class="text-muted">{sortBy}</span>
               </h3>
 
               <hr />
