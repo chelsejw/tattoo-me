@@ -1,3 +1,15 @@
+require("dotenv").config();
+
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: "dwbuqa4dx",
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+var multer = require("multer");
+
+
 module.exports = (db) => {
     /**
      * ===========================================
@@ -82,23 +94,47 @@ module.exports = (db) => {
         let displayNameInput = req.body.inputDisplayName;
         let emailInput = req.body.inputEmail;
         let locationInput = req.body.inputLocation
-        let dpUrlInput = req.body.inputImage;
 
         const afterAddingUser = (err, result) => {
             err ? console.log(err) : console.log(`Successfully added new user.`);
-            setCookies(result.user_id, result.username, result.user_displayname, result.location_id, res);
+            setUserCookies(result.user_id, result.username, result.user_displayname, result.location_id, res);
             res.redirect(`/`);
         }
 
-        db.users.addUser(
-            usernameInput,
-            passwordInput,
-            emailInput,
-            displayNameInput,
-            locationInput,
-            dpUrlInput,
-            afterAddingUser
+        console.log(`reqbody is`, req.body);
+        console.log(`reqfile is`, req.file)
+        const path = req.file.path;
+        const uniqueFilename = `profileimg_${new Date().toISOString()}`;
+
+        cloudinary.uploader.upload(
+            path, {
+                public_id: `profileimg/${uniqueFilename}`,
+                tags: `profile_pic`,
+            }, // directory and tags are optional
+            function (err, image) {
+                if (err) {
+                    return res.send(err);
+                }
+                console.log("file uploaded to Cloudinary");
+                // remove file from server
+                const fs = require("fs");
+                fs.unlinkSync(path);
+
+                const dpUrlInput = image.url;
+
+                db.users.addUser(
+                    usernameInput,
+                    passwordInput,
+                    emailInput,
+                    displayNameInput,
+                    locationInput,
+                    dpUrlInput,
+                    afterAddingUser
+                );
+            }
         );
+
+
     };
 
 
@@ -127,8 +163,8 @@ module.exports = (db) => {
                 loginData: req.cookies
             }
 
-            return res.render(`error`,data)
-            
+            return res.render(`error`, data)
+
         };
 
 

@@ -8,8 +8,6 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-var multer = require("multer");
-
 
 module.exports = (db) => {
     /**

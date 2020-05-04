@@ -21,8 +21,9 @@ module.exports = (app, allModels) => {
         allModels
     );
     app.post(
-        "/users",
-        userControllerCallbacks.addUser
+      "/users",
+      upload.single("myFile"),
+      userControllerCallbacks.addUser
     );
     app.get(
         "/users/login",

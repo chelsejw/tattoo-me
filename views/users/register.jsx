@@ -18,7 +18,12 @@ class Login extends React.Component {
           <Nav loginData={loginData} />
           <div className="jumbotron bg-dark text-white">
             <h3>Sign-up as a User</h3>
-            <form id="newUser" action="/users" method="post">
+            <form
+              id="newUser"
+              action="/users"
+              method="post"
+              encType="multipart/form-data"
+            >
               <div className="form-row">
                 <div className="form-group col-md-6">
                   <label htmlFor="inputEmail4">Username</label>
@@ -73,12 +78,13 @@ class Login extends React.Component {
                   </select>
                 </div>
                 <div className="form-group col-md-9">
-                  <label htmlFor="inputPassword4">Profile Picture URL</label>
+                  <label htmlFor="myFile">Profile Picture Upload</label>
                   <input
-                    type="text"
-                    className="form-control"
-                    name="inputImage"
-                    placeholder="Image URL"
+                    type="file"
+                    className="form-control-file"
+                    name="myFile"
+                    placeholder="Image"
+                    required
                   />
                 </div>
               </div>
