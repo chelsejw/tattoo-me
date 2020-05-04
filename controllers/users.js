@@ -2,9 +2,9 @@ require("dotenv").config();
 
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
-  cloud_name: "dwbuqa4dx",
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: "dwbuqa4dx",
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 var multer = require("multer");
@@ -64,7 +64,7 @@ module.exports = (db) => {
             db.hashtags.getAllHashtags((err2, result2) => {
 
                 if (err2) {
-                return res.status(404).send(err2);
+                    return res.status(404).send(err2);
                 }
                 data.hashtags = result2;
                 res.render("index", data)
@@ -77,9 +77,9 @@ module.exports = (db) => {
         data.loginData = req.cookies;
         //GET LOCATIONS DATABASE TO RENDER OPTIONS
         db.locations.getAllLocations((err, result) => {
-            
+
             if (err) {
-              return res.status(404).send(err);
+                return res.status(404).send(err);
             }
             data.locations = result
             res.render(`users/register`, data)
@@ -96,9 +96,9 @@ module.exports = (db) => {
         let locationInput = req.body.inputLocation
 
         const afterAddingUser = (err, result) => {
-            
+
             if (err) {
-              return res.status(404).send(err);
+                return res.status(404).send(err);
             }
             setUserCookies(result.user_id, result.username, result.user_displayname, result.location_id, res);
             res.redirect(`/`);
@@ -170,6 +170,128 @@ module.exports = (db) => {
         db.users.getUserLogin(handleInput, hashedPw, whenModelIsDone);
     };
 
+    let showUsersFollowing = (req, res) => {
+
+        let data = {};
+        data.loginData = req.cookies;
+        const accountType = req.cookies.currentUserType
+        if (accountType == 'user') {
+            const userId = parseInt(req.cookies.currentAccountId);
+            return db.likesfollows.getUsersFollowing(userId, (err, result) => {
+                if (err) {
+                    return res.status(404).send(err);
+                }
+
+                data.artists = result;
+                return res.render(`users/user-following`, data);
+            })
+        }
+
+        data.errorMsg = `Sorry, you're not allowed to view this page.`
+        return res.render(`error`, data);
+
+
+    }
+
+    let showUsersLikes = (req, res) => {
+        let data = {};
+        data.loginData = req.cookies;
+        const accountType = req.cookies.currentUserType;
+        if (accountType == "user") {
+            const userId = parseInt(req.cookies.currentAccountId);
+            return db.likesfollows.getUsersLikes(userId, (err, result) => {
+                if (err) {
+                    return res.status(404).send(err);
+                }
+                data.tattoos = result;
+                return res.render(`users/user-likes`, data);
+            });
+        }
+
+        data.errorMsg = `Sorry, you're not allowed to view this page.`;
+        return res.render(`error`, data);
+
+
+    }
+
+
+    let likeTattooController = (req, res) => {
+
+        let data = {};
+        data.loginData = req.cookies;
+        const accountType = req.cookies.currentUserType;
+        if (accountType == "user") {
+            const userId = parseInt(req.cookies.currentAccountId);
+            const tattooId = parseInt(req.body.tattooId);
+            return db.likesfollows.likeTattoo(tattooId, userId, (err, result) => {
+
+                if (err) {
+                    return res.status(404).send(err);
+                }
+            })
+        };
+        data.errorMsg = `Sorry, you're not allowed to view this page.`;
+        return res.render(`error`, data);
+    };
+
+    let unlikeTattooController = (req, res) => {
+        let data = {};
+        data.loginData = req.cookies;
+        const accountType = req.cookies.currentUserType;
+        if (accountType == "user") {
+            const userId = parseInt(req.cookies.currentAccountId);
+            const tattooId = parseInt(req.body.tattooId);
+            return db.likesfollows.unlikeTattoo(tattooId, userId, (err, result) => {
+                if (err) {
+                    return res.status(404).send(err);
+                }
+            });
+        }
+        data.errorMsg = `Sorry, you're not allowed to view this page.`;
+        return res.render(`error`, data);
+    }
+
+    let followArtistController = (req, res) => {
+        let data = {};
+        data.loginData = req.cookies;
+        const accountType = req.cookies.currentUserType;
+        if (accountType == "user") {
+            const userId = parseInt(req.cookies.currentAccountId);
+            const artistId = parseInt(req.body.artistId);
+            return db.likesfollows.followArtist(
+                userId, artistId,
+                (err, result) => {
+                    if (err) {
+                        return res.status(404).send(err);
+                    }
+                }
+            );
+        }
+        data.errorMsg = `Sorry, you're not allowed to view this page.`;
+        return res.render(`error`, data);
+    }
+
+    let unfollowArtistController = (req, res) => {
+        let data = {};
+        data.loginData = req.cookies;
+        const accountType = req.cookies.currentUserType;
+        if (accountType == "user") {
+            const userId = parseInt(req.cookies.currentAccountId);
+            const artistId = parseInt(req.body.artistId);
+            return db.likesfollows.unfollowArtist(
+                userId,
+                artistId,
+                (err, result) => {
+                    if (err) {
+                        return res.status(404).send(err);
+                    }
+                }
+            );
+        }
+        data.errorMsg = `Sorry, you're not allowed to view this page.`;
+        return res.render(`error`, data);
+    }
+
 
 
 
@@ -185,6 +307,12 @@ module.exports = (db) => {
         getHomePage: getHomePageControllerCallback,
         addUser: addUserControllerCallback,
         authenticateUser: authenticateUserControllerCallback,
-        logout: logoutController
+        logout: logoutController,
+        showUsersFollowing: showUsersFollowing,
+        showUsersLikes: showUsersLikes,
+        likeTattoo: likeTattooController,
+        unlikeTattoo: unlikeTattooController,
+        followArtist: followArtistController,
+        unfollowArtist: unfollowArtistController,
     };
 };

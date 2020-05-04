@@ -38,6 +38,13 @@ module.exports = (app, allModels) => {
         userControllerCallbacks.getUserRegistrationForm
     );
 
+    app.get(`/following`, userControllerCallbacks.showUsersFollowing);
+
+    app.get(`/likes`, userControllerCallbacks.showUsersLikes);
+    app.delete(`/following`, userControllerCallbacks.unfollowArtist);
+    app.post(`/following`, userControllerCallbacks.followArtist);
+
+
     /*
      *  =========================================
      *  =========================================
@@ -198,6 +205,14 @@ module.exports = (app, allModels) => {
     app.get(
         `/api/hashtags/:hashtagId`,
         apiControllerCallbacks.getHashtagNameById
+    );
+
+    app.get(`/api/users/:id/following`, apiControllerCallbacks.getUsersFollowing);
+    app.get(`/api/users/:id/likes`, apiControllerCallbacks.getUsersLikes);
+    app.get(`/api/check/following/:userId/:artistId`, apiControllerCallbacks.checkFollowing);
+    app.get(
+      `/api/check/likes/:userId/:tattooId`,
+      apiControllerCallbacks.checkLike
     );
 
     /*

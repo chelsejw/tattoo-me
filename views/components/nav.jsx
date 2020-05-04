@@ -44,6 +44,30 @@ class Nav extends React.Component {
             </li>
           );
 
+          let userNavs = (
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Bookmarks
+              </a>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a className="dropdown-item" href="/following">
+                  Following
+                </a>
+                <a className="dropdown-item" href="/likes">
+                  Liked Tattoos
+                </a>
+              </div>
+            </li>
+          );
+
 
           if (loginData.isLoggedIn=='true') {
             authRoutes = (
@@ -85,7 +109,7 @@ class Nav extends React.Component {
               if (loginData.currentUserType=='artist'){
                 return <li>{artistNavs}{authRoutes}</li>
               } else if (loginData.currentUserType==='user'){
-                return authRoutes
+                return <li>{userNavs}{authRoutes}</li>
               }
 
 
