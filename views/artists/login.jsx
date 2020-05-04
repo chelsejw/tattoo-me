@@ -24,6 +24,7 @@ class ArtistLogin extends React.Component {
                   className="form-control"
                   name="handle"
                   placeholder="Username"
+                  value="chelsea"
                 />
               </div>
 
@@ -32,6 +33,7 @@ class ArtistLogin extends React.Component {
                 className="form-control mb-2 mr-sm-2"
                 name="password"
                 placeholder="Password"
+                value="chelsea"
               />
 
               <button type="submit" className="btn btn-primary mb-2">

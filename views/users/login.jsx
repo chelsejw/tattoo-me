@@ -25,6 +25,7 @@ class UserLogin extends React.Component {
                   className="form-control"
                   name="handle"
                   placeholder="Username"
+                  value="test_user"
                 />
               </div>
 
@@ -33,6 +34,7 @@ class UserLogin extends React.Component {
                 className="form-control mb-2 mr-sm-2"
                 name="password"
                 placeholder="Password"
+                value="test"
               />
 
               <button type="submit" className="btn btn-primary mb-2">
