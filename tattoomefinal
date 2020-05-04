@@ -1,0 +1,920 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.1
+-- Dumped by pg_dump version 12.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: artists; Type: TABLE; Schema: public; Owner: chelseaee
+--
+
+CREATE TABLE public.artists (
+    artist_id integer NOT NULL,
+    artist_username text,
+    artist_displayname text,
+    artist_pw text,
+    location_id integer,
+    email text,
+    booking_avail boolean,
+    artist_img text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    website text
+);
+
+
+ALTER TABLE public.artists OWNER TO chelseaee;
+
+--
+-- Name: artists_artist_id_seq; Type: SEQUENCE; Schema: public; Owner: chelseaee
+--
+
+CREATE SEQUENCE public.artists_artist_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.artists_artist_id_seq OWNER TO chelseaee;
+
+--
+-- Name: artists_artist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelseaee
+--
+
+ALTER SEQUENCE public.artists_artist_id_seq OWNED BY public.artists.artist_id;
+
+
+--
+-- Name: artists_hashtags; Type: TABLE; Schema: public; Owner: chelseaee
+--
+
+CREATE TABLE public.artists_hashtags (
+    ah_id integer NOT NULL,
+    artist_id integer,
+    hashtag_id integer
+);
+
+
+ALTER TABLE public.artists_hashtags OWNER TO chelseaee;
+
+--
+-- Name: artists_hashtags_ah_id_seq; Type: SEQUENCE; Schema: public; Owner: chelseaee
+--
+
+CREATE SEQUENCE public.artists_hashtags_ah_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.artists_hashtags_ah_id_seq OWNER TO chelseaee;
+
+--
+-- Name: artists_hashtags_ah_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelseaee
+--
+
+ALTER SEQUENCE public.artists_hashtags_ah_id_seq OWNED BY public.artists_hashtags.ah_id;
+
+
+--
+-- Name: following; Type: TABLE; Schema: public; Owner: chelseaee
+--
+
+CREATE TABLE public.following (
+    following_id integer NOT NULL,
+    user_id integer,
+    artist_id integer
+);
+
+
+ALTER TABLE public.following OWNER TO chelseaee;
+
+--
+-- Name: following_following_id_seq; Type: SEQUENCE; Schema: public; Owner: chelseaee
+--
+
+CREATE SEQUENCE public.following_following_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.following_following_id_seq OWNER TO chelseaee;
+
+--
+-- Name: following_following_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelseaee
+--
+
+ALTER SEQUENCE public.following_following_id_seq OWNED BY public.following.following_id;
+
+
+--
+-- Name: hashtags; Type: TABLE; Schema: public; Owner: chelseaee
+--
+
+CREATE TABLE public.hashtags (
+    hashtag_id integer NOT NULL,
+    hashtag_name character varying(25)
+);
+
+
+ALTER TABLE public.hashtags OWNER TO chelseaee;
+
+--
+-- Name: hashtags_hashtag_id_seq; Type: SEQUENCE; Schema: public; Owner: chelseaee
+--
+
+CREATE SEQUENCE public.hashtags_hashtag_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hashtags_hashtag_id_seq OWNER TO chelseaee;
+
+--
+-- Name: hashtags_hashtag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelseaee
+--
+
+ALTER SEQUENCE public.hashtags_hashtag_id_seq OWNED BY public.hashtags.hashtag_id;
+
+
+--
+-- Name: likes; Type: TABLE; Schema: public; Owner: chelseaee
+--
+
+CREATE TABLE public.likes (
+    like_id integer NOT NULL,
+    user_id integer,
+    tattoo_id integer
+);
+
+
+ALTER TABLE public.likes OWNER TO chelseaee;
+
+--
+-- Name: likes_like_id_seq; Type: SEQUENCE; Schema: public; Owner: chelseaee
+--
+
+CREATE SEQUENCE public.likes_like_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.likes_like_id_seq OWNER TO chelseaee;
+
+--
+-- Name: likes_like_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelseaee
+--
+
+ALTER SEQUENCE public.likes_like_id_seq OWNED BY public.likes.like_id;
+
+
+--
+-- Name: locations; Type: TABLE; Schema: public; Owner: chelseaee
+--
+
+CREATE TABLE public.locations (
+    location_id integer NOT NULL,
+    location_name text,
+    location_icon text
+);
+
+
+ALTER TABLE public.locations OWNER TO chelseaee;
+
+--
+-- Name: locations_location_id_seq; Type: SEQUENCE; Schema: public; Owner: chelseaee
+--
+
+CREATE SEQUENCE public.locations_location_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.locations_location_id_seq OWNER TO chelseaee;
+
+--
+-- Name: locations_location_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelseaee
+--
+
+ALTER SEQUENCE public.locations_location_id_seq OWNED BY public.locations.location_id;
+
+
+--
+-- Name: tattoos; Type: TABLE; Schema: public; Owner: chelseaee
+--
+
+CREATE TABLE public.tattoos (
+    tattoo_id integer NOT NULL,
+    artist_id integer,
+    tattoo_img text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.tattoos OWNER TO chelseaee;
+
+--
+-- Name: tattoos_hashtags; Type: TABLE; Schema: public; Owner: chelseaee
+--
+
+CREATE TABLE public.tattoos_hashtags (
+    th_id integer NOT NULL,
+    tattoo_id integer,
+    hashtag_id integer
+);
+
+
+ALTER TABLE public.tattoos_hashtags OWNER TO chelseaee;
+
+--
+-- Name: tattoos_hashtags_th_id_seq; Type: SEQUENCE; Schema: public; Owner: chelseaee
+--
+
+CREATE SEQUENCE public.tattoos_hashtags_th_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tattoos_hashtags_th_id_seq OWNER TO chelseaee;
+
+--
+-- Name: tattoos_hashtags_th_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelseaee
+--
+
+ALTER SEQUENCE public.tattoos_hashtags_th_id_seq OWNED BY public.tattoos_hashtags.th_id;
+
+
+--
+-- Name: tattoos_tattoo_id_seq; Type: SEQUENCE; Schema: public; Owner: chelseaee
+--
+
+CREATE SEQUENCE public.tattoos_tattoo_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tattoos_tattoo_id_seq OWNER TO chelseaee;
+
+--
+-- Name: tattoos_tattoo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelseaee
+--
+
+ALTER SEQUENCE public.tattoos_tattoo_id_seq OWNED BY public.tattoos.tattoo_id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: chelseaee
+--
+
+CREATE TABLE public.users (
+    user_id integer NOT NULL,
+    username character varying(15),
+    user_pw text,
+    user_displayname character varying(25),
+    location_id integer,
+    user_img text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    email text
+);
+
+
+ALTER TABLE public.users OWNER TO chelseaee;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: chelseaee
+--
+
+CREATE SEQUENCE public.users_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_user_id_seq OWNER TO chelseaee;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelseaee
+--
+
+ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
+
+
+--
+-- Name: artists artist_id; Type: DEFAULT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.artists ALTER COLUMN artist_id SET DEFAULT nextval('public.artists_artist_id_seq'::regclass);
+
+
+--
+-- Name: artists_hashtags ah_id; Type: DEFAULT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.artists_hashtags ALTER COLUMN ah_id SET DEFAULT nextval('public.artists_hashtags_ah_id_seq'::regclass);
+
+
+--
+-- Name: following following_id; Type: DEFAULT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.following ALTER COLUMN following_id SET DEFAULT nextval('public.following_following_id_seq'::regclass);
+
+
+--
+-- Name: hashtags hashtag_id; Type: DEFAULT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.hashtags ALTER COLUMN hashtag_id SET DEFAULT nextval('public.hashtags_hashtag_id_seq'::regclass);
+
+
+--
+-- Name: likes like_id; Type: DEFAULT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.likes ALTER COLUMN like_id SET DEFAULT nextval('public.likes_like_id_seq'::regclass);
+
+
+--
+-- Name: locations location_id; Type: DEFAULT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.locations ALTER COLUMN location_id SET DEFAULT nextval('public.locations_location_id_seq'::regclass);
+
+
+--
+-- Name: tattoos tattoo_id; Type: DEFAULT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.tattoos ALTER COLUMN tattoo_id SET DEFAULT nextval('public.tattoos_tattoo_id_seq'::regclass);
+
+
+--
+-- Name: tattoos_hashtags th_id; Type: DEFAULT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.tattoos_hashtags ALTER COLUMN th_id SET DEFAULT nextval('public.tattoos_hashtags_th_id_seq'::regclass);
+
+
+--
+-- Name: users user_id; Type: DEFAULT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.users_user_id_seq'::regclass);
+
+
+--
+-- Data for Name: artists; Type: TABLE DATA; Schema: public; Owner: chelseaee
+--
+
+COPY public.artists (artist_id, artist_username, artist_displayname, artist_pw, location_id, email, booking_avail, artist_img, created_at, updated_at, website) FROM stdin;
+7	ilwolhongdam	Hongdam	30289acf9b88fc63da66ca0278337255a3035f029687dfc0b19d5818ffc6b1ab	5	hongdam@hello.com	t	https://tattoodo-mobile-app.imgix.net/images/posts/20181014_7JKQMbtgvKCEHCq.jpg?auto=format%2Ccompress&fit=crop&w=400	2020-04-30 13:02:24.375069+08	2020-04-30 13:02:24.375069+08	www.instagram.com
+9	khai_the_tattooer	Khai	c0849e4da25c079b2963646cb713d8b3646ae5b019f8e292c4750cbb7df08133	4	khai@ironfist.com	f	https://media.timeout.com/images/105298566/380/285/image.jpg	2020-05-03 21:13:05.668535+08	2020-05-03 21:13:05.668535+08	www.instagram.com
+5	frankiesexton	Frankie Sexton	cb29da26a1d1fbf68d1d3bc51e240d249a2ea2077ff9466349001b32d6e72e16	4	frankie@hello.com	f	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588568258/profileimg/5_frankiesexton_profileimg_2020-05-04T04:57:36.898Z.jpg	2020-04-30 12:58:53.605329+08	2020-04-30 12:58:53.605329+08	www.instagram.com
+6	neatoburrito	Oli	9b532be1699ed11f669adf8b8273fc4674baf6ea18692bce7e2e6cb76409bef3	4	oli@hello.com	t	https://66.media.tumblr.com/avatar_d50139f5f84f_128.pnj	2020-04-30 13:01:23.36077+08	2020-04-30 13:01:23.36077+08	www.instagram.com
+10	foxcough	Julian	ce0fee7e61f9c74f1110f0e5940a80b4f059f189217d0c3d26bb41960d4bf597	4	julian@wildpaw.com	t	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588586440/profileimg/profileimg_2020-05-04T10:00:38.434Z.png	2020-05-04 18:00:41.499354+08	2020-05-04 18:00:41.499354+08	www.instagram.com
+8	mrk_tattoo	Mr. K	2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824	6	mkr@bangbangnyc.com	t	https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSeL4sqQIuyRKjeErTHoedW5m6TujC4lnMyUMB003FVqLFmc2Ww&usqp=CAU	2020-04-30 13:04:39.432704+08	2020-04-30 13:04:39.432704+08	www.instagram.com
+12	mimi_sama	Mimi-Sama	c6b438b0c071b0875f3579207f8391b6a60e1319b25832a0ad3fe4bc0a5ae7ea	4	mimi@hello.com	f	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588596885/profileimg/profileimg_2020-05-04T12:54:39.311Z.png	2020-05-04 20:54:45.669244+08	2020-05-04 20:54:45.669244+08	www.instagram.com
+15	chelsea	Chelsea	1ecd41c03ef78bd6daeaa6bb008896607a8413bf8ba6266be80327554b370a9e	4	chelseaejw@gmail.com	t	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588610540/profileimg/profileimg_2020-05-04T16:42:14.577Z.jpg	2020-05-05 00:42:21.614224+08	2020-05-05 00:42:21.614224+08	https://www.instagram.com/chelsejw
+11	ink.ray	Anime Tattoo Artist	2f54ffe311bc07f66b882df53024e905aa11c244ff626bd17e47a58bce6f24f0	4	inkray@hello.com	t	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588596696/profileimg/profileimg_2020-05-04T12:51:34.342Z.jpg	2020-05-04 20:51:37.329889+08	2020-05-04 20:51:37.329889+08	www.instagram.com/ink.ray/?hl=en
+13	saraxstasia	𝖘𝖆𝖗𝖆 𝖆𝖓𝖆𝖘𝖙𝖆𝖘𝖎𝖆	3a6d64c24cf80b69ccda37650406467e8266667b50cfd0b984beb3651b129ed7	6	sara@hello.com	t	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588599784/profileimg/profileimg_2020-05-04T13:43:00.698Z.png	2020-05-04 21:43:05.259419+08	2020-05-04 21:43:05.259419+08	www.instagram.com/p/B99qUv5FXKF/
+\.
+
+
+--
+-- Data for Name: artists_hashtags; Type: TABLE DATA; Schema: public; Owner: chelseaee
+--
+
+COPY public.artists_hashtags (ah_id, artist_id, hashtag_id) FROM stdin;
+1	5	1
+2	6	6
+3	7	2
+5	5	2
+27	8	1
+28	8	2
+29	8	6
+30	8	9
+36	12	1
+37	12	7
+38	12	9
+39	12	5
+40	12	8
+42	11	7
+43	11	8
+44	11	9
+41	11	1
+45	13	1
+46	13	6
+47	13	8
+48	13	7
+54	15	3
+55	15	9
+53	15	2
+\.
+
+
+--
+-- Data for Name: following; Type: TABLE DATA; Schema: public; Owner: chelseaee
+--
+
+COPY public.following (following_id, user_id, artist_id) FROM stdin;
+1	4	12
+2	4	11
+3	4	15
+4	4	13
+5	4	6
+6	4	5
+\.
+
+
+--
+-- Data for Name: hashtags; Type: TABLE DATA; Schema: public; Owner: chelseaee
+--
+
+COPY public.hashtags (hashtag_id, hashtag_name) FROM stdin;
+1	fineline
+2	watercolour
+3	tribal
+4	chicano
+5	realism
+6	blackwork
+7	cartoon
+8	anime
+9	delicate
+\.
+
+
+--
+-- Data for Name: likes; Type: TABLE DATA; Schema: public; Owner: chelseaee
+--
+
+COPY public.likes (like_id, user_id, tattoo_id) FROM stdin;
+1	4	33
+2	4	22
+3	4	32
+4	4	34
+5	4	20
+6	4	19
+7	4	18
+\.
+
+
+--
+-- Data for Name: locations; Type: TABLE DATA; Schema: public; Owner: chelseaee
+--
+
+COPY public.locations (location_id, location_name, location_icon) FROM stdin;
+4	Singapore	https:\n//emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/247/flag-singapore_1f1f8-1f1ec.png
+5	South Korea	https:\n//emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/247/flag-south-korea_1f1f0-1f1f7.png
+6	United States	https:\n//emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/247/flag-united-states_1f1fa-1f1f8.png
+8	Portugal	\N
+9	Poland	\N
+10	Russia	\N
+11	Indonesia	\N
+12	China	\N
+13	Mexico	\N
+17	Colombia	\N
+19	Philippines	\N
+20	Thailand	\N
+21	Peru	\N
+24	Serbia	\N
+46	Zimbabwe	\N
+47	Brazil	\N
+48	Albania	\N
+50	Spain	\N
+52	France	\N
+54	Bhutan	\N
+55	Malaysia	\N
+59	Argentina	\N
+61	Ukraine	\N
+62	Slovenia	\N
+65	Dominican Republic	\N
+67	Ireland	\N
+69	Vietnam	\N
+79	Canada	\N
+80	Antigua and Barbuda	\N
+81	Botswana	\N
+82	Denmark	\N
+86	Ethiopia	\N
+88	Czech Republic	\N
+90	Armenia	\N
+91	Cameroon	\N
+95	Sweden	\N
+100	Vanuatu	\N
+101	Nigeria	\N
+105	Japan	\N
+110	Yemen	\N
+114	Paraguay	\N
+123	Venezuela	\N
+\.
+
+
+--
+-- Data for Name: tattoos; Type: TABLE DATA; Schema: public; Owner: chelseaee
+--
+
+COPY public.tattoos (tattoo_id, artist_id, tattoo_img, created_at, updated_at) FROM stdin;
+14	5	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588428547/tattoos/5_frankiesexton_2020-05-02T14:09:04.911Z.png	2020-05-02 22:09:08.347596+08	2020-05-02 22:09:08.347596+08
+15	5	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588428561/tattoos/5_frankiesexton_2020-05-02T14:09:18.625Z.png	2020-05-02 22:09:21.6321+08	2020-05-02 22:09:21.6321+08
+16	5	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588438142/tattoos/5_frankiesexton_2020-05-02T16:48:59.266Z.png	2020-05-03 00:49:03.338339+08	2020-05-03 00:49:03.338339+08
+17	5	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588479119/tattoos/5_frankiesexton_2020-05-03T04:11:55.566Z.png	2020-05-03 12:12:00.010868+08	2020-05-03 12:12:00.010868+08
+18	7	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588493845/tattoos/7_ilwolhongdam_2020-05-03T08:17:21.067Z.png	2020-05-03 16:17:25.658436+08	2020-05-03 16:17:25.658436+08
+19	7	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588493862/tattoos/7_ilwolhongdam_2020-05-03T08:17:39.563Z.png	2020-05-03 16:17:42.845443+08	2020-05-03 16:17:42.845443+08
+20	7	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588493877/tattoos/7_ilwolhongdam_2020-05-03T08:17:54.023Z.png	2020-05-03 16:17:58.488985+08	2020-05-03 16:17:58.488985+08
+21	7	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588493917/tattoos/7_ilwolhongdam_2020-05-03T08:18:33.897Z.png	2020-05-03 16:18:38.250156+08	2020-05-03 16:18:38.250156+08
+22	6	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588511029/tattoos/6_neatoburrito_2020-05-03T13:03:46.141Z.png	2020-05-03 21:03:49.634948+08	2020-05-03 21:03:49.634948+08
+25	8	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588511504/tattoos/8_mrk_tattoo_2020-05-03T13:11:42.224Z.png	2020-05-03 21:11:45.219051+08	2020-05-03 21:11:45.219051+08
+26	8	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588511521/tattoos/8_mrk_tattoo_2020-05-03T13:11:59.817Z.png	2020-05-03 21:12:02.040933+08	2020-05-03 21:12:02.040933+08
+27	9	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588511681/tattoos/9_khai_2020-05-03T13:14:39.029Z.png	2020-05-03 21:14:41.713503+08	2020-05-03 21:14:41.713503+08
+28	\N	\N	2003-01-01 00:00:00+08	2020-05-04 11:28:46.206139+08
+29	5	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588566285/tattoos/5_frankiesexton_2020-05-04T04:24:43.912Z.png	2020-05-04 12:24:46.28164+08	2020-05-04 12:24:46.28164+08
+30	6	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588583002/tattoos/6_neatoburrito_2020-05-04T09:03:19.252Z.png	2020-05-04 17:03:22.622799+08	2020-05-04 17:03:22.622799+08
+31	8	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588596180/tattoos/8_mrk_tattoo_2020-05-04T12:42:56.778Z.png	2020-05-04 20:43:01.632437+08	2020-05-04 20:43:01.632437+08
+32	11	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588596761/tattoos/11_ink.ray_2020-05-04T12:52:38.284Z.png	2020-05-04 20:52:42.404327+08	2020-05-04 20:52:42.404327+08
+33	12	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588597060/tattoos/12_mimi_sama_2020-05-04T12:57:36.177Z.png	2020-05-04 20:57:41.464723+08	2020-05-04 20:57:41.464723+08
+34	12	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588597075/tattoos/12_mimi_sama_2020-05-04T12:57:53.578Z.png	2020-05-04 20:57:56.699143+08	2020-05-04 20:57:56.699143+08
+36	15	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588621891/tattoos/15_fleecircus_2020-05-04T19:51:28.906Z.jpg	2020-05-05 03:51:32.100637+08	2020-05-05 03:51:32.100637+08
+37	15	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588622000/tattoos/15_fleecircus_2020-05-04T19:53:18.260Z.jpg	2020-05-05 03:53:20.584508+08	2020-05-05 03:53:20.584508+08
+39	15	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588622047/tattoos/15_fleecircus_2020-05-04T19:54:05.011Z.jpg	2020-05-05 03:54:07.522444+08	2020-05-05 03:54:07.522444+08
+40	15	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588622078/tattoos/15_fleecircus_2020-05-04T19:54:36.444Z.jpg	2020-05-05 03:54:38.648768+08	2020-05-05 03:54:38.648768+08
+41	15	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588622460/tattoos/15_chelsea_2020-05-04T20:00:56.674Z.jpg	2020-05-05 04:01:00.974595+08	2020-05-05 04:01:00.974595+08
+\.
+
+
+--
+-- Data for Name: tattoos_hashtags; Type: TABLE DATA; Schema: public; Owner: chelseaee
+--
+
+COPY public.tattoos_hashtags (th_id, tattoo_id, hashtag_id) FROM stdin;
+105	37	6
+109	39	4
+110	39	6
+111	40	1
+113	40	5
+114	40	9
+112	40	6
+118	41	1
+120	41	7
+119	41	2
+121	41	9
+21	15	1
+22	15	6
+23	16	1
+24	16	6
+25	17	1
+26	17	5
+27	18	1
+28	19	1
+29	19	5
+30	20	1
+31	20	5
+32	21	5
+33	21	1
+34	21	2
+36	22	2
+35	22	1
+42	27	6
+43	27	5
+45	29	2
+46	29	5
+44	29	1
+65	30	1
+66	30	6
+67	26	1
+68	26	6
+69	26	9
+77	31	1
+78	31	9
+79	25	1
+80	25	7
+81	25	2
+82	25	9
+83	32	1
+85	32	7
+84	32	6
+86	32	8
+89	34	1
+90	34	2
+91	34	9
+92	33	1
+93	33	7
+94	33	9
+95	33	8
+103	36	7
+104	36	8
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: chelseaee
+--
+
+COPY public.users (user_id, username, user_pw, user_displayname, location_id, user_img, created_at, updated_at, email) FROM stdin;
+1	chelsejw	2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824	Chelsea Ee	4	https://ca.slack-edge.com/T0351JZQ0-UTK6D0FF1-97129dd84af4-512	2020-04-29 16:06:44.32187+08	2020-04-29 16:06:44.32187+08	chelseaejw@gmail.com
+2	chelsee	db9e0e81988b9b0e007d67caa8c67eae02c4fa14c90ddc5e362590d2ccabdb59	Chelsea Ee	4	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588587370/profileimg/profileimg_2020-05-04T10:16:08.299Z.jpg	2020-05-04 18:16:10.550421+08	2020-05-04 18:16:10.550421+08	chelseaejw@gmail.com
+3	john	96d9632f363564cc3032521409cf22a852f2032eec099ed5967c0d000cec607a	johno	4	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588587754/profileimg/profileimg_2020-05-04T10:22:32.002Z.png	2020-05-04 18:22:35.17568+08	2020-05-04 18:22:35.17568+08	john@hello.com
+4	testing	8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4	Test Account	4	http://res.cloudinary.com/dwbuqa4dx/image/upload/v1588612678/profileimg/profileimg_2020-05-04T17:17:56.371Z.jpg	2020-05-05 01:17:58.735612+08	2020-05-05 01:17:58.735612+08	test@hello.com
+\.
+
+
+--
+-- Name: artists_artist_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chelseaee
+--
+
+SELECT pg_catalog.setval('public.artists_artist_id_seq', 15, true);
+
+
+--
+-- Name: artists_hashtags_ah_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chelseaee
+--
+
+SELECT pg_catalog.setval('public.artists_hashtags_ah_id_seq', 55, true);
+
+
+--
+-- Name: following_following_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chelseaee
+--
+
+SELECT pg_catalog.setval('public.following_following_id_seq', 6, true);
+
+
+--
+-- Name: hashtags_hashtag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chelseaee
+--
+
+SELECT pg_catalog.setval('public.hashtags_hashtag_id_seq', 9, true);
+
+
+--
+-- Name: likes_like_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chelseaee
+--
+
+SELECT pg_catalog.setval('public.likes_like_id_seq', 7, true);
+
+
+--
+-- Name: locations_location_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chelseaee
+--
+
+SELECT pg_catalog.setval('public.locations_location_id_seq', 126, true);
+
+
+--
+-- Name: tattoos_hashtags_th_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chelseaee
+--
+
+SELECT pg_catalog.setval('public.tattoos_hashtags_th_id_seq', 121, true);
+
+
+--
+-- Name: tattoos_tattoo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chelseaee
+--
+
+SELECT pg_catalog.setval('public.tattoos_tattoo_id_seq', 41, true);
+
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chelseaee
+--
+
+SELECT pg_catalog.setval('public.users_user_id_seq', 4, true);
+
+
+--
+-- Name: artists artists_artist_username_key; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.artists
+    ADD CONSTRAINT artists_artist_username_key UNIQUE (artist_username);
+
+
+--
+-- Name: artists_hashtags artists_hashtags_pkey; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.artists_hashtags
+    ADD CONSTRAINT artists_hashtags_pkey PRIMARY KEY (ah_id);
+
+
+--
+-- Name: artists artists_pkey; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.artists
+    ADD CONSTRAINT artists_pkey PRIMARY KEY (artist_id);
+
+
+--
+-- Name: following following_pkey; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.following
+    ADD CONSTRAINT following_pkey PRIMARY KEY (following_id);
+
+
+--
+-- Name: hashtags hashtags_pkey; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.hashtags
+    ADD CONSTRAINT hashtags_pkey PRIMARY KEY (hashtag_id);
+
+
+--
+-- Name: likes likes_pkey; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.likes
+    ADD CONSTRAINT likes_pkey PRIMARY KEY (like_id);
+
+
+--
+-- Name: locations locations_location_name_key; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_location_name_key UNIQUE (location_name);
+
+
+--
+-- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (location_id);
+
+
+--
+-- Name: tattoos_hashtags tattoos_hashtags_pkey; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.tattoos_hashtags
+    ADD CONSTRAINT tattoos_hashtags_pkey PRIMARY KEY (th_id);
+
+
+--
+-- Name: tattoos tattoos_pkey; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.tattoos
+    ADD CONSTRAINT tattoos_pkey PRIMARY KEY (tattoo_id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- Name: artists_hashtags artists_hashtags_artist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.artists_hashtags
+    ADD CONSTRAINT artists_hashtags_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES public.artists(artist_id);
+
+
+--
+-- Name: artists_hashtags artists_hashtags_hashtag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.artists_hashtags
+    ADD CONSTRAINT artists_hashtags_hashtag_id_fkey FOREIGN KEY (hashtag_id) REFERENCES public.hashtags(hashtag_id);
+
+
+--
+-- Name: artists artists_location_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.artists
+    ADD CONSTRAINT artists_location_id_fkey FOREIGN KEY (location_id) REFERENCES public.locations(location_id);
+
+
+--
+-- Name: following following_artist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.following
+    ADD CONSTRAINT following_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES public.artists(artist_id);
+
+
+--
+-- Name: following following_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.following
+    ADD CONSTRAINT following_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id);
+
+
+--
+-- Name: likes likes_tattoo_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.likes
+    ADD CONSTRAINT likes_tattoo_id_fkey FOREIGN KEY (tattoo_id) REFERENCES public.tattoos(tattoo_id);
+
+
+--
+-- Name: likes likes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.likes
+    ADD CONSTRAINT likes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id);
+
+
+--
+-- Name: tattoos tattoos_artist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.tattoos
+    ADD CONSTRAINT tattoos_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES public.artists(artist_id);
+
+
+--
+-- Name: tattoos_hashtags tattoos_hashtags_hashtag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.tattoos_hashtags
+    ADD CONSTRAINT tattoos_hashtags_hashtag_id_fkey FOREIGN KEY (hashtag_id) REFERENCES public.hashtags(hashtag_id);
+
+
+--
+-- Name: tattoos_hashtags tattoos_hashtags_tattoo_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.tattoos_hashtags
+    ADD CONSTRAINT tattoos_hashtags_tattoo_id_fkey FOREIGN KEY (tattoo_id) REFERENCES public.tattoos(tattoo_id);
+
+
+--
+-- Name: users users_location_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chelseaee
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_location_id_fkey FOREIGN KEY (location_id) REFERENCES public.locations(location_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
