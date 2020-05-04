@@ -65,7 +65,7 @@ class ArtistRegister extends React.Component {
                       </a>
                     </h5>
                     <p>Location: <a className="text-muted" href={`/artists?locationId=${result.location_id}&hashtagId=all&sortBy=all`}>{result.location_name}</a>
-                    <br/><small><a href={`//${result.website}`}>Go to Website</a></small></p>
+                    <br/><small><a href={result.website}>Go to Website</a></small></p>
     
                     {availability}
                     <p class="card-text"></p>

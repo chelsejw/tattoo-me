@@ -158,6 +158,7 @@ module.exports = (db) => {
                 return res.status(404).send(err);
             }
 
+            console.log(`after adding artist result`, result);
             const artistId = result.artist_id;
 
             setArtistCookies(
@@ -180,7 +181,7 @@ module.exports = (db) => {
                     }
                 );
             });
-            res.redirect(`/`);
+            return res.redirect(`/`);
 
         };
 

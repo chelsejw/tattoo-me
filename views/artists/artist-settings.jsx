@@ -131,7 +131,7 @@ class ArtistRegister extends React.Component {
                   <label htmlFor="inputWebsite">Website</label>
 
                   <input
-                    type="text"
+                    type="url"
                     className="form-control"
                     name="inputWebsite"
                     placeholder="Website"

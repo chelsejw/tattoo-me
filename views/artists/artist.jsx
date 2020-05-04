@@ -89,7 +89,7 @@ return (
                   {artist.artist_username}
                 </a>
               </h5>
-              <p><a href={`//${artist.website}`}>Go to Website</a></p>
+              <p><a href={artist.website}>Go to Website</a></p>
               <p class="card-text"></p>
             </div>
             <div class="card-footer">
