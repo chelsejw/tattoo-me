@@ -21,8 +21,6 @@ module.exports = (db) => {
 
     const getAddTattooFormController = (req, res) => {
 
-        console.log(process.env)
-
         const data = {};
         data.loginData = req.cookies;
 
@@ -41,10 +39,7 @@ module.exports = (db) => {
         });
     };
 
-    const addTattooController = (req, res, next) => {
-
-        console.log(`req.body`, req.body)
-        console.log(`req.file`, req.file);
+    const addTattooController = (req, res) => {
 
         const afterAddingToTattoos = (err1, result1) => {
             if (err1) {
@@ -53,7 +48,6 @@ module.exports = (db) => {
 
             const newTattooId = result1.tattoo_id
             const hashtags = req.body.hashtags;
-            console.log(`New tattoo ID`, newTattooId)
 
             if (hashtags.length === 1) {
                 console.log(
@@ -71,12 +65,8 @@ module.exports = (db) => {
                     }
                 );
             };
-            console.log(`more than one hashtag`)
-            console.log(`hashtagsArr`, hashtags);
-            console.log(`hashtags arr should run ${hashtags.length} times`);
 
             hashtags.forEach((hashtag) => {
-                console.log(`added ${hashtag} to ${newTattooId}`);
                 db.hashtags.addHashtagToTattoo(
                     hashtag,
                     newTattooId,

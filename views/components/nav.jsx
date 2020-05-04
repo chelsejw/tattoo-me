@@ -46,7 +46,7 @@ class Nav extends React.Component {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Settings
+                    @{loginData.currentUsername}
                   </a>
                   <div
                     className="dropdown-menu"
@@ -60,13 +60,14 @@ class Nav extends React.Component {
                     </a>
                   </div>
                 </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/logout">
-                  Logout
-                </a>
-              </li>
-              </li>
 
+                <li className="nav-item">
+                  <a className="nav-link" href="/logout">
+                    Logout
+                  </a>
+                </li>
+
+              </li>
             );
 
               if (loginData.currentUserType=='artist'){

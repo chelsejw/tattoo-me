@@ -73,17 +73,83 @@ module.exports = (db) => {
                     }
 
                     data.accountDetails = result;
-                    res.render(`settings`, data);
+                    res.render(`artists/artist-settings`, data);
                 });
             }
         })
     }
 
-    let displayErrorPage = (req, res)=> {
-      res.render(`error`, {errorMsg: `Sorry, the page you were trying to load was not found.`, loginData: req.cookies})
+    let displayErrorPageController = (req, res) => {
+        res.render(`error`, {
+            errorMsg: `Sorry, the page you were trying to load was not found.`,
+            loginData: req.cookies
+        })
+    }
+
+    let showPasswordSettingsController = (req, res) => {
+
+
+        const data = {};
+        data.loginData = req.cookies;
+
+        if (req.cookies.isLoggedIn !== "true") {
+            data.errorMsg = `Sorry, you must be logged in to view this page.`;
+            return res.render(`error`, data);
+        }
+
+        res.render(`password`, data)
+
     }
 
 
+    let updatePasswordController = (req, res) => {
+      const data = {};
+      data.loginData = req.cookies;
+      if (req.cookies.isLoggedIn !== "true") {
+        data.errorMsg = `Sorry, you must be logged in to view this page.`;
+        return res.render(`error`, data);
+      }
+
+      if (req.cookies.currentUserType === "user") {
+        return res.send(`wait ah`);
+      } else if (req.cookies.currentUserType === "artist") {
+        let artistHandle = req.cookies.currentUsername;
+
+        const sha256 = require("js-sha256");
+
+        let oldPassword = sha256(req.body.oldPassword);
+        let newPassword = sha256(req.body.newPassword);
+
+
+        console.log(oldPassword);
+        console.log(newPassword);
+
+        const afterVerifyingPassword = (err, result) => {
+          if (err) {
+            return res.status(404).send();
+          } else if (!result) {
+            data.errorMsg = `Sorry, your password was wrong.`;
+            return res.render(`error`, data);
+          }
+
+          let artistId = req.cookies.currentAccountId;
+          console.log(`Have verified..`)
+          db.artists.changeArtistPassword(
+            artistId,
+            newPassword,
+            (err, result) => {
+              if (err) {
+                return res.status(404).send();
+              }
+              data.successMsg = `Successfully updated password.`
+              return res.render(`password`, data)
+            }
+          );
+        };
+
+        db.artists.getArtistLogin(artistHandle, oldPassword, afterVerifyingPassword);
+      }
+    };
 
 
     /**
@@ -95,6 +161,8 @@ module.exports = (db) => {
         getHomePage: getHomePageControllerCallback,
         logout: logoutController,
         showSettingsPage: showSettingsPageController,
-        displayErrorPage: displayErrorPage
+        displayErrorPage: displayErrorPageController,
+        showPasswordSettings: showPasswordSettingsController,
+        updatePassword: updatePasswordController
     };
 };

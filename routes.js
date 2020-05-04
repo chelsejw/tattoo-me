@@ -65,7 +65,11 @@ module.exports = (app, allModels) => {
 
     app.get(`/artists/:artistId`, artistControllerCallbacks.showArtistPage);
     app.get(`/artists`, artistControllerCallbacks.artistSearch);
-    app.put(`/artists`, artistControllerCallbacks.updateArtistInfo);
+    app.put(
+        `/artists`,
+        upload.single("myFile"),
+        artistControllerCallbacks.updateArtistInfo
+    );
     app.post(`/artists`, artistControllerCallbacks.addArtist);
 
     /*
@@ -158,6 +162,12 @@ module.exports = (app, allModels) => {
     app.get(
         "/",
         userControllerCallbacks.getHomePage
+    );
+
+    app.get(`/settings/password`, generalControllerCallbacks.showPasswordSettings)
+    app.put(
+        `/settings/password`,
+        generalControllerCallbacks.updatePassword
     );
 
     app.get(`/settings`, generalControllerCallbacks.showSettingsPage)

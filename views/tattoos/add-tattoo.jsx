@@ -43,7 +43,7 @@ class AddTattoo extends React.Component {
               </select>
               <button id="add-hashtag" className="btn btn-sm btn-primary">
                 +
-              </button>
+              </button> 
               <div id="hashtags-selected">
               </div>
               <p>

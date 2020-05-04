@@ -1,3 +1,16 @@
+require("dotenv").config();
+
+
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+    cloud_name: "dwbuqa4dx",
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+var multer = require("multer");
+
+
 module.exports = (db) => {
     /**
      * ===========================================
@@ -72,16 +85,15 @@ module.exports = (db) => {
                         data.hashtags = hashtagResult;
                         let sortBy = req.query.sortBy
                         if (locationId == "all" && hashtagId == "all" || !hashtagId || !locationId || !sortBy) {
-                            
-                            return db.artists.getAll(sortBy, (searchErr, searchResults) => {
-                                    if (searchErr) {
-                                        return res.send(`Error`, searchErr);
-                                    }
 
-                                    data.results = searchResults;
-                                    res.render(`artists/results`, data);
+                            return db.artists.getAll(sortBy, (searchErr, searchResults) => {
+                                if (searchErr) {
+                                    return res.send(`Error`, searchErr);
                                 }
-                            );
+
+                                data.results = searchResults;
+                                res.render(`artists/results`, data);
+                            });
 
                             //If no hashtag specified, just get artists by location
                         } else if (hashtagId == "all") {
@@ -225,15 +237,64 @@ module.exports = (db) => {
             availability = false;
         }
 
+        console.log(`Reqbody`, req.body);
+        console.log(`req file`, req.file)
 
-        console.log(req.body)
+        if (req.file) {
+            console.log(`in req.file conditional`)
 
-        db.artists.updateArtist(artistId, username, displayname, locationId, email, availability, (err, result) => {
-            if (err) {
-                return res.status(404).send(err);
-            };
-            res.redirect(`/settings`);
-        });
+            const path = req.file.path;
+            const accountUser = req.cookies.currentUsername;
+            const uniqueFilename = `${artistId}_${accountUser}_profileimg_${new Date().toISOString()}`;
+
+            cloudinary.uploader.upload(
+                path, {
+                    public_id: `profileimg/${uniqueFilename}`,
+                    tags: `profile_pic`,
+                }, // directory and tags are optional
+                function (err, image) {
+                    if (err) {
+                        return res.send(err);
+                    }
+                    console.log("file uploaded to Cloudinary");
+                    // remove file from server
+                    const fs = require("fs");
+                    fs.unlinkSync(path);
+
+                    const imageUrl = image.url;
+                    return db.artists.updateArtist(
+                        artistId,
+                        username,
+                        displayname,
+                        locationId,
+                        email,
+                        availability,
+                        imageUrl,
+                        (err, result) => {
+                            if (err) {
+                                return res.status(404).send(err);
+                            }
+                            res.redirect(`/artists/${artistId}`);
+                        }
+                    );
+                }
+            );
+        }
+        console.log(`after conditional`)
+        return db.artists.updateArtist(
+            artistId,
+            username,
+            displayname,
+            locationId,
+            email,
+            availability,
+            null,
+            (err, result) => {
+                if (err) {
+                    return res.status(404).send(err);
+                }
+                res.redirect(`/artists/${artistId}`);
+            });
     };
 
     /**

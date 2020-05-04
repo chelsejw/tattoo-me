@@ -56,9 +56,26 @@ module.exports = (dbPoolInstance) => {
 
     };
 
-    const updateArtist = (artistId, username, displayname, location_id, email, availability, callback) => {
+    const updateArtist = (artistId, username, displayname, location_id, email, availability, image, callback) => {
 
-        let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', booking_avail = ${availability} WHERE artist_id = ${artistId} RETURNING *`;
+        //If there's no image. 
+        if (!image) {
+
+            let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', booking_avail = ${availability} WHERE artist_id = ${artistId} RETURNING *`;
+
+            return dbPoolInstance.query(query, (err, result) => {
+                if (err) {
+                    return callback(err, null);
+                } else if (result.rows.length < 1) {
+                    return callback(null, null);
+                }
+                return callback(null, result.rows[0]);
+            });
+        }
+
+        //If there is an image. 
+        let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', booking_avail = ${availability}, artist_img = '${image}' WHERE artist_id = ${artistId} RETURNING *`;
+        console.log(` image query:`, query);
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
@@ -66,7 +83,21 @@ module.exports = (dbPoolInstance) => {
             } else if (result.rows.length < 1) {
                 return callback(null, null)
             }
-            return callback(null, result.rows)
+            return callback(null, result.rows[0])
+        });
+    };
+
+    const changeArtistPassword = (artistId, newPassword, callback) => {
+
+        let query = `UPDATE artists SET artist_pw = '${newPassword}' WHERE artist_id = ${artistId} RETURNING *`
+
+        dbPoolInstance.query(query, (err, result) => {
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows[0]);
         });
     };
 
@@ -163,6 +194,7 @@ module.exports = (dbPoolInstance) => {
 
     const getArtistLogin = (handle, pw, callback) => {
         let query = `SELECT * FROM artists WHERE artist_username = '${handle}' AND artist_pw = '${pw}'`;
+        console.log(query)
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null);
@@ -199,6 +231,7 @@ module.exports = (dbPoolInstance) => {
         getArtistsByHashtagAndLocation: getArtistsByHashtagAndLocation,
         getArtistLogin: getArtistLogin,
         getArtistById: getArtistById,
-        updateArtist: updateArtist
+        updateArtist: updateArtist,
+        changeArtistPassword: changeArtistPassword
     };
 };
