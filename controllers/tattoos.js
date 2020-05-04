@@ -165,7 +165,17 @@ module.exports = (db) => {
                         }
                         data.results = tattooResults;
 
-                        res.render(`tattoos/tattoo-results`, data);
+                        db.hashtags.getHashtagById(hashtagQuery, (err, result) => {
+                            if (err) {
+                                return res.status(404).send(err)
+                            }
+                            data.hashtagName = result.hashtag_name
+                            res.render(
+                                `tattoos/tattoo-results`,
+                                data
+                            );
+
+                        })
 
                     })
                 }

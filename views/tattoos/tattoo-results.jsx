@@ -18,10 +18,7 @@ class TattooPage extends React.Component {
       sortBy = `oldest to newest`
     }
 
-    let hashtagName = this.props.results[0].hashtag_name
-    if (!hashtagName){
-      hashtagName = `all`
-    }
+    let hashtagQuery = this.props.hashtagName
                 const loginData = this.props.loginData;
                 const hashtags = this.props.hashtags
             const hashtagOptions = hashtags.map( hashtag => {
@@ -31,6 +28,12 @@ class TattooPage extends React.Component {
           </option>
         )
       });
+
+      let resultsLength = 0;
+
+      if (tattoos!==null){
+        resultsLength = tattoos.length
+      }
                
                 let tattooCards;
                 if (tattoos!==null){
@@ -125,8 +128,9 @@ class TattooPage extends React.Component {
 
             <div class="col py-3 main-content">
               <h3>
-                Showing <span class="text-muted">{tattoos.length}</span> results
-                for <span class="text-muted">{hashtagName} </span> tattoos by <span class="text-muted">{sortBy}</span>
+                Showing <span class="text-muted">{resultsLength}</span> results
+                for <span class="text-muted">{hashtagQuery} </span> tattoos by{" "}
+                <span class="text-muted">{sortBy}</span>
               </h3>
 
               <hr />
