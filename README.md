@@ -1,17 +1,20 @@
 # tattoo.me: Find your perfect tattoo artist instantly.
 
+Deployed at https://stormy-chamber-08015.herokuapp.com/.
+Default login values are provided to test both artist and user experience.
+
 ## MVP:
 - ~Create login/logout for artists~
 - ~Create login/logout for users~
 - ~Get artists by location/hashtag~
 - ~Allow artists to upload images of their portfolio~
-- RESTful routes for artists and tattoos.
+- ~RESTful routes for artists and tattoos.~ Excluding delete routes for artists
 
 #### Further:
 - Allow artists to link their IGs for portfolio pictures. Search results should display most recent first 4-5 pics.
 
 #### Further: 
-- Allow users to save tattoos / artists.
+- ~Allow users to save tattoos / artists.~
 
 #### Further: 
 - Allow users to review artists.
