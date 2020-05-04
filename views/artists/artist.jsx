@@ -82,7 +82,7 @@ return (
             <div class="card-img-bg">
               <img src={artist.artist_img} class="card-img-top" alt="..." />
             </div>
-            <div id={`body_${artist.artist_id}`} class="card-body">
+            <div id={`artist_body_${artist.artist_id}`} class="card-body">
               <h5 class="card-title">
                 <a className="text-dark" href={`/artists/${artist.artist_id}`}>
                   <strong>{artist.artist_displayname}</strong> @
@@ -103,7 +103,7 @@ return (
       </div>
 
       <BootstrapJs />
-      <script src="/ajax/tattoos/tattooresults.js"></script>
+      <script src="/ajax/artists/single-artist-hashtags.js"></script>
     </body>
   </html>
 );
