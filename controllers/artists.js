@@ -177,10 +177,10 @@ module.exports = (db) => {
                             result.location_id,
                             res
                         );
-                        res.redirect(`/`);
                     }
                 );
             });
+            res.redirect(`/`);
 
         };
 
@@ -205,14 +205,14 @@ module.exports = (db) => {
                 const imageInput = image.url;
 
                 db.artists.addArtist(
-                  usernameInput,
-                  displayNameInput,
-                  passwordInput,
-                  locationInput,
-                  emailInput,
-                  imageInput,
-                  websiteInput,
-                  afterAddingArtist
+                    usernameInput,
+                    displayNameInput,
+                    passwordInput,
+                    locationInput,
+                    emailInput,
+                    imageInput,
+                    websiteInput,
+                    afterAddingArtist
                 );
             }
         );
