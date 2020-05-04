@@ -58,18 +58,15 @@ module.exports = (db) => {
         db.locations.getAllLocations((err, result) => {
 
             if (err) {
-                return console.log(`Err when getting all locations`, err);
+                return res.status(404).send(err)
             }
             data.locations = result;
             db.hashtags.getAllHashtags((err2, result2) => {
 
                 if (err2) {
-                    return console.log(`Err when getting all hashtags`, err2);
+                return res.status(404).send(err2);
                 }
                 data.hashtags = result2;
-
-                console.log(`Data at the end`, data);
-
                 res.render("index", data)
             });
         });
@@ -80,7 +77,10 @@ module.exports = (db) => {
         data.loginData = req.cookies;
         //GET LOCATIONS DATABASE TO RENDER OPTIONS
         db.locations.getAllLocations((err, result) => {
-            err && console.log(`Err getting all locations`, err)
+            
+            if (err) {
+              return res.status(404).send(err);
+            }
             data.locations = result
             res.render(`users/register`, data)
         })
@@ -96,13 +96,13 @@ module.exports = (db) => {
         let locationInput = req.body.inputLocation
 
         const afterAddingUser = (err, result) => {
-            err ? console.log(err) : console.log(`Successfully added new user.`);
+            
+            if (err) {
+              return res.status(404).send(err);
+            }
             setUserCookies(result.user_id, result.username, result.user_displayname, result.location_id, res);
             res.redirect(`/`);
         }
-
-        console.log(`reqbody is`, req.body);
-        console.log(`reqfile is`, req.file)
         const path = req.file.path;
         const uniqueFilename = `profileimg_${new Date().toISOString()}`;
 
@@ -144,9 +144,6 @@ module.exports = (db) => {
             if (err) {
                 return res.statusCode(404, `Error is ${err}`);
             }
-
-            console.log(`Result is`, result)
-
             if (result !== null) {
                 setUserCookies(
                     result.user_id,

@@ -50,10 +50,6 @@ module.exports = (db) => {
             const hashtags = req.body.hashtags;
 
             if (hashtags.length === 1) {
-                console.log(
-                    `adding ${hashtags} to ${newTattooId}`
-                );
-
                 return db.hashtags.addHashtagToTattoo(
                     hashtags,
                     newTattooId,
@@ -74,7 +70,6 @@ module.exports = (db) => {
                         if (err3) {
                             res.status(404).send(err3);
                         }
-                        console.log(result3);
                     }
                 );
             });
@@ -203,10 +198,6 @@ module.exports = (db) => {
             if (err) {
                 return res.status(404).send(err);
             } else if (result.artist_id !== artistId) {
-                console.log(result.artist_id)
-                console.log(artistId)
-
-                console.log(`After get tattooById`)
                 data.errorMsg = `You do not have permission to edit this tattoo.`
                 return res.render(`error`, data);
             }
@@ -236,10 +227,7 @@ module.exports = (db) => {
                 return res.status(404).send(err);
             }
             const hashtags = req.body.hashtags;
-            console.log(`After clear hashtags`);
-
             hashtags.forEach((hashtag) => {
-                console.log(`inside hashtag fore ach`);
 
                 db.hashtags.addHashtagToTattoo(
                     hashtag,
@@ -276,10 +264,6 @@ module.exports = (db) => {
             if (err) {
                 return res.status(404).send(err);
             } else if (result.artist_id !== artistId) {
-                console.log(result.artist_id)
-                console.log(artistId)
-
-                console.log(`After get tattooById`)
                 data.errorMsg = `You do not have permission to edit this tattoo.`
                 return res.render(`error`, data);
             }
