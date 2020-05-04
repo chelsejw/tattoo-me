@@ -292,10 +292,82 @@ module.exports = (db) => {
         return res.render(`error`, data);
     }
 
+    let updateUserController = (req, res) => {
+        let data = {};
+        data.loginData = req.cookies;
+        const accountType = req.cookies.currentUserType;
 
+        const usernameInput = req.body.inputUsername;
+        const displayNameInput = req.body.inputDisplayName;
+        const locationInput = req.body.inputLocation;
+        const emailInput = req.body.inputEmail
 
+        if (accountType == "user") {
+            const userId = parseInt(req.cookies.currentAccountId);
 
+            if (req.file) {
+                const path = req.file.path;
+                const uniqueFilename = `profileimg_${new Date().toISOString()}`;
 
+                cloudinary.uploader.upload(
+                    path, {
+                        public_id: `profileimg/${uniqueFilename}`,
+                        tags: `profile_pic`,
+                    }, // directory and tags are optional
+                    function (err, image) {
+                        if (err) {
+                            return res.send(err);
+                        }
+                        console.log("file uploaded to Cloudinary");
+                        // remove file from server
+                        const fs = require("fs");
+                        fs.unlinkSync(path);
+
+                        const dpUrlInput = image.url;
+
+                        return db.users.updateUser(userId, usernameInput, displayNameInput, emailInput, dpUrlInput, locationInput, (err, result) => {
+                            if (err) {
+                                return res.status(404).send(err);
+                            }
+                            setUserCookies(
+                                result.user_id,
+                                result.username,
+                                result.user_displayname,
+                                result.location_id,
+                                res
+                            );
+                            return res.redirect(`/settings?updated=true`);
+                        });
+                    }
+                );
+            } else {
+                return db.users.updateUser(
+                    userId,
+                    usernameInput,
+                    displayNameInput,
+                    emailInput,
+                    null,
+                    locationInput,
+                    (err, result) => {
+                        if (err) {
+                            return res.status(404).send(err);
+                        }
+                        setUserCookies(
+                            result.user_id,
+                            result.username,
+                            result.user_displayname,
+                            result.location_id,
+                            res
+                        );
+                        return res.redirect(`/settings?updated=true`);
+                    }
+                );
+
+            }
+        }
+        data.errorMsg = `Sorry, you're not allowed to view this page.`;
+        return res.render(`error`, data);
+    }
     /**
      * ===========================================
      * Export controller functions as a module
@@ -314,5 +386,6 @@ module.exports = (db) => {
         unlikeTattoo: unlikeTattooController,
         followArtist: followArtistController,
         unfollowArtist: unfollowArtistController,
+        updateUser: updateUserController
     };
 };

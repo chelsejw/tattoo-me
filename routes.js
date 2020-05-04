@@ -38,6 +38,12 @@ module.exports = (app, allModels) => {
         userControllerCallbacks.getUserRegistrationForm
     );
 
+    app.put(
+      `/users`,
+      upload.single("myFile"),
+      userControllerCallbacks.updateUser
+    );
+
     app.get(`/following`, userControllerCallbacks.showUsersFollowing);
 
     app.get(`/likes`, userControllerCallbacks.showUsersLikes);

@@ -3,20 +3,19 @@ import Nav from "../components/nav";
 import Head from "../components/header";
 import BootstrapJs from "../components/bootstrap-js";
 
-class ArtistRegister extends React.Component {
+class EditUser extends React.Component {
   render() {
     const loginData = this.props.loginData;
-    const account = this.props.accountDetails
-    const locations = this.props.locations
-    const userType = loginData.currentUserType
-        const locationsOptions = locations.map((location) => {
-          return (
-            <option value={location.location_id} key={location.location_id}>
-              {location.location_name}
-            </option>
-          );
-        });
-    
+    const account = this.props.accountDetails;
+    const locations = this.props.locations;
+    const locationsOptions = locations.map((location) => {
+      return (
+        <option value={location.location_id} key={location.location_id}>
+          {location.location_name}
+        </option>
+      );
+    });
+
     const success = this.props.successMsg;
 
     const successAlert = () => {
@@ -29,31 +28,6 @@ class ArtistRegister extends React.Component {
       }
     };
 
-
-    let availabilitySwitch = (
-      <input
-        type="checkbox"
-        name="booking_avail"
-        value="true"
-        className="form-control"
-      />
-    );
-
-    let userAvailability = account.booking_avail
-
-    if (userAvailability===true){
-      availabilitySwitch = (
-        <input
-          type="checkbox"
-          name="booking_avail"
-          value="true"
-          className="form-control"
-          checked
-          />
-      );
-
-    }
-
     return (
       <html>
         <Head />
@@ -63,8 +37,8 @@ class ArtistRegister extends React.Component {
             <h3>Edit Profile</h3>
             <form
               encType="multipart/form-data"
-              id="editArtist"
-              action="/artists?_method=put"
+              id="editUser"
+              action="/users?_method=put"
               method="post"
             >
               <div className="form-row">
@@ -75,7 +49,7 @@ class ArtistRegister extends React.Component {
                     className="form-control"
                     name="inputUsername"
                     placeholder="Username"
-                    value={account.artist_username}
+                    value={account.username}
                   />
                 </div>
               </div>
@@ -88,7 +62,7 @@ class ArtistRegister extends React.Component {
                     className="form-control"
                     name="inputDisplayName"
                     placeholder="Display Name"
-                    value={account.artist_displayname}
+                    value={account.user_displayname}
                   />
                 </div>
                 <div className="form-group col-md-4">
@@ -107,7 +81,7 @@ class ArtistRegister extends React.Component {
                 <div className="form-group col-md-3">
                   <label htmlFor="locationsOptions">Location</label>
                   <select
-                    form="editArtist"
+                    form="editUser"
                     name="inputLocation"
                     className="form-control"
                     id="locationsOptions"
@@ -115,7 +89,6 @@ class ArtistRegister extends React.Component {
                     <option value={account.location_id}>
                       {account.location_name}
                     </option>
-
                     {locationsOptions}
                   </select>
                 </div>
@@ -130,26 +103,6 @@ class ArtistRegister extends React.Component {
                 </div>
               </div>
 
-              <div className="form-row">
-                <div className="form-group col-md-5">
-                  <label htmlFor="inputWebsite">Website</label>
-
-                  <input
-                    type="url"
-                    className="form-control"
-                    name="inputWebsite"
-                    placeholder="Website"
-                    value={account.website}
-                  />
-                </div>
-                <div className="form-group col-md-5">
-                  <label htmlFor="locationsOptions">Booking Availability</label>
-                  <label class="switch d-block">
-                    {availabilitySwitch}
-                    <span class="slider round"></span>
-                  </label>
-                </div>
-              </div>
               {successAlert()}
               <button type="submit" className="btn btn-primary">
                 Update
@@ -164,4 +117,4 @@ class ArtistRegister extends React.Component {
   }
 }
 
-module.exports = ArtistRegister;
+module.exports = EditUser;

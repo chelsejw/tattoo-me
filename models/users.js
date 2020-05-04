@@ -48,7 +48,7 @@ module.exports = (dbPoolInstance) => {
     };
 
     const getOneUser = (id, callback) => {
-        let query = `SELECT * FROM users WHERE user_id = ${id}`;
+        let query = `SELECT * FROM users INNER JOIN locations ON users.location_id = locations.location_id WHERE user_id = ${id}`;
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
@@ -61,23 +61,33 @@ module.exports = (dbPoolInstance) => {
     };
 
     const updateUser = (
-        currentUserId,
-        handle,
-        displayName,
-        dpUrl,
-        hashedPw,
-        callback
+      userId,
+      username,
+      displayName,
+      email,
+      dpUrl,
+      locationId,
+      callback
     ) => {
-        let query = `UPDATE users SET handle = '${handle}', display_name = '${displayName}',dp_url = '${dpUrl}', hashed_pw = '${hashedPw}' WHERE id=${currentUserId} RETURNING *`;
 
-        dbPoolInstance.query(query, (err, result) => {
-            if (err) {
-                return callback(err, null);
-            } else if (result.rows.length < 1) {
-                return callback(null, null);
-            }
-            return callback(null, result.rows[0]);
-        });
+      let query;
+
+      if (dpUrl!==null){
+        query = `UPDATE users SET username = '${username}', user_displayname = '${displayName}', user_img = '${dpUrl}', email = '${email}', location_id = ${locationId} WHERE id=${userId} RETURNING *`;
+      } else {
+        query = `UPDATE users SET username = '${username}', user_displayname = '${displayName}', email = '${email}', location_id = ${locationId} WHERE user_id=${userId} RETURNING *`;
+      }
+
+      console.log(`update query!!!!!!!`, query)
+
+      dbPoolInstance.query(query, (err, result) => {
+        if (err) {
+          return callback(err, null);
+        } else if (result.rows.length < 1) {
+          return callback(null, null);
+        }
+        return callback(null, result.rows[0]);
+      });
     };
 
     const changeUserPassword = (userId, newPassword, callback) => {
@@ -92,6 +102,7 @@ module.exports = (dbPoolInstance) => {
             return callback(null, result.rows[0]);
         });
     };
+
 
     return {
         getAll: getAll,

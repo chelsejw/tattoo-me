@@ -62,8 +62,17 @@ module.exports = (db) => {
             }
             data.locations = locationResults
             if (req.cookies.currentUserType == "user") {
-                data.errorMsg = `Sorry, this feature is not available yet.`
-                return res.render(`error`, data);
+                return db.users.getOneUser(
+                    accountId,
+                    (err, result) => {
+                        if (err) {
+                            return res.status(404).send(err);
+                        }
+
+                        data.accountDetails = result;
+                        res.render(`users/user-settings`, data);
+                    }
+                );
             } else if (req.cookies.currentUserType == "artist") {
                 return db.artists.getArtistById(accountId, (err, result) => {
                     if (err) {
@@ -127,21 +136,21 @@ module.exports = (db) => {
                 let userId = req.cookies.currentAccountId;
                 console.log(`Have verified..`);
                 db.users.changeUserPassword(
-                  userId,
-                  newPassword,
-                  (err, result) => {
-                    if (err) {
-                      return res.status(404).send();
+                    userId,
+                    newPassword,
+                    (err, result) => {
+                        if (err) {
+                            return res.status(404).send();
+                        }
+                        data.successMsg = `Successfully updated password.`;
+                        return res.render(`password`, data);
                     }
-                    data.successMsg = `Successfully updated password.`;
-                    return res.render(`password`, data);
-                  }
                 );
             };
             db.users.getUserLogin(
-              userHandle,
-              oldPassword,
-              afterVerifyingPassword
+                userHandle,
+                oldPassword,
+                afterVerifyingPassword
             );
 
 
