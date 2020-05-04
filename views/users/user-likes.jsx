@@ -46,6 +46,10 @@ class UserLikes extends React.Component {
               </div>
               <div class="card-footer">
                 <small class="text-muted">Added {dateAdded}</small>
+                <div
+                  class="float-right"
+                  id={`tattoo_like_btn_${tattoo.tattoo_id}`}
+                ></div>
               </div>
             </div>
           </div>

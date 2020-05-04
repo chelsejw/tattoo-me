@@ -2,7 +2,9 @@ module.exports = (dbPoolInstance) => {
     // `dbPoolInstance` is accessible within this function scope
 
     let likeTattoo = (tattooId, userId, callback) => {
-        let query = `INSERT INTO likes(user_id, tattoo_id) VALUES (${userId}, ${tattooId} RETURNING *)`;
+        let query = `INSERT INTO likes(user_id, tattoo_id) VALUES (${userId}, ${tattooId}) RETURNING *`;
+
+        console.log(query)
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null);
@@ -15,7 +17,7 @@ module.exports = (dbPoolInstance) => {
 
 
     let unlikeTattoo = (tattooId, userId, callback) => {
-        let query = `DELETE FROM likes WHERE user_id=${userId} AND tattoo_id=${tattooId})`;
+        let query = `DELETE FROM likes WHERE user_id=${userId} AND tattoo_id=${tattooId}`;
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null);

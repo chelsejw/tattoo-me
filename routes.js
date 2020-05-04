@@ -43,6 +43,8 @@ module.exports = (app, allModels) => {
     app.get(`/likes`, userControllerCallbacks.showUsersLikes);
     app.delete(`/following`, userControllerCallbacks.unfollowArtist);
     app.post(`/following`, userControllerCallbacks.followArtist);
+    app.post(`/likes`, userControllerCallbacks.likeTattoo);
+    app.delete(`/likes`, userControllerCallbacks.unlikeTattoo);
 
 
     /*

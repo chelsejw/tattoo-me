@@ -209,7 +209,7 @@ module.exports = (dbPoolInstance) => {
 
     const getArtistById = (artistId, callback) => {
 
-        let query = `SELECT artists.artist_id, artists.email, website, artists.artist_username, artists.artist_displayname, artists.artist_img, artists.created_at, artists.booking_avail, artists.location_id, artists.created_at, artists.updated_at FROM artists WHERE artist_id = ${artistId}`;
+        let query = `SELECT artists.artist_id, artists.email, website, artists.artist_username, artists.artist_displayname, artists.artist_img, artists.created_at, artists.booking_avail, artists.location_id, artists.created_at, artists.updated_at, location_name FROM artists INNER JOIN locations ON artists.location_id = locations.location_id WHERE artist_id = ${artistId}`;
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {

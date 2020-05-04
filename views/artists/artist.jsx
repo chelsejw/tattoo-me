@@ -70,36 +70,55 @@ if (tattoos!==null){
 return (
   <html>
     <Head />
-    <body className="bg-dark text-white">
+    <body>
       <Nav loginData={loginData} />
-      <div className="container-fluid">
-        <div class="col">
-          <div
-            key={artist.artist_id}
-            id={`artist_${artist.artist_id}`}
-            class="card"
-          >
-            <div class="card-img-bg">
-              <img src={artist.artist_img} class="card-img-top" alt="..." />
-            </div>
-            <div id={`artist_body_${artist.artist_id}`} class="card-body">
-              <h5 class="card-title">
-                <a className="text-dark" href={`/artists/${artist.artist_id}`}>
-                  <strong>{artist.artist_displayname}</strong> @
-                  {artist.artist_username}
-                </a>
-              </h5>
-              <p><a href={artist.website}>Go to Website</a></p>
-              <p class="card-text"></p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">Joined {ago}</small>
+      <div class="row" id="body-row">
+        <div
+          id="sidebar-container"
+          class="sidebar-expanded d-none d-md-block col-3 bg-white"
+        >
+          <div class="sticky-top sticky-offset">
+            <div
+              key={artist.artist_id}
+              id={`artist_${artist.artist_id}`}
+              class="card mt-3 ml-4 shadow"
+            >
+              <div class="card-img-bg">
+                <img src={artist.artist_img} class="card-img-top" alt="..." />
+              </div>
+              <div id={`artist_body_${artist.artist_id}`} class="card-body">
+                <h5 class="card-title">
+                  <a
+                    className="text-dark"
+                    href={`/artists/${artist.artist_id}`}
+                  >
+                    <strong>{artist.artist_displayname}</strong> @
+                    {artist.artist_username}
+                  </a>
+                </h5>
+                <p>
+                  Location:{" "}
+                  <a
+                    className="text-muted"
+                    href={`/artists?locationId=${artist.location_id}&hashtagId=all&sortBy=all`}
+                  >
+                    {artist.location_name}
+                  </a>
+                  <br />
+                  <a href={artist.website}>Go to Website</a>
+                </p>
+                <p class="card-text"></p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Joined {ago}</small>
+              </div>
             </div>
           </div>
         </div>
-        <h2>Portfolio</h2>
-        <div className="row" id="artist-gallery">
-          {tattooCards}
+        <div className="col py-3 main-content">
+          <div className="row card-deck" id="artist-gallery">
+            {tattooCards}
+          </div>
         </div>
       </div>
 
