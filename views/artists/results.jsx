@@ -14,7 +14,21 @@ class ArtistRegister extends React.Component {
       const locations = this.props.locations
       const hashtags = this.props.hashtags
       const resultsArr = this.props.results 
-      console.log(resultsArr)
+      
+    const sortOption = this.props.query.sortBy;
+    let sortBy = `newest to oldest`;
+    if (sortOption === "created_asc") {
+      sortBy = `oldest to newest`;
+    } else if (sortOption === 'name_asc'){
+      sortBy = `name (ascending)`
+    } else if (sortOption === 'name_desc'){
+      sortBy = `name (descending)`
+    }
+      const locationQuery = this.props.locationName;
+      const hashtagQuery = this.props.hashtagName
+      console.log(sortOption);
+      console.log(locationQuery);
+      console.log(hashtagQuery)
 
       const locationsOptions = locations.map( location => {
           return <option key={location.location_id} value={location.location_id}>{location.location_name}</option>
@@ -153,7 +167,7 @@ class ArtistRegister extends React.Component {
                       <option value="name_asc">Name (A-Z)</option>
 
                       <option value="name_desc">Name (Z-A)</option>
-                      
+
                       <option value="created_desc">Newest to Oldest</option>
                       <option value="created_asc">Oldest to Newest</option>
                     </select>
@@ -173,8 +187,10 @@ class ArtistRegister extends React.Component {
 
             <div class="col py-3 main-content">
               <h3>
-                Showing <span class="text-muted">{resultLength}</span>{" "}
-                results
+                Showing <span class="text-muted">{resultLength}</span> results
+                for <span class="text-muted">{hashtagQuery}</span> artists in{" "}
+                <span class="text-muted">{locationQuery}</span> by{" "}
+                {<span class="text-muted">{sortBy}</span>}
               </h3>
 
               <hr />

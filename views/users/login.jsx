@@ -3,8 +3,12 @@ import Nav from "../components/nav";
 import Head from "../components/header";
 import BootstrapJs from "../components/bootstrap-js";
 
+
 class UserLogin extends React.Component {
   render() {
+
+              const sha256 = require("js-sha256");
+              console.log(`test in hash is`, sha256("test"));
 
                 const loginData = this.props.loginData;
     return (
@@ -36,6 +40,7 @@ class UserLogin extends React.Component {
                 placeholder="Password"
                 value="test"
               />
+
 
               <button type="submit" className="btn btn-primary mb-2">
                 Login

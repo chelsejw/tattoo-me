@@ -71,73 +71,114 @@ module.exports = (db) => {
         let data = {}
         data.loginData = req.cookies
 
-        db.locations.getAllLocations(
-            (locationsErr, locationsResult) => {
-                if (locationsErr) {
-                    return res.status(404).send(locationsErr);
+        let sortOption = req.query.sortBy;
+        let hashtagQuery = req.query.hashtagId;
+        let locationQuery = req.query.locationId;
+        data.query = {
+            hashtagId: hashtagQuery,
+            sortBy: sortOption,
+            location: locationQuery
+        };
+
+        console.log(data.query)
+
+
+        if (hashtagQuery == 'all') {
+            data.hashtagName = 'all'
+        }
+
+        if (locationQuery == 'all') {
+            data.locationName = 'everywhere';
+        }
+
+        if (hashtagQuery !== 'all') {
+            db.hashtags.getHashtagById(hashtagQuery, (err, result) => {
+                if (err) {
+                    return res.status(404).send(err);
                 }
+                data.hashtagName = result.hashtag_name;
+            })
+        }
 
-                data.locations = locationsResult;
-                db.hashtags.getAllHashtags(
-                    (hashtagErr, hashtagResult) => {
-                        if (hashtagErr) {
-                            return res.status(404).send(hashtagErr);
+        if (locationQuery !== 'all') {
+            db.locations.getLocationById(locationQuery, (err, result) => {
+                if (err) {
+                    return res.status(404).send(err);
+                }
+                data.locationName = result.location_name;
+            })
+        }
+
+        db.locations.getAllLocations((locationsErr, locationsResult) => {
+            if (locationsErr) {
+                return res.status(404).send(locationsErr);
+            }
+            data.locations = locationsResult;
+            db.hashtags.getAllHashtags((hashtagErr, hashtagResult) => {
+                if (hashtagErr) {
+                    return res.status(404).send(hashtagErr);
+                }
+                data.hashtags = hashtagResult;
+                let sortBy = req.query.sortBy;
+                if (
+                    (locationId == "all" && hashtagId == "all") ||
+                    !hashtagId ||
+                    !locationId
+                ) {
+                    return db.artists.getAll(sortBy, (searchErr, searchResults) => {
+                        if (searchErr) {
+                            return res.send(`Error`, searchErr);
                         }
-                        data.hashtags = hashtagResult;
-                        let sortBy = req.query.sortBy
-                        if (locationId == "all" && hashtagId == "all" || !hashtagId || !locationId) {
+                        data.results = searchResults;
+                        res.render(`artists/results`, data);
+                    });
 
-                            return db.artists.getAll(sortBy, (searchErr, searchResults) => {
-                                if (searchErr) {
-                                    return res.send(`Error`, searchErr);
-                                }
-
-                                data.results = searchResults;
-                                res.render(`artists/results`, data);
-                            });
-
-                            //If no hashtag specified, just get artists by location
-                        } else if (hashtagId == "all") {
-                            return db.artists.getArtistsByLocation(sortBy,
-                                locationId,
-                                (searchErr, searchResults) => {
-                                    if (searchErr) {
-                                        return res.status(404).send(searchErr);
-                                    }
-                                    data.results = searchResults;
-                                    res.render(`artists/results`, data);
-                                }
-                            );
-                            //If no location specified, get artists by hashtag
-                        } else if (locationId == "all") {
-                            return db.artists.getArtistsByHashtag(sortBy,
-                                hashtagId,
-                                (searchErr, searchResults) => {
-                                    if (searchErr) {
-                                        return res.status(404).send(searchErr);
-                                    }
-
-                                    data.results = searchResults
-                                    res.render(`artists/results`, data);
-                                }
-                            );
-                        }
-                        return db.artists.getArtistsByHashtagAndLocation(sortBy,
-                            hashtagId,
-                            locationId,
-                            (searchErr, searchResults) => {
-                                if (searchErr) {
-                                    return res.status(404).send(searchErr);
-                                }
-                                data.results = searchResults;
-                                console.log(data);
-
-                                res.render(`artists/results`, data);
+                    //If no hashtag specified, just get artists by location
+                } else if (hashtagId == "all") {
+                    return db.artists.getArtistsByLocation(
+                        sortBy,
+                        locationId,
+                        (searchErr, searchResults) => {
+                            if (searchErr) {
+                                return res.status(404).send(searchErr);
                             }
-                        );
+                            data.results = searchResults;
+                            res.render(`artists/results`, data);
+                        }
+                    );
+                    //If no location specified, get artists by hashtag
+                } else if (locationId == "all") {
+                    return db.artists.getArtistsByHashtag(
+                        sortBy,
+                        hashtagId,
+                        (searchErr, searchResults) => {
+                            if (searchErr) {
+                                return res.status(404).send(searchErr);
+                            }
+
+                            data.results = searchResults;
+                            res.render(`artists/results`, data);
+                        }
+                    );
+                }
+                return db.artists.getArtistsByHashtagAndLocation(
+                    sortBy,
+                    hashtagId,
+                    locationId,
+                    (searchErr, searchResults) => {
+                        if (searchErr) {
+                            return res.status(404).send(searchErr);
+                        }
+                        data.results = searchResults;
+                        console.log(data);
+
+                        res.render(`artists/results`, data);
                     }
                 );
             });
+        });
+
+
     }
 
     const sha256 = require("js-sha256");
