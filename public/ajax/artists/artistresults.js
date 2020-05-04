@@ -28,7 +28,7 @@ const createHashtags = () => {
       hashtagsArr.forEach((hashtag) => {
         const newButton = hashtagButton(
           `#${hashtag.hashtag_name}`,
-          `/hashtags/${hashtag.hashtag_id}`
+          `/artists?locationId=all&hashtagId=${hashtag.hashtag_id}&sortBy=all`
         );
         const cardBody = document.getElementById(`body_${artistId}`);
         cardBody.appendChild(newButton);

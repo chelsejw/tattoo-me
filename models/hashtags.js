@@ -98,6 +98,7 @@ module.exports = (dbPoolInstance) => {
       });
     };
 
+
     return {
         getAllHashtags: getAllHashtags,
         getHashtagById: getHashtagById,

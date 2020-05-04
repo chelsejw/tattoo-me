@@ -139,6 +139,7 @@ module.exports = (db) => {
 
     const sha256 = require("js-sha256");
 
+
     let addArtistControllerCallback = (req, res) => {
         let usernameInput = req.body.inputUsername;
         let passwordInput = sha256(req.body.inputPassword);
@@ -324,6 +325,70 @@ module.exports = (db) => {
             });
     };
 
+    const showEditArtistHashtagsController = (req, res) => {
+        const data = {};
+        data.loginData = req.cookies;
+
+        if (req.cookies.currentUserType !== "artist") {
+            data.errorMsg = `Only artists can view this page. Please login as an artist to view.`;
+            return res.render(`error`, data);
+        }
+
+        const artistId = parseInt(req.cookies.currentAccountId)
+
+        //get all hashtags
+
+        db.hashtags.getAllHashtags((err, allHashtags) => {
+            if (err) {
+                return res.status(404).send(err);
+            }
+            data.hashtags = allHashtags;
+
+            db.artists.getArtistById(artistId, (err, artistResult) => {
+                if (err) {
+                    return res.status(404).send(err);
+                }
+                data.artist = artistResult;
+                return res.render(`artists/edit-hashtags`, data);
+            });
+        });
+    }
+
+    const editArtistHashtagsController = (req, res) => {
+        const data = {};
+        data.loginData = req.cookies;
+        console.log(req.body);
+
+
+        if (req.cookies.currentUserType !== "artist") {
+            data.errorMsg = `Only artists can view this page. Please login as an artist to view.`;
+            return res.render(`error`, data);
+        }
+
+        const artistId = parseInt(req.cookies.currentAccountId);
+        db.artists.deleteAllArtistHashtags(artistId, (err, result) => {
+
+            if (err) {
+                return res.status(404).send(err)
+            }
+
+            const hashtags = req.body.hashtags
+
+            hashtags.forEach((hashtag) => {
+                db.hashtags.addHashtagToArtist(
+                    hashtag,
+                    artistId,
+                    (err3, result3) => {
+                        if (err3) {
+                            return res.status(404).send(err3);
+                        }
+                        res.redirect(`/artists/${artistId}`)
+                    }
+                );
+            });
+        })
+    }
+
 
     /**
      * ===========================================
@@ -337,6 +402,8 @@ module.exports = (db) => {
         getArtistLoginForm: getArtistLoginFormControllerCallback,
         authenticateArtist: authenticateArtistControllerCallback,
         showArtistPage: showArtistPageControllerCallback,
-        updateArtistInfo: updateArtistInfo
+        updateArtistInfo: updateArtistInfo,
+        showEditArtistHashtags: showEditArtistHashtagsController,
+        editArtistHashtags: editArtistHashtagsController
     };
 };

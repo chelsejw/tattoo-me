@@ -13,6 +13,7 @@ let tattooCards;
 
   const moment = require("moment");
       moment().format();
+            const ago = moment(artist.created_at).fromNow();
 
 if (tattoos!==null){
     tattooCards = tattoos.map( tattoo => {
@@ -72,19 +73,34 @@ return (
     <body className="bg-dark text-white">
       <Nav loginData={loginData} />
       <div className="container-fluid">
-        <h3>
-          {artist.artist_displayname} @{artist.artist_username}{" "}
-        </h3>
-
-        <img src={artist.artist_img}></img>
-        <p id="artistId" style={{ display: "none" }}>
-          {artist.artist_id}
-        </p>
-      </div>
+        <div class="col">
+          <div
+            key={artist.artist_id}
+            id={`artist_${artist.artist_id}`}
+            class="card"
+          >
+            <div class="card-img-bg">
+              <img src={artist.artist_img} class="card-img-top" alt="..." />
+            </div>
+            <div id={`body_${artist.artist_id}`} class="card-body">
+              <h5 class="card-title">
+                <a className="text-dark" href={`/artists/${artist.artist_id}`}>
+                  <strong>{artist.artist_displayname}</strong> @
+                  {artist.artist_username}
+                </a>
+              </h5>
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Joined {ago}</small>
+            </div>
+          </div>
+        </div>
         <h2>Portfolio</h2>
         <div className="row" id="artist-gallery">
           {tattooCards}
         </div>
+      </div>
 
       <BootstrapJs />
       <script src="/ajax/tattoos/tattooresults.js"></script>

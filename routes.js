@@ -57,6 +57,9 @@ module.exports = (app, allModels) => {
         artistControllerCallbacks.getArtistLoginForm
     );
 
+    app.get(`/artists/edithashtags`, artistControllerCallbacks.showEditArtistHashtags);
+
+    app.put(`/artists/:id/hashtags`, artistControllerCallbacks.editArtistHashtags)
     app.post(
         "/artists/login",
         artistControllerCallbacks.authenticateArtist

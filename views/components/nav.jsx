@@ -34,6 +34,12 @@ class Nav extends React.Component {
                 >
                   View Portfolio
                 </a>
+                <a
+                  className="dropdown-item"
+                  href={`/artists/edithashtags`}
+                >
+                  Manage Your Hashtags
+                </a>
               </div>
             </li>
           );

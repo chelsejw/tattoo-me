@@ -235,18 +235,34 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    const deleteAllArtistHashtags = (artistId, callback) => {
+
+        let query = `DELETE FROM artists_hashtags WHERE artist_id = ${artistId}`;
+
+        dbPoolInstance.query(query, (err, result) => {
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows[0]);
+        });
+
+    }
+
 
 
     return {
-      getAll: getAll,
-      addArtist: addArtist,
-      getArtistsByLocation: getArtistsByLocation,
-      getArtistsByHashtag: getArtistsByHashtag,
-      getArtistsByHashtagAndLocation: getArtistsByHashtagAndLocation,
-      getArtistLogin: getArtistLogin,
-      getArtistById: getArtistById,
-      updateArtist: updateArtist,
-      changeArtistPassword: changeArtistPassword,
-      getArtistByUsername: getArtistByUsername,
+        getAll: getAll,
+        addArtist: addArtist,
+        getArtistsByLocation: getArtistsByLocation,
+        getArtistsByHashtag: getArtistsByHashtag,
+        getArtistsByHashtagAndLocation: getArtistsByHashtagAndLocation,
+        getArtistLogin: getArtistLogin,
+        getArtistById: getArtistById,
+        updateArtist: updateArtist,
+        changeArtistPassword: changeArtistPassword,
+        getArtistByUsername: getArtistByUsername,
+        deleteAllArtistHashtags: deleteAllArtistHashtags
     };
 };
