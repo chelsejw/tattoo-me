@@ -221,17 +221,32 @@ module.exports = (dbPoolInstance) => {
 
     }
 
+    const getArtistByUsername = (usernameQuery, callback) => {
+
+        let query = `SELECT * FROM artists WHERE artists.artist_username = '${usernameQuery}'`;
+
+        dbPoolInstance.query(query, (err, result) => {
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows[0]);
+        });
+    }
+
 
 
     return {
-        getAll: getAll,
-        addArtist: addArtist,
-        getArtistsByLocation: getArtistsByLocation,
-        getArtistsByHashtag: getArtistsByHashtag,
-        getArtistsByHashtagAndLocation: getArtistsByHashtagAndLocation,
-        getArtistLogin: getArtistLogin,
-        getArtistById: getArtistById,
-        updateArtist: updateArtist,
-        changeArtistPassword: changeArtistPassword
+      getAll: getAll,
+      addArtist: addArtist,
+      getArtistsByLocation: getArtistsByLocation,
+      getArtistsByHashtag: getArtistsByHashtag,
+      getArtistsByHashtagAndLocation: getArtistsByHashtagAndLocation,
+      getArtistLogin: getArtistLogin,
+      getArtistById: getArtistById,
+      updateArtist: updateArtist,
+      changeArtistPassword: changeArtistPassword,
+      getArtistByUsername: getArtistByUsername,
     };
 };

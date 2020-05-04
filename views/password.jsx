@@ -9,15 +9,26 @@ class PasswordChange extends React.Component {
 
     const success = this.props.successMsg;
 
-    const successAlert = ()=> {
-      if (success){
+    const successAlert = () => {
+      if (success) {
         return (
           <div class="alert alert-success" role="alert">
             {this.props.successMsg}
           </div>
         );
       }
-    }
+    };
+    const error = this.props.errorMsg;
+
+    const errorAlert = () => {
+      if (error) {
+        return (
+          <div class="alert alert-danger" role="alert">
+            {this.props.errorMsg}
+          </div>
+        );
+      }
+    };
 
     return (
       <html>
@@ -27,7 +38,12 @@ class PasswordChange extends React.Component {
           <div className="jumbotron bg-dark">
             <h3>Change Your Password</h3>
             {successAlert()}
-            <form className="form-inline" action="/settings/password?_method=put" method="POST">
+            {errorAlert()}
+            <form
+              className="form-inline"
+              action="/settings/password?_method=put"
+              method="POST"
+            >
               <div className="input-group mb-2 mr-sm-2">
                 <div className="input-group-prepend">
                   <div className="input-group-text">Old</div>

@@ -80,8 +80,9 @@ module.exports = (app, allModels) => {
         artistControllerCallbacks.updateArtistInfo
     );
     app.post(
-        `/artists`,
-        artistControllerCallbacks.addArtist
+      `/artists`,
+      upload.single("myFile"),
+      artistControllerCallbacks.addArtist
     );
 
     /*

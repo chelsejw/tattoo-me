@@ -147,9 +147,6 @@ module.exports = (db) => {
         let displayNameInput = req.body.inputDisplayName;
         let emailInput = req.body.inputEmail;
         let locationInput = req.body.inputLocation;
-        let imageInput = req.body.inputImage;
-
-        console.log(`in controller`, locationInput);
 
         const afterAddingArtist = (err, result) => {
             err ? console.log(err) : console.log(`Successfully added new artist.`);
@@ -163,7 +160,37 @@ module.exports = (db) => {
             res.redirect(`/`);
         };
 
-        db.artists.addArtist(usernameInput, displayNameInput, passwordInput, locationInput, emailInput, imageInput, afterAddingArtist);
+
+        const path = req.file.path;
+        const uniqueFilename = `profileimg_${new Date().toISOString()}`;
+
+        cloudinary.uploader.upload(
+            path, {
+                public_id: `profileimg/${uniqueFilename}`,
+                tags: `profile_pic`,
+            }, // directory and tags are optional
+            function (err, image) {
+                if (err) {
+                    return res.send(err);
+                }
+                console.log("file uploaded to Cloudinary");
+                // remove file from server
+                const fs = require("fs");
+                fs.unlinkSync(path);
+
+                const imageInput = image.url;
+
+                db.artists.addArtist(
+                    usernameInput,
+                    displayNameInput,
+                    passwordInput,
+                    locationInput,
+                    emailInput,
+                    imageInput,
+                    afterAddingArtist
+                );
+            }
+        );
     };
 
     let authenticateArtistControllerCallback = (req, res) => {

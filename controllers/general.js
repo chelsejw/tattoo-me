@@ -112,7 +112,7 @@ module.exports = (db) => {
       data.loginData = req.cookies;
       if (req.cookies.isLoggedIn !== "true") {
         data.errorMsg = `Sorry, you must be logged in to view this page.`;
-        return res.render(`error`, data);
+        return res.render(`password`, data);
       }
 
       if (req.cookies.currentUserType === "user") {
@@ -130,7 +130,7 @@ module.exports = (db) => {
             return res.status(404).send();
           } else if (!result) {
             data.errorMsg = `Sorry, your password was wrong.`;
-            return res.render(`error`, data);
+            return res.render(`password`, data);
           }
 
           let artistId = req.cookies.currentAccountId;
