@@ -32,7 +32,7 @@ class ArtistRegister extends React.Component {
                 <div
                   key={result.artist_id}
                   id={`artist_${result.artist_id}`}
-                  class="card"
+                  class="card shadow mb-5"
                 >
                   <div class="card-img-bg">
                     <a href={`/artists/${result.artist_id}`}>
@@ -93,8 +93,7 @@ class ArtistRegister extends React.Component {
           
             <div class="col py-3 main-content">
               <h3>
-                Showing <span class="text-muted">{resultLength}</span>{" "}
-                results
+              Artists You Follow
               </h3>
 
               <hr />

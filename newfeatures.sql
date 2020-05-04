@@ -1,12 +1,14 @@
---CREATE USERS_FOLLOWING TBALE--
--- CREATE TABLE IF NOT EXISTS following(
---       user_id INTEGER,
---       artist_id INTEGER,
---       FOREIGN KEY (user_id) REFERENCES users(user_id),
---       FOREIGN KEY (artist_id) REFERENCES artists(artist_id)
--- );
+-- CREATE USERS_FOLLOWING TBALE--
+CREATE TABLE IF NOT EXISTS following(
+      following_id SERIAL PRIMARY KEY,
+      user_id INTEGER,
+      artist_id INTEGER,
+      FOREIGN KEY (user_id) REFERENCES users(user_id),
+      FOREIGN KEY (artist_id) REFERENCES artists(artist_id)
+);
 
 -- CREATE TABLE IF NOT EXISTS likes(
+--       like_id SERIAL PRIMARY KEY,
 --       user_id INTEGER,
 --       tattoo_id INTEGER,
 -- FOREIGN KEY
@@ -17,7 +19,7 @@
 -- (tattoo_id)
 -- );
 
---INSERT LIKES AND FOLLOWING--
+-- INSERT LIKES AND FOLLOWING--
 
 -- INSERT INTO likes (user_id, tattoo_id) VALUES(4, 34);
 -- INSERT INTO likes
@@ -27,7 +29,7 @@
 --       (user_id, tattoo_id)
 -- VALUES(4, 22);
 
--- INSERT INTO following (user_id, artist_id) VALUES(4, 12);
--- INSERT INTO following
---       (user_id, artist_id)
--- VALUES(4, 11);
+INSERT INTO following (user_id, artist_id) VALUES(4, 12);
+INSERT INTO following
+      (user_id, artist_id)
+VALUES(4, 11);

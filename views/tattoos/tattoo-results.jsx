@@ -40,7 +40,7 @@ class TattooPage extends React.Component {
      tattooCards = tattoos.map((tattoo) => {
       const dateAdded = moment(tattoo.created_at).fromNow();
       return (
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+        <div class="col-lg-3 col-md-6 col-sm-12">
           <div id={`tattooId_${tattoo.tattoo_id}`} class="card">
             <div class="card-img-bg">
               <a href={`/tattoos/${tattoo.tattoo_id}`}>
@@ -60,7 +60,10 @@ class TattooPage extends React.Component {
             </div>
             <div class="card-footer">
               <small class="text-muted">Added {dateAdded}</small>
-              <div class="float-right" id={`tattoo_like_btn_${tattoo.tattoo_id}`}></div>
+              <div
+                class="float-right"
+                id={`tattoo_like_btn_${tattoo.tattoo_id}`}
+              ></div>
             </div>
           </div>
         </div>
@@ -136,7 +139,7 @@ class TattooPage extends React.Component {
 
               <hr />
               <div className="container-fluid">
-                <div className="row card-deck">{tattooCards}</div>
+                <div className="row card-deck card-columns">{tattooCards}</div>
               </div>
             </div>
           </div>

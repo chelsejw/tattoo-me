@@ -62,14 +62,8 @@ module.exports = (db) => {
             }
             data.locations = locationResults
             if (req.cookies.currentUserType == "user") {
-                return db.users.getOneUser(accountId, (err, result) => {
-                    if (err) {
-                        return res.status(404).send(err);
-                    }
-
-                    data.accountDetails = result;
-                    res.render(`settings`, data);
-                });
+                data.errorMsg = `Sorry, this feature is not available yet.`
+                return res.render(`error`, data);
             } else if (req.cookies.currentUserType == "artist") {
                 return db.artists.getArtistById(accountId, (err, result) => {
                     if (err) {
@@ -115,9 +109,46 @@ module.exports = (db) => {
         }
 
         if (req.cookies.currentUserType === "user") {
-            return res.send(`wait ah`);
+            let userHandle = req.cookies.currentUsername
+
+            const sha256 = require("js-sha256");
+
+            let oldPassword = sha256(req.body.oldPassword);
+            let newPassword = sha256(req.body.newPassword);
+
+            const afterVerifyingPassword = (err, result) => {
+                if (err) {
+                    return res.status(404).send();
+                } else if (!result) {
+                    data.errorMsg = `Sorry, your password was wrong.`;
+                    return res.render(`password`, data);
+                }
+
+                let userId = req.cookies.currentAccountId;
+                console.log(`Have verified..`);
+                db.users.changeUserPassword(
+                  userId,
+                  newPassword,
+                  (err, result) => {
+                    if (err) {
+                      return res.status(404).send();
+                    }
+                    data.successMsg = `Successfully updated password.`;
+                    return res.render(`password`, data);
+                  }
+                );
+            };
+            db.users.getUserLogin(
+              userHandle,
+              oldPassword,
+              afterVerifyingPassword
+            );
+
+
+
         } else if (req.cookies.currentUserType === "artist") {
             let artistHandle = req.cookies.currentUsername;
+
 
             const sha256 = require("js-sha256");
 

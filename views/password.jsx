@@ -68,7 +68,7 @@ class PasswordChange extends React.Component {
               </div>
 
               <button type="submit" className="btn btn-primary mb-2">
-                Login
+                Update Password
               </button>
             </form>
           </div>

@@ -15,8 +15,35 @@ let tattooCards;
       moment().format();
             const ago = moment(artist.created_at).fromNow();
 
+          
+const manageButtons = (tattooId) =>{
+
+  if (loginData.currentUserType==='artist' && tattoos[0].artist_id===parseInt(loginData.currentAccountId)){
+    return (
+      <div>
+        <a href={`/tattoos/${tattooId}/edit`}>
+          <button className="btn btn-sm btn-warning d-inline">Edit</button>{" "}
+        </a>
+        <form
+          className="form-inline d-inline"
+          action={`/tattoos/${tattooId}?_method=delete`}
+          method="post"
+        >
+          <button type="submit" className="btn btn-sm btn-danger d-inline">
+            Delete
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+
+}
+
 if (tattoos!==null){
     tattooCards = tattoos.map( tattoo => {
+
+
       const dateAdded = moment(tattoo.created_at).fromNow();
       return (
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
@@ -29,7 +56,7 @@ if (tattoos!==null){
             <div class="card-body">
               <h6 class="card-title">
                 By:{" "}
-                <a className="text-muted" href={`artists/${tattoo.artist_id}`}>
+                <a className="text-muted" href={`/artists/${tattoo.artist_id}`}>
                   {artist.artist_displayname} @{artist.artist_username}
                 </a>
               </h6>
@@ -37,23 +64,7 @@ if (tattoos!==null){
                 <p id={`body_${tattoo.tattoo_id}`} class="card-text"></p>
               </p>
               <div>
-                <a href={`/tattoos/${tattoo.tattoo_id}/edit`}>
-                  <button className="btn btn-sm btn-warning d-inline">
-                    Edit
-                  </button>{" "}
-                </a>
-                <form
-                  className="form-inline d-inline"
-                  action={`/tattoos/${tattoo.tattoo_id}?_method=delete`}
-                  method="post"
-                >
-                  <button
-                    type="submit"
-                    className="btn btn-sm btn-danger d-inline"
-                  >
-                    Delete
-                  </button>
-                </form>
+                {manageButtons(tattoo.tattoo_id)}
               </div>
             </div>
             <div class="card-footer">

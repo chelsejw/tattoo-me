@@ -24,7 +24,7 @@ class UserLikes extends React.Component {
         const dateAdded = moment(tattoo.created_at).fromNow();
         return (
           <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-            <div id={`tattooId_${tattoo.tattoo_id}`} class="card">
+            <div id={`tattooId_${tattoo.tattoo_id}`} class="card shadow mb-5">
               <div class="card-img-bg">
                 <a href={`/tattoos/${tattoo.tattoo_id}`}>
                   <img src={tattoo.tattoo_img} class="card-img-top" alt="..." />
@@ -65,7 +65,7 @@ class UserLikes extends React.Component {
           <div class="row" id="body-row">
             <div class="col py-3 main-content">
               <h3>
-              Your Likes
+              Tattoos You Liked
               </h3>
 
               <hr />

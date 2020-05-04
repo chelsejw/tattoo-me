@@ -9,38 +9,52 @@ class Nav extends React.Component {
           let authRoutes;
           
           let artistNavs = (
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Your Portfolio
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="/tattoos/new">
-                  Add Tattoo
-                </a>
-                <a className="dropdown-item" href="/hashtags/new">
-                  Add Hashtag
-                </a>
+            <li>
+              <li className="nav-item dropdown">
                 <a
-                  className="dropdown-item"
-                  href={`/artists/${loginData.currentAccountId}`}
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
                 >
-                  View Portfolio
+                  Create
                 </a>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a className="dropdown-item" href="/tattoos/new">
+                    Add Tattoo
+                  </a>
+                  <a className="dropdown-item" href="/hashtags/new">
+                    Add Hashtag
+                  </a>
+                </div>
+              </li>
+              <li className="nav-item dropdown">
                 <a
-                  className="dropdown-item"
-                  href={`/artists/edithashtags`}
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
                 >
-                  Manage Your Hashtags
+                  Manage
                 </a>
-              </div>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a
+                    className="dropdown-item"
+                    href={`/artists/${loginData.currentAccountId}`}
+                  >
+                    View Portfolio
+                  </a>
+                  <a className="dropdown-item" href={`/artists/edithashtags`}>
+                    Your Hashtags
+                  </a>
+                </div>
+              </li>
             </li>
           );
 
@@ -55,14 +69,14 @@ class Nav extends React.Component {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Bookmarks
+                Your Faves
               </a>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a className="dropdown-item" href="/following">
-                  Following
+                  Artists
                 </a>
                 <a className="dropdown-item" href="/likes">
-                  Liked Tattoos
+                  Tattoos
                 </a>
               </div>
             </li>

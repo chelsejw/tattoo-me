@@ -359,6 +359,13 @@ module.exports = (db) => {
                 if (err) {
                     return res.status(404).send(err);
                 }
+                setArtistCookies(
+                    result.artist_id,
+                    result.artist_username,
+                    result.artist_displayname,
+                    result.location_id,
+                    res
+                );
                 res.redirect(`/settings?updated=true`);
             });
     };

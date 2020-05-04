@@ -29,7 +29,7 @@ module.exports = (dbPoolInstance) => {
     };
 
     let getUsersLikes = (userId, callback) => {
-        let query = `SELECT * FROM likes INNER JOIN tattoos ON likes.tattoo_id=tattoos.tattoo_id INNER JOIN artists ON artists.artist_id = tattoos.artist_id WHERE likes.user_id = ${userId}`;
+        let query = `SELECT * FROM likes INNER JOIN tattoos ON likes.tattoo_id=tattoos.tattoo_id INNER JOIN artists ON artists.artist_id = tattoos.artist_id WHERE likes.user_id = ${userId} ORDER BY like_id DESC`;
 
         console.log(query)
         dbPoolInstance.query(query, (err, result) => {
@@ -67,7 +67,7 @@ module.exports = (dbPoolInstance) => {
     };
 
     let getUsersFollowing = (userId, callback) => {
-        let query = `SELECT * FROM artists INNER JOIN following ON artists.artist_id = following.artist_id WHERE following.user_id = ${userId}`;
+        let query = `SELECT * FROM artists INNER JOIN following ON artists.artist_id = following.artist_id INNER JOIN locations ON artists.location_id = locations.location_id WHERE following.user_id = ${userId} ORDER BY following_id DESC`;
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null);
