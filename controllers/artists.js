@@ -85,7 +85,7 @@ module.exports = (db) => {
                         }
                         data.hashtags = hashtagResult;
                         let sortBy = req.query.sortBy
-                        if (locationId == "all" && hashtagId == "all" || !hashtagId || !locationId || !sortBy) {
+                        if (locationId == "all" && hashtagId == "all" || !hashtagId || !locationId) {
 
                             return db.artists.getAll(sortBy, (searchErr, searchResults) => {
                                 if (searchErr) {
@@ -160,6 +160,14 @@ module.exports = (db) => {
 
             const artistId = result.artist_id;
 
+            setArtistCookies(
+                result.artist_id,
+                result.artist_username,
+                result.artist_displayname,
+                result.location_id,
+                res
+            );
+
             //After adding artist, add the hashtags.
             hashtags.forEach((hashtag) => {
                 db.hashtags.addHashtagToArtist(
@@ -169,14 +177,6 @@ module.exports = (db) => {
                         if (hashtagErr) {
                             return res.status(404).send(hashtagErr);
                         }
-
-                        setArtistCookies(
-                            result.artist_id,
-                            result.artist_username,
-                            result.artist_displayname,
-                            result.location_id,
-                            res
-                        );
                     }
                 );
             });
@@ -330,6 +330,14 @@ module.exports = (db) => {
                             if (err) {
                                 return res.status(404).send(err);
                             }
+
+                            setArtistCookies(
+                                result.artist_id,
+                                result.artist_username,
+                                result.artist_displayname,
+                                result.location_id,
+                                res
+                            );
                             res.redirect(`/settings?updated=true`);
                         }
                     );
