@@ -15,15 +15,15 @@ class EditArtistHashtags extends React.Component {
 
     const hashtagsCheckList = hashtags.map((hashtag) => {
       return (
-        <div className="d-inline mr-4">
+        <div className="form-check-inline">
           <input
             type="checkbox"
             name="hashtags"
             value={hashtag.hashtag_id}
-            className="mr-2"
+            className="form-check-input"
             id={`hashtag_${hashtag.hashtag_id}`}
           />
-          <label className="text-dark">{hashtag.hashtag_name}</label>
+          <label className="form-check-label text-dark">{hashtag.hashtag_name}</label>
         </div>
       );
     });

@@ -1,10 +1,6 @@
-const checkboxes = document.querySelectorAll('input')
-
 const tickHashtags = () => {
 
     let request = new XMLHttpRequest();
-
-
 
     const tattooId = document.querySelector('.card').id.slice(9);
 

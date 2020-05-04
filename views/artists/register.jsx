@@ -14,6 +14,23 @@ class ArtistRegister extends React.Component {
         </option>
       );
     });
+    const hashtags = this.props.hashtags
+        const hashtagsCheckList = hashtags.map((hashtag) => {
+          return (
+            <div className="form-check-inline">
+              <input
+                type="checkbox"
+                name="hashtags"
+                value={hashtag.hashtag_id}
+                className="form-check-input"
+                id={`hashtag_${hashtag.hashtag_id}`}
+              />
+              <label className="form-check-label">{hashtag.hashtag_name}</label>
+            </div>
+          );
+        });
+
+
     return (
       <html>
         <Head />
@@ -51,7 +68,7 @@ class ArtistRegister extends React.Component {
               </div>
 
               <div className="form-row">
-                <div className="form-group col-md-4">
+                <div className="form-group col-md-6">
                   <label htmlFor="inputDisplayName">Display Name</label>
                   <input
                     type="text"
@@ -61,7 +78,7 @@ class ArtistRegister extends React.Component {
                     required
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group col-md-6">
                   <label htmlFor="inputPassword4">Email</label>
                   <input
                     type="text"
@@ -95,6 +112,12 @@ class ArtistRegister extends React.Component {
                     placeholder="Image"
                     required
                   />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="inputDisplayName">What kind of works do you do?</label>
+                  <br/>{hashtagsCheckList}
                 </div>
               </div>
 

@@ -50,9 +50,12 @@ module.exports = (db) => {
             if (err) {
                 return res.status(404).send(err)
             }
-
             data.locations = locationResults
-            res.render(`artists/register`, data);
+            db.hashtags.getAllHashtags((err, hashtagResults) => {
+                data.hashtags = hashtagResults
+                res.render(`artists/register`, data);
+
+            })
         })
     };
 
@@ -146,17 +149,38 @@ module.exports = (db) => {
         let displayNameInput = req.body.inputDisplayName;
         let emailInput = req.body.inputEmail;
         let locationInput = req.body.inputLocation;
+        let hashtags = req.body.hashtags
 
         const afterAddingArtist = (err, result) => {
-            err ? console.log(err) : console.log(`Successfully added new artist.`);
-            setArtistCookies(
-                result.artist_id,
-                result.artist_username,
-                result.artist_displayname,
-                result.location_id,
-                res
-            );
-            res.redirect(`/`);
+
+            if (err) {
+                return res.status(404).send(err);
+            }
+
+            const artistId = result.artist_id;
+
+            //After adding artist, add the hashtags.
+            hashtags.forEach((hashtag) => {
+                db.hashtags.addHashtagToArtist(
+                    hashtag,
+                    artistId,
+                    (hashtagErr, hashtagResult) => {
+                        if (hashtagErr) {
+                            return res.status(404).send(hashtagErr);
+                        }
+
+                        setArtistCookies(
+                            result.artist_id,
+                            result.artist_username,
+                            result.artist_displayname,
+                            result.location_id,
+                            res
+                        );
+                        res.redirect(`/`);
+                    }
+                );
+            });
+
         };
 
 
@@ -357,8 +381,6 @@ module.exports = (db) => {
     const editArtistHashtagsController = (req, res) => {
         const data = {};
         data.loginData = req.cookies;
-        console.log(req.body);
-
 
         if (req.cookies.currentUserType !== "artist") {
             data.errorMsg = `Only artists can view this page. Please login as an artist to view.`;
@@ -381,11 +403,12 @@ module.exports = (db) => {
                     (err3, result3) => {
                         if (err3) {
                             return res.status(404).send(err3);
-                        }
-                        res.redirect(`/artists/${artistId}`)
+                        };
                     }
                 );
             });
+            res.redirect(`/artists/${artistId}`);
+
         })
     }
 

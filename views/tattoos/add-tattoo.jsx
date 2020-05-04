@@ -7,12 +7,25 @@ class AddTattoo extends React.Component {
   render() {
                 const loginData = this.props.loginData;
 
-                const hashtags = this.props.hashtags
+ const hashtags = this.props.hashtags;
 
+ const hashtagsCheckList = hashtags.map((hashtag) => {
+   return (
+     <div className="form-check-inline">
+       <input
+         type="checkbox"
+         name="hashtags"
+         value={hashtag.hashtag_id}
+         className="form-check-input"
+         id={`hashtag_${hashtag.hashtag_id}`}
+       />
+       <label className="form-check-label">
+         {hashtag.hashtag_name}
+       </label>
+     </div>
+   );
+ });
 
-                const hashtagOptions = hashtags.map( hashtag => {
-                  return <option key={hashtag.hashtag_id} id={`option-${hashtag.hashtag_id}`} value={hashtag.hashtag_id}>{hashtag.hashtag_name}</option>
-                })
 
     return (
       <html>
@@ -28,6 +41,8 @@ class AddTattoo extends React.Component {
               method="POST"
               id="newTattoo"
             >
+              <br />
+              <label htmlFor="myFile">Upload tattoo image</label>
               <input
                 type="file"
                 className="form-control-file"
@@ -35,19 +50,17 @@ class AddTattoo extends React.Component {
                 placeholder="Image"
                 required
               />
+              <br />
               <label htmlFor="inputHashtag">Add Hashtags</label>
-              <select
-                id="hashtagOptions"
-              >
-                {hashtagOptions}
-              </select>
-              <button id="add-hashtag" className="btn btn-sm btn-primary">
-                +
-              </button> 
-              <div id="hashtags-selected">
-              </div>
+              <br />
+              {hashtagsCheckList}
+              <br />
               <p>
-                <button type="submit" id="submitBtn" className="btn btn-primary mb-2">
+                <button
+                  type="submit"
+                  id="submitBtn"
+                  className="btn btn-primary mt-3 mb-2"
+                >
                   Add To Portfolio
                 </button>
               </p>

@@ -17,15 +17,17 @@ class EditTattoo extends React.Component {
     const hashtagsCheckList = hashtags.map( hashtag => {
 
                         return (
-                          <div className="d-inline mr-4">
+                          <div className="form-check-inline">
                             <input
                               type="checkbox"
                               name="hashtags"
                               value={hashtag.hashtag_id}
-                              className="mr-2"
+                              className="form-check-input"
                               id={`hashtag_${hashtag.hashtag_id}`}
                             />
-                            <label className="text-dark">{hashtag.hashtag_name}</label>
+                            <label className="form-check-label text-dark">
+                              {hashtag.hashtag_name}
+                            </label>
                           </div>
                         );
             })
@@ -81,7 +83,7 @@ class EditTattoo extends React.Component {
                       </p>
                     </p>
 
-                    <button type="submit" className="btn btn-primary mb-2">
+                    <button type="submit" id="submitBtn" className="btn btn-primary mb-2">
                       Update Tattoo
                     </button>
                   </div>
@@ -91,6 +93,7 @@ class EditTattoo extends React.Component {
           </div>
           <BootstrapJs />
           <script src="/ajax/edit-hashtags.js"></script>
+          <script src="/ajax/hashtag_manip.js"></script>
         </body>
       </html>
     );
