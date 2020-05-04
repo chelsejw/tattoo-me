@@ -48,11 +48,11 @@ class ArtistRegister extends React.Component {
                   class="card"
                 >
                   <div class="card-img-bg">
-                    <img
+                    <a href={`/artists/${result.artist_id}`}><img
                       src={result.artist_img}
                       class="card-img-top"
                       alt="..."
-                    />
+                    /></a>
                   </div>
                   <div id={`body_${result.artist_id}`} class="card-body">
                     <h5 class="card-title">
@@ -64,7 +64,9 @@ class ArtistRegister extends React.Component {
                         {result.artist_username}
                       </a>
                     </h5>
-                    <p>Location: <a href={`/artists?locationId=${result.location_id}&hashtagId=all&sortBy=all`}>{result.location_name}</a></p>
+                    <p>Location: <a className="text-muted" href={`/artists?locationId=${result.location_id}&hashtagId=all&sortBy=all`}>{result.location_name}</a>
+                    <br/><small><a href={`//${result.website}`}>Go to Website</a></small></p>
+    
                     {availability}
                     <p class="card-text"></p>
                   </div>

@@ -128,6 +128,17 @@ class ArtistRegister extends React.Component {
 
               <div className="form-row">
                 <div className="form-group col-md-5">
+                  <label htmlFor="inputWebsite">Website</label>
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="inputWebsite"
+                    placeholder="Website"
+                    value={account.website}
+                  />
+                </div>
+                <div className="form-group col-md-5">
                   <label htmlFor="locationsOptions">Booking Availability</label>
                   <label class="switch d-block">
                     {availabilitySwitch}

@@ -40,10 +40,10 @@ module.exports = (dbPoolInstance) => {
         });
     };
 
-    const addArtist = (username, displayname, pw, location_id, email, artist_img, callback) => {
-        let values = [username, displayname, pw, location_id, email, true, artist_img];
+    const addArtist = (username, displayname, pw, location_id, email, artist_img, website, callback) => {
+        let values = [username, displayname, pw, location_id, email, true, artist_img, website];
 
-        let query = `INSERT INTO artists(artist_username, artist_displayname, artist_pw, location_id, email, booking_avail, artist_img) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+        let query = `INSERT INTO artists(artist_username, artist_displayname, artist_pw, location_id, email, booking_avail, artist_img, website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`;
 
         dbPoolInstance.query(query, values, (err, result) => {
             if (err) {
@@ -56,13 +56,14 @@ module.exports = (dbPoolInstance) => {
 
     };
 
-    const updateArtist = (artistId, username, displayname, location_id, email, availability, image, callback) => {
+    const updateArtist = (artistId, username, displayname, location_id, email, availability, image, website, callback) => {
 
         //If there's no image. 
         if (!image) {
 
-            let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', booking_avail = ${availability} WHERE artist_id = ${artistId} RETURNING *`;
+            let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', booking_avail = ${availability}, website = '${website}' WHERE artist_id = ${artistId} RETURNING *`;
 
+            console.log(query)
             return dbPoolInstance.query(query, (err, result) => {
                 if (err) {
                     return callback(err, null);
@@ -74,7 +75,7 @@ module.exports = (dbPoolInstance) => {
         }
 
         //If there is an image. 
-        let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', booking_avail = ${availability}, artist_img = '${image}' WHERE artist_id = ${artistId} RETURNING *`;
+        let query = `UPDATE artists SET artist_username = '${username}', artist_displayname='${displayname}', location_id = ${location_id}, email = '${email}', booking_avail = ${availability}, website = '${website}', artist_img = '${image}' WHERE artist_id = ${artistId} RETURNING *`;
         console.log(` image query:`, query);
 
         dbPoolInstance.query(query, (err, result) => {
@@ -123,7 +124,7 @@ module.exports = (dbPoolInstance) => {
                 break;
         }
 
-        let query = `SELECT artists.artist_id, artist_username, artists.artist_img, artist_displayname, artists.location_id, location_name, email, booking_avail, created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id WHERE artists.location_id = ${locationId} ORDER BY ${sortQuery}`;
+        let query = `SELECT artists.artist_id, website, artist_username, artists.artist_img, artist_displayname, artists.location_id, location_name, email, booking_avail, created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id WHERE artists.location_id = ${locationId} ORDER BY ${sortQuery}`;
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
@@ -155,7 +156,7 @@ module.exports = (dbPoolInstance) => {
                 sortQuery = `artist_id DESC`;
                 break;
         }
-        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id WHERE artists_hashtags.hashtag_id = ${hashtagId} ORDER BY ${sortQuery}`;
+        let query = `SELECT artists.artist_id, website, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id WHERE artists_hashtags.hashtag_id = ${hashtagId} ORDER BY ${sortQuery}`;
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null)
@@ -180,7 +181,7 @@ module.exports = (dbPoolInstance) => {
                 sortQuery = `artist_id DESC`;
                 break;
         }
-        let query = `SELECT artists.artist_id, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id WHERE artists_hashtags.hashtag_id = ${hashtagId} AND artists.location_id = ${locationId} ORDER BY ${sortQuery}`;
+        let query = `SELECT artists.artist_id, website, artists.artist_img, artist_username, artist_displayname, artists.location_id, location_name, email, booking_avail, artists.created_at FROM artists INNER JOIN locations ON locations.location_id = artists.location_id INNER JOIN artists_hashtags ON artists.artist_id = artists_hashtags.artist_id INNER JOIN hashtags ON hashtags.hashtag_id = artists_hashtags.hashtag_id WHERE artists_hashtags.hashtag_id = ${hashtagId} AND artists.location_id = ${locationId} ORDER BY ${sortQuery}`;
         dbPoolInstance.query(query, (err, result) => {
             if (err) {
                 return callback(err, null);
@@ -208,7 +209,7 @@ module.exports = (dbPoolInstance) => {
 
     const getArtistById = (artistId, callback) => {
 
-        let query = `SELECT artists.artist_id, artists.email, artists.artist_username, artists.artist_displayname, artists.artist_img, artists.created_at, artists.booking_avail, artists.location_id, artists.created_at, artists.updated_at FROM artists WHERE artist_id = ${artistId}`;
+        let query = `SELECT artists.artist_id, artists.email, website, artists.artist_username, artists.artist_displayname, artists.artist_img, artists.created_at, artists.booking_avail, artists.location_id, artists.created_at, artists.updated_at FROM artists WHERE artist_id = ${artistId}`;
 
         dbPoolInstance.query(query, (err, result) => {
             if (err) {

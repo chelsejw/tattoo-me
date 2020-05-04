@@ -68,7 +68,7 @@ class ArtistRegister extends React.Component {
               </div>
 
               <div className="form-row">
-                <div className="form-group col-md-6">
+                <div className="form-group col-md-4">
                   <label htmlFor="inputDisplayName">Display Name</label>
                   <input
                     type="text"
@@ -78,13 +78,23 @@ class ArtistRegister extends React.Component {
                     required
                   />
                 </div>
-                <div className="form-group col-md-6">
+                <div className="form-group col-md-4">
                   <label htmlFor="inputPassword4">Email</label>
                   <input
                     type="text"
                     className="form-control"
                     name="inputEmail"
                     placeholder="Email"
+                    required
+                  />
+                </div>
+                <div className="form-group col-md-4">
+                  <label htmlFor="inputPassword4">Website</label>
+                  <input
+                    type="url"
+                    className="form-control"
+                    name="inputWebsite"
+                    placeholder="Website"
                     required
                   />
                 </div>
@@ -116,8 +126,11 @@ class ArtistRegister extends React.Component {
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="inputDisplayName">What kind of works do you do?</label>
-                  <br/>{hashtagsCheckList}
+                  <label htmlFor="inputDisplayName">
+                    What kind of works do you do?
+                  </label>
+                  <br />
+                  {hashtagsCheckList}
                 </div>
               </div>
 

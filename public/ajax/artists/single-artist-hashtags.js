@@ -14,35 +14,38 @@ const hashtagButton = (text, url) => {
 };
 
 const createTattooHashtags = () => {
-  tattooCards.forEach((cardDiv) => {
+  
+  tattooCards.forEach(div => {
+    
+    if (div.nodeName=="DIV"){
+          let card = div.childNodes[0];
+          let request = new XMLHttpRequest();
+          const tattooId = card.id.slice(9);
+          console.log(`tattoo id is ${tattooId}`);
+          const whenRequestLoads = () => {
+            //If no hashtags are found, do not do dom manipulation.
+            if (!request.responseText) {
+              return;
+            }
 
-    let card = cardDiv.childNodes[0]
-    let request = new XMLHttpRequest();
-    console.log(card);
-    const tattooId = card.id.slice(9);
-    console.log(`tattoo id is ${tattooId}`)
-    const whenRequestLoads = () => {
-      //If no hashtags are found, do not do dom manipulation.
-      if (!request.responseText) {
-        return;
-      }
+            const hashtagsArr = JSON.parse(request.responseText);
 
-      const hashtagsArr = JSON.parse(request.responseText);
+            hashtagsArr.forEach((hashtag) => {
+              const newButton = hashtagButton(
+                `#${hashtag.hashtag_name}`,
+                `/tattoos?hashtagId=${hashtag.hashtag_id}`
+              );
+              const cardBody = document.getElementById(`body_${tattooId}`);
+              cardBody.appendChild(newButton);
+            });
+          };
 
-      hashtagsArr.forEach((hashtag) => {
-        const newButton = hashtagButton(
-          `#${hashtag.hashtag_name}`,
-          `/tattoos?hashtagId=${hashtag.hashtag_id}`
-        );
-        const cardBody = document.getElementById(`body_${tattooId}`);
-        cardBody.appendChild(newButton);
-      });
-    };
+          request.addEventListener("load", whenRequestLoads);
+          const url = `/tattoos/${tattooId}/hashtags`;
+          request.open("GET", url);
+          return request.send();
+    }
 
-    request.addEventListener("load", whenRequestLoads);
-    const url = `/tattoos/${tattooId}/hashtags`;
-    request.open("GET", url);
-    request.send();
   });
 };
 
@@ -59,6 +62,7 @@ const createArtistHashtags = () => {
       }
 
       const hashtagsArr = JSON.parse(request.responseText);
+      console.log(hashtagsArr)
 
       hashtagsArr.forEach((hashtag) => {
         const newButton = hashtagButton(

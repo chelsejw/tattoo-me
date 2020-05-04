@@ -150,6 +150,7 @@ module.exports = (db) => {
         let emailInput = req.body.inputEmail;
         let locationInput = req.body.inputLocation;
         let hashtags = req.body.hashtags
+        let websiteInput = req.body.inputWebsite
 
         const afterAddingArtist = (err, result) => {
 
@@ -204,13 +205,14 @@ module.exports = (db) => {
                 const imageInput = image.url;
 
                 db.artists.addArtist(
-                    usernameInput,
-                    displayNameInput,
-                    passwordInput,
-                    locationInput,
-                    emailInput,
-                    imageInput,
-                    afterAddingArtist
+                  usernameInput,
+                  displayNameInput,
+                  passwordInput,
+                  locationInput,
+                  emailInput,
+                  imageInput,
+                  websiteInput,
+                  afterAddingArtist
                 );
             }
         );
@@ -282,6 +284,7 @@ module.exports = (db) => {
         const locationId = req.body.inputLocation
         const email = req.body.inputEmail
         const availInput = req.body.booking_avail
+        const website = req.body.inputWebsite
 
         let availability = true;
 
@@ -322,6 +325,7 @@ module.exports = (db) => {
                         email,
                         availability,
                         imageUrl,
+                        website,
                         (err, result) => {
                             if (err) {
                                 return res.status(404).send(err);
@@ -341,6 +345,7 @@ module.exports = (db) => {
             email,
             availability,
             null,
+            website,
             (err, result) => {
                 if (err) {
                     return res.status(404).send(err);
