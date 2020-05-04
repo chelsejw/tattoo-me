@@ -9,7 +9,6 @@
 
 -- INSERT INTO artists_hashtags(artist_id, hashtag_id) VALUES(5,1),(6,6),(7,2),(8,1);
 
-
 INSERT INTO tattoos_hashtags
       (tattoo_id, hashtag_id)
 VALUES

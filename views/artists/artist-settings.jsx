@@ -16,6 +16,18 @@ class ArtistRegister extends React.Component {
             </option>
           );
         });
+    
+    const success = this.props.successMsg;
+
+    const successAlert = () => {
+      if (success) {
+        return (
+          <div class="alert alert-success" role="alert">
+            {this.props.successMsg}
+          </div>
+        );
+      }
+    };
 
 
     let availabilitySwitch = (
@@ -123,7 +135,7 @@ class ArtistRegister extends React.Component {
                   </label>
                 </div>
               </div>
-
+              {successAlert()}
               <button type="submit" className="btn btn-primary">
                 Update
               </button>

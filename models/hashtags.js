@@ -69,11 +69,42 @@ module.exports = (dbPoolInstance) => {
 
     };
 
+    const addHashtag = (hashtagName, callback) => {
+
+        let query = `INSERT INTO hashtags(hashtag_name) VALUES ('${hashtagName}') RETURNING *`;
+
+        dbPoolInstance.query(query, (err, result) => {
+            if (err) {
+                return callback(err, null);
+            } else if (result.rows.length < 1) {
+                return callback(null, null);
+            }
+            return callback(null, result.rows[0]);
+        });
+
+    }
+
+
+    let getHashtagByName= (hashtagName, callback) => {
+      let query = `SELECT * FROM hashtags WHERE hashtag_name = '${hashtagName}'`;
+
+      dbPoolInstance.query(query, (err, result) => {
+        if (err) {
+          return callback(err, null);
+        } else if (result.rows.length < 1) {
+          return callback(null, null);
+        }
+        return callback(null, result.rows[0]);
+      });
+    };
+
     return {
         getAllHashtags: getAllHashtags,
         getHashtagById: getHashtagById,
         addHashtagToTattoo: addHashtagToTattoo,
         getAllHashtagsOfArtist: getAllHashtagsOfArtist,
-        addHashtagToArtist: addHashtagToArtist
+        addHashtagToArtist: addHashtagToArtist,
+        addHashtag: addHashtag,
+        getHashtagByName: getHashtagByName
     };
 };

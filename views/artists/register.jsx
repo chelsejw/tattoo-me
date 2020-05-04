@@ -35,6 +35,7 @@ class ArtistRegister extends React.Component {
                     className="form-control"
                     name="inputUsername"
                     placeholder="Username"
+                    required
                   />
                 </div>
                 <div className="form-group col-md-6">
@@ -44,6 +45,7 @@ class ArtistRegister extends React.Component {
                     className="form-control"
                     name="inputPassword"
                     placeholder="Password"
+                    required
                   />
                 </div>
               </div>
@@ -56,6 +58,7 @@ class ArtistRegister extends React.Component {
                     className="form-control"
                     name="inputDisplayName"
                     placeholder="Display Name"
+                    required
                   />
                 </div>
                 <div className="form-group col-md-4">
@@ -65,6 +68,7 @@ class ArtistRegister extends React.Component {
                     className="form-control"
                     name="inputEmail"
                     placeholder="Email"
+                    required
                   />
                 </div>
               </div>
@@ -77,6 +81,7 @@ class ArtistRegister extends React.Component {
                     name="inputLocation"
                     className="form-control"
                     id="locationsOptions"
+                    required
                   >
                     {locationsOptions}
                   </select>

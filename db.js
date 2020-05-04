@@ -73,6 +73,7 @@ const allArtistsModel = require("./models/artists");
 const artistsModelObject = allArtistsModel(pool);
 const allTattoosModel = require(`./models/tattoos`);
 const tattoosModelObject = allTattoosModel(pool)
+
 /*
  * ===================================================
  * ===================================================

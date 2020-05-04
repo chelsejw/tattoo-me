@@ -16,7 +16,6 @@ module.exports = (app, allModels) => {
      */
     // MULTER
 
-
     //ALL USERS
     const userControllerCallbacks = require("./controllers/users")(
         allModels
@@ -52,25 +51,38 @@ module.exports = (app, allModels) => {
         allModels
     );
 
-    app.get(`/artists/login`, artistControllerCallbacks.getArtistLoginForm);
+    app.get(
+        `/artists/login`,
+        artistControllerCallbacks.getArtistLoginForm
+    );
 
-
-
-    app.post('/artists/login', artistControllerCallbacks.authenticateArtist)
+    app.post(
+        "/artists/login",
+        artistControllerCallbacks.authenticateArtist
+    );
 
     app.get(
         "/artists/register",
         artistControllerCallbacks.getArtistRegistration
     );
 
-    app.get(`/artists/:artistId`, artistControllerCallbacks.showArtistPage);
-    app.get(`/artists`, artistControllerCallbacks.artistSearch);
+    app.get(
+        `/artists/:artistId`,
+        artistControllerCallbacks.showArtistPage
+    );
+    app.get(
+        `/artists`,
+        artistControllerCallbacks.artistSearch
+    );
     app.put(
         `/artists`,
         upload.single("myFile"),
         artistControllerCallbacks.updateArtistInfo
     );
-    app.post(`/artists`, artistControllerCallbacks.addArtist);
+    app.post(
+        `/artists`,
+        artistControllerCallbacks.addArtist
+    );
 
     /*
      *  =========================================
@@ -92,12 +104,50 @@ module.exports = (app, allModels) => {
         tattooControllerCallbacks.getAddTattooForm
     );
 
-    app.get(`/tattoos`, tattooControllerCallbacks.tattooSearchResults)
-
-    app.get(`/tattoos/:id`, tattooControllerCallbacks.displayOneTattoo)
+    app.get(
+        `/tattoos`,
+        tattooControllerCallbacks.tattooSearchResults
+    );
+    app.get(
+        `/tattoos/:id/edit`,
+        tattooControllerCallbacks.getEditTattooForm
+    );
+    app.put(
+        `/tattoos/:id`,
+        tattooControllerCallbacks.editTattoo
+    );
+    app.get(
+        `/tattoos/:id`,
+        tattooControllerCallbacks.displayOneTattoo
+    );
+    app.delete(
+        `/tattoos/:id`,
+        tattooControllerCallbacks.deleteTattoo
+    );
 
     app.post(
-        "/tattoos", upload.single("myFile"), tattooControllerCallbacks.addTattoo);
+        "/tattoos",
+        upload.single("myFile"),
+        tattooControllerCallbacks.addTattoo
+    );
+
+    /*
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     *    ALL ROUTES FOR HASHTAGS CONTROLLER
+     *  =========================================
+     *  =========================================
+     *  =========================================
+     */
+    const hashtagsControllerCallbacks = require("./controllers/hashtags")(
+        allModels
+    );
+
+    app.get(`/hashtags/new`, hashtagsControllerCallbacks.showAddHashtagPage);
+
+    app.post(`/hashtags`, hashtagsControllerCallbacks.addHashtag)
 
     /*
      *  =========================================
@@ -123,7 +173,6 @@ module.exports = (app, allModels) => {
         apiControllerCallbacks.getAllHashtagsOfArtist
     );
 
-
     app.get(
         `/api/artists/location/:locationId`,
         apiControllerCallbacks.getArtistsByLocation
@@ -141,7 +190,10 @@ module.exports = (app, allModels) => {
         apiControllerCallbacks.getAllHashtags
     );
 
-    app.get(`/api/hashtags/:hashtagId`, apiControllerCallbacks.getHashtagNameById)
+    app.get(
+        `/api/hashtags/:hashtagId`,
+        apiControllerCallbacks.getHashtagNameById
+    );
 
     /*
      *  =========================================
@@ -153,7 +205,9 @@ module.exports = (app, allModels) => {
      *  =========================================
      *  =========================================
      */
-    const generalControllerCallbacks = require("./controllers/general")(allModels);
+    const generalControllerCallbacks = require("./controllers/general")(
+        allModels
+    );
     app.get(
         `/logout`,
         userControllerCallbacks.logout
@@ -164,13 +218,22 @@ module.exports = (app, allModels) => {
         userControllerCallbacks.getHomePage
     );
 
-    app.get(`/settings/password`, generalControllerCallbacks.showPasswordSettings)
+    app.get(
+        `/settings/password`,
+        generalControllerCallbacks.showPasswordSettings
+    );
     app.put(
         `/settings/password`,
         generalControllerCallbacks.updatePassword
     );
 
-    app.get(`/settings`, generalControllerCallbacks.showSettingsPage)
+    app.get(
+        `/settings`,
+        generalControllerCallbacks.showSettingsPage
+    );
 
-    app.get(`*`, generalControllerCallbacks.displayErrorPage)
+    app.get(
+        `*`,
+        generalControllerCallbacks.displayErrorPage
+    );
 };

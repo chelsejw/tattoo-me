@@ -116,12 +116,12 @@ module.exports = (db) => {
             if (err) {
                 return res.statusCode(404, `Tattoo not found`)
             }
+
             res.render(`tattoos/tattoo`, {
                 tattooData: result,
                 loginData: req.cookies
             })
         })
-
     }
 
     const tattooSearchResults = (req, res) => {
@@ -174,6 +174,124 @@ module.exports = (db) => {
         );
     };
 
+
+    const getEditTattooFormController = (req, res) => {
+
+
+        const data = {};
+        data.loginData = req.cookies;
+
+        if (req.cookies.currentUserType !== "artist") {
+            data.errorMsg = `Only artists can view this page. Please login as an artist to view.`;
+            return res.render(`error`, data);
+        }
+
+        const tattooId = req.params.id
+        const artistId = parseInt(req.cookies.currentAccountId)
+
+        db.tattoos.getTattooById(tattooId, (err, result) => {
+            if (err) {
+                return res.status(404).send(err);
+            } else if (result.artist_id !== artistId) {
+                console.log(result.artist_id)
+                console.log(artistId)
+
+                console.log(`After get tattooById`)
+                data.errorMsg = `You do not have permission to edit this tattoo.`
+                return res.render(`error`, data);
+            }
+            data.tattoo = result
+
+            db.hashtags.getAllHashtags((err, allHashtags) => {
+
+                if (err) {
+                    return res.status(404).send(err)
+                }
+                data.hashtags = allHashtags;
+                res.render(`tattoos/edit-tattoo`, data);
+
+            })
+        })
+    }
+
+    let editTattooController = (req, res) => {
+        const tattooId = req.params.id
+
+        const data = {};
+        data.loginData = req.cookies;
+
+
+        db.tattoos.clearTattooHashtags(tattooId, (err, result) => {
+            if (err) {
+                return res.status(404).send(err);
+            }
+            const hashtags = req.body.hashtags;
+            console.log(`After clear hashtags`);
+
+            hashtags.forEach((hashtag) => {
+                console.log(`inside hashtag fore ach`);
+
+                db.hashtags.addHashtagToTattoo(
+                    hashtag,
+                    tattooId,
+                    (err3, result3) => {
+                        if (err3) {
+                            s
+                            res.status(404).send(err3);
+                        }
+                    }
+                );
+            });
+
+            data.successMsg = `Successfully updated tattoo.`;
+            res.redirect(`/tattoos/${tattooId}`)
+
+        });
+    }
+
+    let deleteTattooController = (req, res) => {
+
+        const data = {};
+        data.loginData = req.cookies;
+
+        if (req.cookies.currentUserType !== "artist") {
+            data.errorMsg = `Only artists can view this page. Please login as an artist to view.`;
+            return res.render(`error`, data);
+        }
+
+        const tattooId = req.params.id
+        const artistId = parseInt(req.cookies.currentAccountId)
+
+        db.tattoos.getTattooById(tattooId, (err, result) => {
+            if (err) {
+                return res.status(404).send(err);
+            } else if (result.artist_id !== artistId) {
+                console.log(result.artist_id)
+                console.log(artistId)
+
+                console.log(`After get tattooById`)
+                data.errorMsg = `You do not have permission to edit this tattoo.`
+                return res.render(`error`, data);
+            }
+
+            db.tattoos.clearTattooHashtags(tattooId, (err, result) => {
+
+                if (err) {
+                    return res.status(404).send(err);
+                }
+                db.tattoos.deleteTattooById(tattooId, (err, result) => {
+                    if (err) {
+                        return res.status(404).send(err);
+                    }
+                    res.redirect(
+                        `/artists/${artistId}`
+                    );
+
+                })
+            })
+        })
+    }
+
     /**
      * ===========================================
      * Export controller functions as a module
@@ -184,6 +302,9 @@ module.exports = (db) => {
         addTattoo: addTattooController,
         displayOneTattoo: displayOneTattooController,
         tattooSearchResults: tattooSearchResults,
+        getEditTattooForm: getEditTattooFormController,
+        editTattoo: editTattooController,
+        deleteTattoo: deleteTattooController
     };
 
 };

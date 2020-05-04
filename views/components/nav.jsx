@@ -25,8 +25,14 @@ class Nav extends React.Component {
                 <a className="dropdown-item" href="/tattoos/new">
                   Add Tattoo
                 </a>
-                <a className="dropdown-item" href="/tattoos">
-                  Manage
+                <a className="dropdown-item" href="/hashtags/new">
+                  Add Hashtag
+                </a>
+                <a
+                  className="dropdown-item"
+                  href={`/artists/${loginData.currentAccountId}`}
+                >
+                  View Portfolio
                 </a>
               </div>
             </li>
@@ -52,6 +58,7 @@ class Nav extends React.Component {
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
                   >
+
                     <a className="dropdown-item" href="/settings">
                       Edit Profile
                     </a>
@@ -66,7 +73,6 @@ class Nav extends React.Component {
                     Logout
                   </a>
                 </li>
-
               </li>
             );
 

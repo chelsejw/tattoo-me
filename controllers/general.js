@@ -44,6 +44,11 @@ module.exports = (db) => {
 
         const data = {};
         data.loginData = req.cookies;
+        const updateStatus = req.query.updated
+
+        if (updateStatus==='true'){
+            data.successMsg = `You have successfully updated your profile.`
+        }
 
         if (req.cookies.isLoggedIn !== 'true') {
             data.errorMsg = `Sorry, you must be logged in to view this page.`
@@ -119,10 +124,6 @@ module.exports = (db) => {
 
         let oldPassword = sha256(req.body.oldPassword);
         let newPassword = sha256(req.body.newPassword);
-
-
-        console.log(oldPassword);
-        console.log(newPassword);
 
         const afterVerifyingPassword = (err, result) => {
           if (err) {

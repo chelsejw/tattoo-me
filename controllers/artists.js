@@ -224,6 +224,8 @@ module.exports = (db) => {
     };
 
     const updateArtistInfo = (req, res) => {
+        const data = {};
+        data.loginData = req.cookies;
         const artistId = req.cookies.currentAccountId;
         const username = req.body.inputUsername
         const displayname = req.body.inputDisplayName
@@ -274,7 +276,7 @@ module.exports = (db) => {
                             if (err) {
                                 return res.status(404).send(err);
                             }
-                            res.redirect(`/artists/${artistId}`);
+                            res.redirect(`/settings?updated=true`);
                         }
                     );
                 }
@@ -293,9 +295,10 @@ module.exports = (db) => {
                 if (err) {
                     return res.status(404).send(err);
                 }
-                res.redirect(`/artists/${artistId}`);
+                res.redirect(`/settings?updated=true`);
             });
     };
+
 
     /**
      * ===========================================
