@@ -27,7 +27,7 @@ module.exports = (db) => {
             return res.render(`error`, data);
         }
 
-        const newHashtag = req.body.newHashtag;
+        const newHashtag = (req.body.newHashtag).toLowerCase();
 
         db.hashtags.getHashtagByName(newHashtag, (err, result) => {
 
